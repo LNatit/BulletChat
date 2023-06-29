@@ -1,8 +1,7 @@
 package com.lnatit.bchat.components;
 
-import net.minecraft.client.Minecraft;
+import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
@@ -21,27 +20,25 @@ public class BulletComponent
 
     // DONE use LinkedList for better performance
     private final List<BulletMessage> bulletBuff = new LinkedList<>();
-    private int maxTracks = 1;
     private boolean[] trackMap;
 
     private BulletComponent()
     {
+        this.init();
     }
 
     public void init()
     {
-        this.maxTracks = getTracks();
+        int maxTracks = BulletChatConfig.getTracks();
         this.trackMap = new boolean[maxTracks];
         Arrays.fill(trackMap, false);
-        MODLOG.debug(String.valueOf(maxTracks));
-        MODLOG.debug(String.valueOf(MINECRAFT == Minecraft.getInstance()));
         // TODO remap all the bullets
     }
 
     public void tick()
     {
         int bulletNum = 0;
-        Iterator<BulletMessage> iter = bulletBuff.listIterator();
+        Iterator<BulletMessage> iter = this.bulletBuff.listIterator();
         while (iter.hasNext())
         {
             BulletMessage bullet = iter.next();
@@ -58,7 +55,8 @@ public class BulletComponent
                 if (track != -1)
                 {
                     // TODO randomly assign track
-                    bullet.launch(0);
+                    int posX = Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / BulletChatConfig.getScale());
+                    bullet.launch(posX, 0);
                     bulletNum++;
                 }
                 else
@@ -70,18 +68,19 @@ public class BulletComponent
 
     public void render(GuiGraphics graphics, float partialTick)
     {
-        // TODO consider font size impact
-        float scale = (float) (double) MINECRAFT.options.chatScale().get();
-        int gh = graphics.guiHeight();
-        double ls = MINECRAFT.options.chatLineSpacing().get();
-        int trackOffset = (int) Math.round(-8.0D * (ls + 1.0D) + 4.0D * ls);
-        trackOffset += Mth.floor((float) (gh - 40) / scale);
-        int trackHeight = (int) (9.0D * (ls + 1.0D));
+        // DONE consider font size impact
+        float scale = BulletChatConfig.getScale();
+        graphics.pose().pushPose();
+        // modify pose with chat scale
+        graphics.pose().scale(scale, scale, 1.0F);
+        graphics.pose().translate(0.0F, 0.0F, 0.0F);
 
         for (BulletMessage bulletMessage : this.bulletBuff)
         {
-            bulletMessage.render(graphics, trackOffset, trackHeight, partialTick);
+            bulletMessage.render(graphics, partialTick);
         }
+
+        graphics.pose().popPose();
     }
 
     public void addMessage(Component msg)
@@ -96,16 +95,13 @@ public class BulletComponent
         else this.bulletBuff.removeIf(BulletMessage::isHidden);
     }
 
+    /*
+        TODO
+        Iterate all tracks and return a track which is not occupied,
+        if all tracks are occupied, then return -1.
+    */
     public int getTrack()
     {
         return 0;
-    }
-
-    // Aka ChatComponent::getLinesPerPage()
-    public int getTracks()
-    {
-        int trackHeight = (int) (9.0D * (MINECRAFT.options.chatLineSpacing().get() + 1.0D));
-        int totalHeight = ChatComponent.getHeight(MINECRAFT.options.chatHeightFocused().get());
-        return totalHeight / trackHeight;
     }
 }

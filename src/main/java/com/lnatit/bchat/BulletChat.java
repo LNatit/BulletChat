@@ -1,10 +1,11 @@
 package com.lnatit.bchat;
 
+import com.lnatit.bchat.configs.BulletChatConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 
 import static com.lnatit.bchat.BulletChat.MODID;
@@ -18,7 +19,8 @@ public class BulletChat
 
     public BulletChat()
     {
-//        Event
-//        TitleScreen
+        ModLoadingContext
+                .get()
+                .registerConfig(ModConfig.Type.CLIENT, BulletChatConfig.CLIENT_CONFIG);
     }
 }

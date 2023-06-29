@@ -1,5 +1,6 @@
 package com.lnatit.bchat.components;
 
+import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.client.GuiMessage;
 import net.minecraft.client.GuiMessageTag;
 import net.minecraft.client.gui.GuiGraphics;
@@ -27,9 +28,9 @@ public class BulletMessage
         this.message = new GuiMessage(addedTime, content, signature, tag);
     }
 
-    public void launch(int track)
+    public void launch(int posX, int track)
     {
-        this.posX = MINECRAFT.getWindow().getGuiScaledWidth();
+        this.posX = posX;
         this.track = track;
         this.launched = true;
     }
@@ -53,17 +54,17 @@ public class BulletMessage
         }
     }
 
-    public void render(GuiGraphics graphics, int trackOffset, int trackHeight, float partialTick)
+    public void render(GuiGraphics graphics, float partialTick)
     {
         // DONE add conditions
         if (this.isHidden())
             return;
 
         // DONE subtract & reuse logic
-        int posY = trackOffset - this.track * trackHeight;
+        int posY = BulletChatConfig.getTrackOffset() - this.track * BulletChatConfig.getTrackHeight();
 
         graphics.pose().pushPose();
-        // TODO 使用 pose stack 缩放字体
+        // DONE 使用 pose stack 缩放字体 in BulletComponent::render
         graphics.pose().translate(0.0F, 0.0F, 50.0F);
         graphics.drawString(MINECRAFT.font, this.getMessageText(), getExactPosX(partialTick), (float) posY,
                             16777215 + (255 << 24), true
