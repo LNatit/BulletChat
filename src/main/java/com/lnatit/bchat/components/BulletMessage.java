@@ -1,14 +1,12 @@
 package com.lnatit.bchat.components;
 
 import com.lnatit.bchat.configs.BulletChatConfig;
-import net.minecraft.client.GuiMessage;
-import net.minecraft.client.GuiMessageTag;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MessageSignature;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 
-import javax.annotation.Nullable;
+import java.util.UUID;
 
 import static com.lnatit.bchat.BulletChat.MINECRAFT;
 
@@ -18,11 +16,13 @@ public class BulletMessage
     private boolean terminated = false;
     private float posX;
     private int track = 0;
-    public GuiMessage message;
+    private final MutableComponent message;
+    private final UUID sender;
 
-    public BulletMessage(int addedTime, Component content, @Nullable MessageSignature signature, @Nullable GuiMessageTag tag)
+    public BulletMessage(MutableComponent content, UUID sender)
     {
-        this.message = new GuiMessage(addedTime, content, signature, tag);
+        this.message = content;
+        this.sender = sender;
     }
 
     public void launch(int posX, int track)
@@ -58,7 +58,8 @@ public class BulletMessage
             return;
 
         // DONE subtract & reuse logic
-        int posY = BulletChatConfig.getTrackOffset() - this.track * BulletChatConfig.getTrackHeight();
+        int trackHeight = BulletChatConfig.getTrackHeight();
+        int posY = BulletChatConfig.getTrackOffset() - this.track * trackHeight;
 
         graphics.pose().pushPose();
         // DONE 使用 pose stack 缩放字体 in BulletComponent::render
@@ -76,7 +77,9 @@ public class BulletMessage
 
     public FormattedCharSequence getMessageText()
     {
-        return this.message.content().getVisualOrderText();
+        if (this.sender.toString().equals(MINECRAFT.getUser().getUuid()))
+            return this.message.withStyle(ChatFormatting.UNDERLINE).getVisualOrderText();
+        return this.message.getVisualOrderText();
     }
 
     public void reMap(int maxTracksLast, int maxTracks)

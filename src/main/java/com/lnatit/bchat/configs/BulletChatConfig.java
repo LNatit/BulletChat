@@ -10,6 +10,7 @@ public class BulletChatConfig
     public static ForgeConfigSpec CLIENT_CONFIG;
     public static ForgeConfigSpec.DoubleValue BULLET_SPEED;
     public static ForgeConfigSpec.IntValue MAX_BULLET;
+    public static ForgeConfigSpec.BooleanValue HIDE_CHAT;
     public static ForgeConfigSpec.BooleanValue ADOPT_CHAT;
     public static ForgeConfigSpec.DoubleValue TEXT_SIZE;
     public static ForgeConfigSpec.DoubleValue OPACITY;
@@ -35,6 +36,11 @@ public class BulletChatConfig
                          "default: 200"
                 )
                 .defineInRange("max_bullet", 200, 10, 65535);
+
+        HIDE_CHAT = builder
+                .comment("Whether to hide vanilla chat panel when not focused",
+                         "default: true")
+                .define("hide_chat", true);
 
         ADOPT_CHAT = builder
                 .comment("Adopt the settings from the Chat Settings panel",
@@ -81,6 +87,7 @@ public class BulletChatConfig
     private static int trackHeight;
     private static float speed;
     private static int maxBullet;
+    private static boolean hideChat;
     private static boolean adoptChat;
     private static float textSize;
     private static double opacity;
@@ -92,6 +99,7 @@ public class BulletChatConfig
     {
         speed = (float) (double) BULLET_SPEED.get();
         maxBullet = MAX_BULLET.get();
+        hideChat = HIDE_CHAT.get();
         adoptChat = ADOPT_CHAT.get();
         textSize = (float) (double) TEXT_SIZE.get();
         opacity = OPACITY.get();
@@ -124,6 +132,11 @@ public class BulletChatConfig
     public static int getMaxBullet()
     {
         return maxBullet;
+    }
+
+    public static boolean getHideChat()
+    {
+        return hideChat;
     }
 
     public static float getScale()

@@ -2,7 +2,7 @@ package com.lnatit.bchat.components;
 
 import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 
 import java.util.*;
@@ -77,7 +77,7 @@ public class BulletComponent
         // modify pose with chat scale
         graphics.pose().scale(scale, scale, 1.0F);
         // add Z offset to render bullets on top of chats
-        graphics.pose().translate(0.0F, 0.0F, 50.0F);
+        graphics.pose().translate(0.0F, 0.0F, 1000.0F);
 
         for (BulletMessage bulletMessage : this.bulletBuff)
         {
@@ -87,9 +87,9 @@ public class BulletComponent
         graphics.pose().popPose();
     }
 
-    public void addMessage(Component msg)
+    public void addMessage(MutableComponent msg, UUID sender)
     {
-        this.bulletBuff.add(new BulletMessage(MINECRAFT.gui.getGuiTicks(), msg, null, null));
+        this.bulletBuff.add(new BulletMessage(msg, sender));
     }
 
     public void clearMessages(boolean all)
