@@ -19,7 +19,7 @@ public class ChatReceivedHandler
         {
             MutableComponent component = (MutableComponent) event.getMessage();
             if (component.getContents() instanceof TranslatableContents contents)
-                BulletComponent.INSTANCE.addMessage((MutableComponent) contents.getArgs()[1], event.getSender());
+                BulletComponent.INSTANCE.addMessage(contents);
         }
         else
             ChatBadge.INSTANCE.setVisible(true);

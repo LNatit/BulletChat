@@ -3,6 +3,8 @@ package com.lnatit.bchat.components;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
 
 import java.util.*;
@@ -35,7 +37,7 @@ public class BulletComponent
             return;
 
         // DONE remap all the bullets
-        for (BulletMessage bulletMessage : this.bulletBuff) bulletMessage.reMap(maxTracksLast, maxTracks);
+        for (BulletMessage bulletMessage : this.bulletBuff) bulletMessage.remap(maxTracksLast, maxTracks);
     }
 
     public void tick()
@@ -87,9 +89,12 @@ public class BulletComponent
         graphics.pose().popPose();
     }
 
-    public void addMessage(MutableComponent msg, UUID sender)
+    // TODO add stop words here
+    // TODO add other types of bullets & logic
+    public void addMessage(TranslatableContents msgContents)
     {
-        this.bulletBuff.add(new BulletMessage(msg, sender));
+        String senderName = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[0]).getSiblings().get(0).getContents()).text();
+        this.bulletBuff.add(new BulletMessage((MutableComponent) msgContents.getArgs()[1], senderName));
     }
 
     public void clearMessages(boolean all)

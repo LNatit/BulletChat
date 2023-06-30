@@ -3,10 +3,9 @@ package com.lnatit.bchat.components;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
-
-import java.util.UUID;
 
 import static com.lnatit.bchat.BulletChat.MINECRAFT;
 
@@ -16,13 +15,15 @@ public class BulletMessage
     private boolean terminated = false;
     private float posX;
     private int track = 0;
+    private FormattedCharSequence fullMessage;
     private final MutableComponent message;
-    private final UUID sender;
+    private final String sender;
 
-    public BulletMessage(MutableComponent content, UUID sender)
+    public BulletMessage(MutableComponent content, String sender)
     {
         this.message = content;
         this.sender = sender;
+        this.createMessage();
     }
 
     public void launch(int posX, int track)
@@ -37,7 +38,7 @@ public class BulletMessage
         if (!this.isHidden())
         {
             // DONE add terminate judgement
-            float endPos = this.posX + MINECRAFT.font.getSplitter().stringWidth(this.getMessageText());
+            float endPos = this.posX + MINECRAFT.font.getSplitter().stringWidth(this.fullMessage);
             if (endPos < -5.0F)
             {
                 this.terminated = true;
@@ -64,7 +65,7 @@ public class BulletMessage
         graphics.pose().pushPose();
         // DONE 使用 pose stack 缩放字体 in BulletComponent::render
         graphics.pose().translate(0.0F, 0.0F, 50.0F);
-        graphics.drawString(MINECRAFT.font, this.getMessageText(), getExactPosX(partialTick), (float) posY,
+        graphics.drawString(MINECRAFT.font, this.fullMessage, getExactPosX(partialTick), (float) posY,
                             16777215 + (BulletChatConfig.getOpacity() << 24), true
         );
         graphics.pose().popPose();
@@ -75,15 +76,20 @@ public class BulletMessage
         return this.posX - BulletChatConfig.getSpeed() * partialTick + 0.5f;
     }
 
-    public FormattedCharSequence getMessageText()
+    public void createMessage()
     {
-        if (this.sender.toString().equals(MINECRAFT.getUser().getUuid()))
-            return this.message.withStyle(ChatFormatting.UNDERLINE).getVisualOrderText();
-        return this.message.getVisualOrderText();
+        MutableComponent msg = this.message;
+        if (BulletChatConfig.getShowSender())
+            msg = Component.literal("<" + this.sender + "> ").append(msg);
+        if (this.sender.equals(MINECRAFT.getUser().getName()))
+            msg.withStyle(ChatFormatting.UNDERLINE);
+        this.fullMessage = msg.getVisualOrderText();
     }
 
-    public void reMap(int maxTracksLast, int maxTracks)
+    public void remap(int maxTracksLast, int maxTracks)
     {
+        this.createMessage();
+
         if (maxTracksLast == 1)
             return;
 
