@@ -14,12 +14,9 @@ import static com.lnatit.bchat.BulletChat.MINECRAFT;
 
 public class BulletMessage
 {
-    // SPs' per tick
-    public static final float SPEED = 1.0f;
-
     private boolean launched = false;
     private boolean terminated = false;
-    private int posX;
+    private float posX;
     private int track = 0;
     public GuiMessage message;
 
@@ -50,7 +47,7 @@ public class BulletMessage
             // DONE check departure & write to map
             if (!trackMap[this.track] && endPos > MINECRAFT.getWindow().getGuiScaledWidth())
                 trackMap[this.track] = true;
-            this.posX -= SPEED;
+            this.posX -= BulletChatConfig.getSpeed();
         }
     }
 
@@ -67,19 +64,28 @@ public class BulletMessage
         // DONE 使用 pose stack 缩放字体 in BulletComponent::render
         graphics.pose().translate(0.0F, 0.0F, 50.0F);
         graphics.drawString(MINECRAFT.font, this.getMessageText(), getExactPosX(partialTick), (float) posY,
-                            16777215 + (255 << 24), true
+                            16777215 + (BulletChatConfig.getOpacity() << 24), true
         );
         graphics.pose().popPose();
     }
 
     public float getExactPosX(float partialTick)
     {
-        return ((float) this.posX) - SPEED * partialTick + 0.5f;
+        return this.posX - BulletChatConfig.getSpeed() * partialTick + 0.5f;
     }
 
     public FormattedCharSequence getMessageText()
     {
         return this.message.content().getVisualOrderText();
+    }
+
+    public void reMap(int maxTracksLast, int maxTracks)
+    {
+        if (maxTracksLast == 1)
+            return;
+
+        double k = ((double) maxTracks - 1) / ((double) maxTracksLast - 1);
+        this.track =(int) (((double) this.track) * k + 0.5D);
     }
 
     public boolean isHidden()

@@ -28,6 +28,5 @@ public class SettingsChangedHandler
     {
         BulletChatConfig.init();
         BulletComponent.INSTANCE.init();
-
     }
 }

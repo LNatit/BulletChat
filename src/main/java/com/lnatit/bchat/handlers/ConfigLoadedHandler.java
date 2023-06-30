@@ -1,5 +1,6 @@
 package com.lnatit.bchat.handlers;
 
+import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,6 +16,9 @@ public class ConfigLoadedHandler
     public static void onConfigLoaded(ModConfigEvent event)
     {
         if (event.getConfig().getModId().equals(MODID))
+        {
             BulletChatConfig.init();
+            BulletComponent.INSTANCE.init();
+        }
     }
 }

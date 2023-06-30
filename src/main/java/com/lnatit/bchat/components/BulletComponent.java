@@ -5,10 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static com.lnatit.bchat.BulletChat.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODLOG;
@@ -16,10 +13,10 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 public class BulletComponent
 {
     public static final BulletComponent INSTANCE = new BulletComponent();
-    public static final int MAX_BULLET_NUM = 200;
 
     // DONE use LinkedList for better performance
     private final List<BulletMessage> bulletBuff = new LinkedList<>();
+    private final Random rng = new Random();
     private boolean[] trackMap;
 
     private BulletComponent()
@@ -29,10 +26,16 @@ public class BulletComponent
 
     public void init()
     {
+        int maxTracksLast = this.trackMap == null ? 0 : this.trackMap.length;
         int maxTracks = BulletChatConfig.getTracks();
         this.trackMap = new boolean[maxTracks];
         Arrays.fill(trackMap, false);
-        // TODO remap all the bullets
+
+        if (maxTracksLast == 0)
+            return;
+
+        // DONE remap all the bullets
+        for (BulletMessage bulletMessage : this.bulletBuff) bulletMessage.reMap(maxTracksLast, maxTracks);
     }
 
     public void tick()
@@ -49,14 +52,14 @@ public class BulletComponent
                 bullet.tick(this.trackMap);
                 bulletNum++;
             }
-            else if (bulletNum < MAX_BULLET_NUM)
+            else if (bulletNum < BulletChatConfig.getMaxBullet())
             {
                 int track = this.getTrack();
                 if (track != -1)
                 {
-                    // TODO randomly assign track
-                    int posX = Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / BulletChatConfig.getScale());
-                    bullet.launch(posX, 0);
+                    int posX = Mth.ceil(
+                            (float) MINECRAFT.getWindow().getGuiScaledWidth() / BulletChatConfig.getScale());
+                    bullet.launch(posX, getTrack());
                     bulletNum++;
                 }
                 else
@@ -73,7 +76,8 @@ public class BulletComponent
         graphics.pose().pushPose();
         // modify pose with chat scale
         graphics.pose().scale(scale, scale, 1.0F);
-        graphics.pose().translate(0.0F, 0.0F, 0.0F);
+        // add Z offset to render bullets on top of chats
+        graphics.pose().translate(0.0F, 0.0F, 50.0F);
 
         for (BulletMessage bulletMessage : this.bulletBuff)
         {
@@ -96,12 +100,22 @@ public class BulletComponent
     }
 
     /*
-        TODO
+        DONE
         Iterate all tracks and return a track which is not occupied,
         if all tracks are occupied, then return -1.
     */
     public int getTrack()
     {
-        return 0;
+        int len = trackMap.length;
+        ArrayList<Integer> pool = new ArrayList<>(len);
+
+        for (int i = 0; i < len; i++)
+            if (!trackMap[i])
+                pool.add(i);
+
+        len = pool.size();
+        if (len == 0)
+            return -1;
+        else return pool.get(this.rng.nextInt(len));
     }
 }

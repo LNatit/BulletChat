@@ -11,14 +11,14 @@ import net.minecraftforge.fml.common.Mod;
 public class BulletRenderHandler
 {
     /*
-     TODO
+     DONE
      change to player_list to render bullet on top of chat_panel won't work
-     find other solutions
+     set Z offset!!!
     */
     @SubscribeEvent
     public static void onGuiRendered(RenderGuiOverlayEvent.Post event)
     {
-        if (!event.getOverlay().id().toString().equals("minecraft:player_list"))
+        if (!event.getOverlay().id().toString().equals("minecraft:chat_panel"))
             return;
         BulletComponent.INSTANCE.render(event.getGuiGraphics(), event.getPartialTick());
     }
