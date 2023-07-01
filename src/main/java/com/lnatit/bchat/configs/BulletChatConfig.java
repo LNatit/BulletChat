@@ -3,7 +3,7 @@ package com.lnatit.bchat.configs;
 import net.minecraft.util.Mth;
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import static com.lnatit.bchat.BulletChat.MINECRAFT;
+import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 
 public class BulletChatConfig
 {

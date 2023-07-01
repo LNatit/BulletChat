@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.lnatit.bchat.BulletChat.MINECRAFT;
+import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
 public class BulletComponent

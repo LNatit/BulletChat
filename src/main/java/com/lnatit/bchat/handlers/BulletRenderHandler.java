@@ -10,7 +10,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static com.lnatit.bchat.BulletChat.MINECRAFT;
+import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class BulletRenderHandler

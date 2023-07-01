@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 
-import static com.lnatit.bchat.BulletChat.MINECRAFT;
+import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 
 public class BulletMessage
 {

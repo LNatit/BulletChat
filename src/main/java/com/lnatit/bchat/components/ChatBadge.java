@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 
-import static com.lnatit.bchat.BulletChat.MINECRAFT;
+import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 
 public class ChatBadge
 {
@@ -35,7 +35,7 @@ public class ChatBadge
 
     public void render(GuiGraphics graphics)
     {
-        if (this.visible)
+        if (this.visible && !MINECRAFT.gui.getChat().getRecentChat().isEmpty())
         {
             int fontOpacity = (int) (255.0D * MINECRAFT.options.chatOpacity().get() * (double)0.9F + (double)0.1F);
             int backOpacity = (int) (255.0D * MINECRAFT.options.textBackgroundOpacity().get());
