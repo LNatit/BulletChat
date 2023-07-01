@@ -1,5 +1,6 @@
 package com.lnatit.bchat;
 
+import com.lnatit.bchat.configs.BlackListManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -22,5 +23,7 @@ public class BulletChat
         ModLoadingContext
                 .get()
                 .registerConfig(ModConfig.Type.CLIENT, BulletChatConfig.CLIENT_CONFIG);
+
+        BlackListManager.init();
     }
 }

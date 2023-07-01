@@ -1,13 +1,20 @@
 package com.lnatit.bchat.components;
 
+import com.lnatit.bchat.configs.BlackListManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.lnatit.bchat.BulletChat.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODLOG;
@@ -15,6 +22,9 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 public class BulletComponent
 {
     public static final BulletComponent INSTANCE = new BulletComponent();
+
+    private static final String regExp = "^#([0-9a-z]{6}|black|(d(ark_)?(blue|green|aqua|red|purple|gray))|gold|gray|blue|green|aqua|red|l(ight_)?purple|yellow|white)[ ]";
+    private static final Pattern colorPattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE);
 
     // DONE use LinkedList for better performance
     private final List<BulletMessage> bulletBuff = new LinkedList<>();
@@ -89,12 +99,49 @@ public class BulletComponent
         graphics.pose().popPose();
     }
 
-    // TODO add stop words here
+    // DONE add stop words here
     // TODO add other types of bullets & logic
+    // #FFFFFF-T
     public void addMessage(TranslatableContents msgContents)
     {
-        String senderName = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[0]).getSiblings().get(0).getContents()).text();
-        this.bulletBuff.add(new BulletMessage((MutableComponent) msgContents.getArgs()[1], senderName));
+        MutableComponent message = (MutableComponent) msgContents.getArgs()[1];
+        String senderName = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[0]).getSiblings().get(
+                0).getContents()).text();
+
+        if (BlackListManager.match(message, senderName))
+            return;
+
+        StringBuffer buffer = new StringBuffer(((LiteralContents) message.getContents()).text());
+        // find color code first
+        Style style = Style.EMPTY;
+        Matcher matcher = colorPattern.matcher(buffer);
+
+        if (matcher.find())
+        {
+            // There is a space at the end of the string
+            TextColor color = TextColor.parseColor(buffer.substring(matcher.start(), matcher.end() - 1));
+            if (color != null)
+            {
+                style = style.withColor(color);
+                buffer.delete(matcher.start(), matcher.end());
+            }
+            else
+            {
+                // remove # when parsing
+                ChatFormatting format = ChatFormatting.getByName(buffer.substring(matcher.start() + 1, matcher.end() - 1));
+                if (format != null)
+                {
+                    style = style.applyFormat(format);
+                    buffer.delete(matcher.start(), matcher.end());
+                }
+            }
+        }
+        // TODO then find type code
+
+
+        message = Component.literal(buffer.toString()).setStyle(style);
+
+        this.bulletBuff.add(new BulletMessage(message, senderName));
     }
 
     public void clearMessages(boolean all)

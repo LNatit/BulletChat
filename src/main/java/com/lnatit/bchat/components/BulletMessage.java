@@ -64,8 +64,8 @@ public class BulletMessage
 
         graphics.pose().pushPose();
         // DONE 使用 pose stack 缩放字体 in BulletComponent::render
-        graphics.pose().translate(0.0F, 0.0F, 50.0F);
-        graphics.drawString(MINECRAFT.font, this.fullMessage, getExactPosX(partialTick), (float) posY,
+        graphics.pose().translate(getExactPosX(partialTick), posY, 50.0F);
+        graphics.drawString(MINECRAFT.font, this.fullMessage, 0, 0,
                             16777215 + (BulletChatConfig.getOpacity() << 24), true
         );
         graphics.pose().popPose();
