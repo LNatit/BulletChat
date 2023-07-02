@@ -10,6 +10,7 @@ public class BulletChatConfig
     public static ForgeConfigSpec CLIENT_CONFIG;
     public static ForgeConfigSpec.DoubleValue BULLET_SPEED;
     public static ForgeConfigSpec.IntValue MAX_BULLET;
+    public static ForgeConfigSpec.IntValue MIN_FPS;
     public static ForgeConfigSpec.BooleanValue SHOW_SENDER;
     public static ForgeConfigSpec.BooleanValue HIDE_CHAT;
     public static ForgeConfigSpec.BooleanValue ADOPT_CHAT;
@@ -37,6 +38,12 @@ public class BulletChatConfig
                          "default: 200"
                 )
                 .defineInRange("max_bullet", 200, 10, 65535);
+
+        MIN_FPS = builder
+                .comment("When client fps lower than it, new bullets will not launch",
+                         "default: 30"
+                )
+                .defineInRange("min_fps", 30, 0, 144);
 
         SHOW_SENDER = builder
                 .comment("Whether to show senders name before bullets",
@@ -95,6 +102,7 @@ public class BulletChatConfig
     private static int trackHeight;
     private static float speed;
     private static int maxBullet;
+    private static int minFps;
     private static boolean hideChat;
     private static boolean showSender;
     private static boolean adoptChat;
@@ -108,6 +116,7 @@ public class BulletChatConfig
     {
         speed = (float) (double) BULLET_SPEED.get();
         maxBullet = MAX_BULLET.get();
+        minFps = MIN_FPS.get();
         hideChat = HIDE_CHAT.get();
         showSender = SHOW_SENDER.get();
         adoptChat = ADOPT_CHAT.get();
@@ -142,6 +151,11 @@ public class BulletChatConfig
     public static int getMaxBullet()
     {
         return maxBullet;
+    }
+
+    public static int getMinFps()
+    {
+        return minFps;
     }
 
     public static boolean getHideChat()

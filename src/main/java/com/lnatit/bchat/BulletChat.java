@@ -23,7 +23,11 @@ public class BulletChat
     public BulletChat()
     {
         if (FMLLoader.getDist() == Dist.DEDICATED_SERVER)
+        {
+            MODLOG.warn("Bullet Chat is not designed for dedicated server!");
+            MODLOG.warn("Please remove it from mods directory if possible!");
             return;
+        }
 
         ModLoadingContext
                 .get()

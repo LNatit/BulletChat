@@ -21,7 +21,7 @@ public class SettingsChangedHandler
         {
             BulletChatConfig.init();
             BlackListManager.init();
-            BulletComponent.INSTANCE.init();
+            BulletComponent.INSTANCE.lazyInit();
             ChatBadge.INSTANCE.init();
         }
     }
@@ -31,7 +31,7 @@ public class SettingsChangedHandler
     public static void onScreenInit(ScreenEvent.Init.Post event)
     {
         BulletChatConfig.init();
-        BulletComponent.INSTANCE.init();
+        BulletComponent.INSTANCE.lazyInit();
         ChatBadge.INSTANCE.init();
     }
 }

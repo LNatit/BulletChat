@@ -1,57 +1,54 @@
 package com.lnatit.bchat.components;
 
 import com.lnatit.bchat.configs.BulletChatConfig;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.util.Mth;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 
-public class BulletMessage
+public class BulletMessage extends AbstractBullet
 {
-    private boolean launched = false;
-    private boolean terminated = false;
-    private float posX;
-    private int track = 0;
-    private FormattedCharSequence fullMessage;
-    private final MutableComponent message;
-    private final String sender;
+    protected boolean departed;
 
     public BulletMessage(MutableComponent content, String sender)
     {
-        this.message = content;
-        this.sender = sender;
-        this.createMessage();
+        super(content, sender);
     }
 
-    public void launch(int posX, int track)
+    @Override
+    public void launch(int track)
     {
-        this.posX = posX;
-        this.track = track;
-        this.launched = true;
+        super.launch(track);
+        this.departed = false;
+        this.posX = Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / BulletChatConfig.getScale());
     }
 
-    public void tick(boolean[] trackMap)
+    @Override
+    public void tick()
     {
         if (!this.isHidden())
         {
             // DONE add terminate judgement
-            float endPos = this.posX + MINECRAFT.font.getSplitter().stringWidth(this.fullMessage);
+            float endPos = this.posX + MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
             if (endPos < -5.0F)
             {
-                this.terminated = true;
+                this.terminate();
                 return;
             }
 
             // DONE check departure & write to map
-            if (!trackMap[this.track] && endPos > MINECRAFT.getWindow().getGuiScaledWidth())
-                trackMap[this.track] = true;
+            if (endPos < MINECRAFT.getWindow().getGuiScaledWidth() != departed)
+            {
+                BulletComponent.INSTANCE.trackMap[this.getTrack()] = false;
+                departed = true;
+            }
+
             this.posX -= BulletChatConfig.getSpeed();
         }
     }
 
+    @Override
     public void render(GuiGraphics graphics, float partialTick)
     {
         // DONE add conditions
@@ -60,50 +57,75 @@ public class BulletMessage
 
         // DONE subtract & reuse logic
         int trackHeight = BulletChatConfig.getTrackHeight();
-        int posY = BulletChatConfig.getTrackOffset() - this.track * trackHeight;
+        int posY = BulletChatConfig.getTrackOffset() - this.getTrack() * trackHeight;
 
         graphics.pose().pushPose();
         // DONE 使用 pose stack 缩放字体 in BulletComponent::render
         graphics.pose().translate(getExactPosX(partialTick), posY, 50.0F);
-        graphics.drawString(MINECRAFT.font, this.fullMessage, 0, 0,
+        graphics.drawString(MINECRAFT.font, this.getFullMessage(), 0, 0,
                             16777215 + (BulletChatConfig.getOpacity() << 24), true
         );
         graphics.pose().popPose();
     }
 
+    @Override
+    public char getId()
+    {
+        return NORMAL;
+    }
+
     public float getExactPosX(float partialTick)
     {
-        return this.posX - BulletChatConfig.getSpeed() * partialTick + 0.5f;
+        return this.posX - BulletChatConfig.getSpeed() * partialTick;
     }
 
-    public void createMessage()
+    public static class Reversed extends BulletMessage
     {
-        MutableComponent msg = this.message;
-        if (BulletChatConfig.getShowSender())
-            msg = Component.literal("<" + this.sender + "> ").append(msg);
-        if (this.sender.equals(MINECRAFT.getUser().getName()))
-            msg.withStyle(ChatFormatting.UNDERLINE);
-        this.fullMessage = msg.getVisualOrderText();
-    }
+        public Reversed(MutableComponent content, String sender)
+        {
+            super(content, sender);
+        }
 
-    public void remap(int maxTracksLast, int maxTracks)
-    {
-        this.createMessage();
+        @Override
+        public void launch(int track)
+        {
+            super.launch(track);
+            this.posX = -MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
+        }
 
-        if (maxTracksLast == 1)
-            return;
+        @Override
+        public void tick()
+        {
+            if (!this.isHidden())
+            {
+                // DONE add terminate judgement
+                if (this.posX - MINECRAFT.getWindow().getGuiScaledWidth() > 5.0F)
+                {
+                    this.terminate();
+                    return;
+                }
 
-        double k = ((double) maxTracks - 1) / ((double) maxTracksLast - 1);
-        this.track =(int) (((double) this.track) * k + 0.5D);
-    }
+                // DONE check departure & write to map
+                if (this.posX > 0 != this.departed)
+                {
+                    BulletComponent.INSTANCE.trackMapReversed[this.getTrack()] = false;
+                    departed = true;
+                }
 
-    public boolean isHidden()
-    {
-        return !this.launched || this.terminated;
-    }
+                this.posX += BulletChatConfig.getSpeed();
+            }
+        }
 
-    public boolean isTerminated()
-    {
-        return this.terminated;
+        @Override
+        public char getId()
+        {
+            return REVERSED;
+        }
+
+        @Override
+        public float getExactPosX(float partialTick)
+        {
+            return this.posX + BulletChatConfig.getSpeed() * partialTick;
+        }
     }
 }

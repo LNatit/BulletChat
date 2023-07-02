@@ -21,7 +21,7 @@ public class ConfigLoadedHandler
         {
             BulletChatConfig.init();
             BlackListManager.init();
-            BulletComponent.INSTANCE.init();
+            BulletComponent.INSTANCE.lazyInit();
             ChatBadge.INSTANCE.init();
         }
     }
