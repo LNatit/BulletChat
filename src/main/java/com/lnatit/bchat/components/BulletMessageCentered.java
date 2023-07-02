@@ -29,7 +29,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
             if (this.isHidden())
                 return;
 
-            if (this.age > 150)
+            if (this.age > BulletChatConfig.getLife())
             {
                 this.terminate();
                 BulletComponent.INSTANCE.trackMapTop[this.getTrack()] -= 1;
@@ -76,7 +76,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
             if (this.isHidden())
                 return;
 
-            if (this.age > 150)
+            if (this.age > BulletChatConfig.getLife())
             {
                 this.terminate();
                 BulletComponent.INSTANCE.trackMapButton[this.getTrack()] -= 1;

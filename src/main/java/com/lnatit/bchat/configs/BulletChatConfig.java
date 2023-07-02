@@ -9,6 +9,7 @@ public class BulletChatConfig
 {
     public static ForgeConfigSpec CLIENT_CONFIG;
     public static ForgeConfigSpec.DoubleValue BULLET_SPEED;
+    public static ForgeConfigSpec.IntValue BULLET_LIFE;
     public static ForgeConfigSpec.IntValue MAX_BULLET;
     public static ForgeConfigSpec.IntValue MIN_FPS;
     public static ForgeConfigSpec.BooleanValue SHOW_SENDER;
@@ -27,11 +28,17 @@ public class BulletChatConfig
         builder.comment("Client settings for Bullet Chat").push("client");
 
         BULLET_SPEED = builder
-                .comment("Speed of bullets",
+                .comment("Speed of shotting bullets",
                          "Unit: SPs per tick",
                          "default: 2.0"
                 )
                 .defineInRange("bullet_speed", 2.0D, 0.2D, 20.0D);
+
+        BULLET_LIFE = builder
+                .comment("Life of centered bullets",
+                         "Unit: ticks (1/20 sec)",
+                         "default: 160")
+                .defineInRange("bullet_life", 160, 20, 1200);
 
         MAX_BULLET = builder
                 .comment("Max number of bullets displayed on screen",
@@ -101,6 +108,7 @@ public class BulletChatConfig
     private static int trackOffset;
     private static int trackHeight;
     private static float speed;
+    private static int life;
     private static int maxBullet;
     private static int minFps;
     private static boolean hideChat;
@@ -115,6 +123,7 @@ public class BulletChatConfig
     public static void init()
     {
         speed = (float) (double) BULLET_SPEED.get();
+        life = BULLET_LIFE.get();
         maxBullet = MAX_BULLET.get();
         minFps = MIN_FPS.get();
         hideChat = HIDE_CHAT.get();
@@ -146,6 +155,11 @@ public class BulletChatConfig
     public static float getSpeed()
     {
         return speed;
+    }
+
+    public static int getLife()
+    {
+        return life;
     }
 
     public static int getMaxBullet()
