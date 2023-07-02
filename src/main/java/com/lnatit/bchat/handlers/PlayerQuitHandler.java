@@ -3,7 +3,6 @@ package com.lnatit.bchat.handlers;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

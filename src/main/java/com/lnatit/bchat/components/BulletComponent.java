@@ -32,7 +32,7 @@ public class BulletComponent
 
     // DONE use LinkedList for better performance
     private final Random rng = new Random();
-    private final List<BulletMessage> bulletBuff = new LinkedList<>();
+    private final List<AbstractBullet> bulletBuff = new LinkedList<>();
 
     private boolean shouldInit = false;
 
@@ -65,13 +65,17 @@ public class BulletComponent
             Arrays.fill(trackMap, false);
             this.trackMapReversed = new boolean[maxTracks];
             Arrays.fill(trackMapReversed, false);
+            this.trackMapTop = new int[maxTracks];
+            Arrays.fill(trackMapTop, 0);
+            this.trackMapButton = new int[maxTracks];
+            Arrays.fill(trackMapButton, 0);
         }
 
         if (maxTracksLast == 0)
             return;
 
         // DONE remap all the bullets
-        for (BulletMessage bulletMessage : this.bulletBuff) bulletMessage.remap(maxTracksLast, maxTracks);
+        for (AbstractBullet bulletMessage : this.bulletBuff) bulletMessage.remap(maxTracksLast, maxTracks);
 
         this.shouldInit = true;
     }
@@ -82,10 +86,10 @@ public class BulletComponent
             this.init();
 
         int bulletNum = 0;
-        Iterator<BulletMessage> iter = this.bulletBuff.listIterator();
+        Iterator<AbstractBullet> iter = this.bulletBuff.listIterator();
         while (iter.hasNext())
         {
-            BulletMessage bullet = iter.next();
+            AbstractBullet bullet = iter.next();
             if (bullet.isTerminated())
                 iter.remove();
             else if (!bullet.isHidden())
@@ -125,7 +129,7 @@ public class BulletComponent
         // add Z offset to render bullets on top of chats
         graphics.pose().translate(0.0F, 0.0F, 1000.0F);
 
-        for (BulletMessage bulletMessage : this.bulletBuff)
+        for (AbstractBullet bulletMessage : this.bulletBuff)
         {
             bulletMessage.render(graphics, partialTick);
         }
@@ -188,15 +192,10 @@ public class BulletComponent
 
         switch (id)
         {
-            case TOP:
-                return;
-            case BUTTON:
-                return;
-            case REVERSED:
-                this.bulletBuff.add(new BulletMessage.Reversed(message, senderName));
-                return;
-            default:
-                this.bulletBuff.add(new BulletMessage(message, senderName));
+            case TOP -> this.bulletBuff.add(new BulletMessageCentered.Top(message, senderName));
+            case BUTTON -> this.bulletBuff.add(new BulletMessageCentered.Button(message, senderName));
+            case REVERSED -> this.bulletBuff.add(new BulletMessage.Reversed(message, senderName));
+            default -> this.bulletBuff.add(new BulletMessage(message, senderName));
         }
     }
 
@@ -204,7 +203,7 @@ public class BulletComponent
     {
         if (all)
             this.bulletBuff.clear();
-        else this.bulletBuff.removeIf(BulletMessage::isHidden);
+        else this.bulletBuff.removeIf(AbstractBullet::isHidden);
     }
 
     /*
@@ -249,6 +248,20 @@ public class BulletComponent
 
     private int getTrackCentered(boolean button)
     {
-        return 0;
+        int[] map = button ? this.trackMapButton : this.trackMapTop;
+        int len = map.length;
+        int temp = 0;
+
+        for (int i = 1; i < len; i++)
+        {
+            if (map[i] < map[temp])
+                temp = i;
+        }
+
+        if (button)
+            this.trackMapButton[temp] += 1;
+        else this.trackMapTop[temp] += 1;
+
+        return temp;
     }
 }
