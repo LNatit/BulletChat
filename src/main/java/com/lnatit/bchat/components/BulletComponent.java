@@ -24,11 +24,11 @@ public class BulletComponent
 {
     public static final BulletComponent INSTANCE = new BulletComponent();
 
-    private static final String colorRegex = "^#([0-9a-f]{6}|black|(d(ark_)?(blue|green|aqua|red|purple|gray))|gold|gray|blue|green|aqua|red|l(ight_)?purple|yellow|white) ?";
-    private static final Pattern colorPattern = Pattern.compile(colorRegex, Pattern.CASE_INSENSITIVE);
+    private static final String COLOR_REGEX = "^#([0-9a-f]{6}|black|(d(ark_)?(blue|green|aqua|red|purple|gray))|gold|gray|blue|green|aqua|red|l(ight_)?purple|yellow|white) ?";
+    private static final Pattern COLOR_PATTERN = Pattern.compile(COLOR_REGEX, Pattern.CASE_INSENSITIVE);
 
-    public static final String typeRegex = "^ *-[tbr] ?";
-    public static final Pattern typePattern = Pattern.compile(typeRegex, Pattern.CASE_INSENSITIVE);
+    public static final String TYPE_REGEX = "^ *-[tbr] ?";
+    public static final Pattern TYPE_PATTERN = Pattern.compile(TYPE_REGEX, Pattern.CASE_INSENSITIVE);
 
     // DONE use LinkedList for better performance
     private final Random rng = new Random();
@@ -137,23 +137,20 @@ public class BulletComponent
         graphics.pose().popPose();
     }
 
-    // DONE add stop words here
-    // TODO add other types of bullets & logic
-    // #FFFFFF -T contents (space is a MUST)
-    public void addMessage(TranslatableContents msgContents)
+    public void addMessage(String message, String sender)
     {
-        MutableComponent message = (MutableComponent) msgContents.getArgs()[1];
-        String senderName = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[0]).getSiblings().get(
-                0).getContents()).text();
         char id = NORMAL;
 
-        if (BlackListManager.match(message, senderName))
+        if (BlackListManager.match(message, sender))
             return;
 
-        StringBuffer buffer = new StringBuffer(((LiteralContents) message.getContents()).text());
+        StringBuffer buffer = new StringBuffer(message);
+
+        MODLOG.debug("Message preprocessed successful!");
+
         // find color code first
         Style style = Style.EMPTY;
-        Matcher matcher = colorPattern.matcher(buffer);
+        Matcher matcher = COLOR_PATTERN.matcher(buffer);
 
         if (matcher.find())
         {
@@ -173,8 +170,10 @@ public class BulletComponent
             buffer.delete(matcher.start(), matcher.end());
         }
 
+        MODLOG.debug("Message color parsed successful!");
+
         // DONE then find type code
-        matcher = typePattern.matcher(buffer);
+        matcher = TYPE_PATTERN.matcher(buffer);
         if (matcher.find())
         {
             id = Character.toLowerCase(buffer.charAt(matcher.end() - 2));
@@ -188,15 +187,29 @@ public class BulletComponent
             return;
         }
 
-        message = Component.literal(buffer.toString()).setStyle(style);
+        MutableComponent msg = Component.literal(buffer.toString()).setStyle(style);
+
+        MODLOG.debug("Message type parsed successful!");
 
         switch (id)
         {
-            case TOP -> this.bulletBuff.add(new BulletMessageCentered.Top(message, senderName));
-            case BUTTON -> this.bulletBuff.add(new BulletMessageCentered.Button(message, senderName));
-            case REVERSED -> this.bulletBuff.add(new BulletMessage.Reversed(message, senderName));
-            default -> this.bulletBuff.add(new BulletMessage(message, senderName));
+            case TOP -> this.bulletBuff.add(new BulletMessageCentered.Top(msg, sender));
+            case BUTTON -> this.bulletBuff.add(new BulletMessageCentered.Button(msg, sender));
+            case REVERSED -> this.bulletBuff.add(new BulletMessage.Reversed(msg, sender));
+            default -> this.bulletBuff.add(new BulletMessage(msg, sender));
         }
+    }
+
+    // DONE add stop words here
+    // DONE add other types of bullets & logic
+    // #FFFFFF -T contents (space is a MUST)
+    public void addMessage(TranslatableContents msgContents)
+    {
+        String message = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[1]).getContents()).text();
+        String sender = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[0]).getSiblings().get(
+                0).getContents()).text();
+
+        addMessage(message, sender);
     }
 
     public void clearMessages(boolean all)

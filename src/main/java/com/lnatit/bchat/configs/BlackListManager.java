@@ -46,7 +46,7 @@ public class BlackListManager
             }
     }
 
-    public static boolean match(MutableComponent message, String sender)
+    public static boolean match(String message, String sender)
     {
         for (int i = 0; i < blackList.blockUsers.length; i++)
             if (sender.equalsIgnoreCase(blackList.blockUsers[i]))
@@ -55,17 +55,15 @@ public class BlackListManager
                 return true;
             }
 
-        String text = ((LiteralContents) message.getContents()).text();
-
         for (int i = 0; i < blackList.stopWords.length; i++)
-            if (text.contains(blackList.stopWords[i]))
+            if (message.contains(blackList.stopWords[i]))
             {
                 MODLOG.info("Bullet blocked by stopWords: " + blackList.stopWords[i]);
                 return true;
             }
 
         for (int i = 0; i < blackList.regExp.length; i++)
-            if (text.matches(blackList.regExp[i]))
+            if (message.matches(blackList.regExp[i]))
             {
                 MODLOG.info("Bullet blocked by regExp: " + blackList.regExp[i]);
                 return true;
