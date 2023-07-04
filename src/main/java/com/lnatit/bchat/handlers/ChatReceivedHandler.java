@@ -9,6 +9,8 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import static com.lnatit.bchat.BulletChat.MODLOG;
+
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ChatReceivedHandler
 {
@@ -22,6 +24,17 @@ public class ChatReceivedHandler
                 BulletComponent.INSTANCE.addMessage(contents);
         }
         else
-            ChatBadge.INSTANCE.setVisible(true);
+        {
+            try
+            {
+                BulletComponent.INSTANCE.addMessage(
+                        (TranslatableContents) event.getMessage().getContents());
+            }
+            catch (Exception e)
+            {
+                MODLOG.info(e.getMessage());
+                ChatBadge.INSTANCE.setVisible(true);
+            }
+        }
     }
 }

@@ -62,7 +62,7 @@ public class BulletChatConfig
                 .comment("Whether to hide vanilla chat panel when not focused",
                          "default: true"
                 )
-                .define("hide_chat", true);
+                .define("hide_chat", false);
 
         ADOPT_CHAT = builder
                 .comment("Adopt the settings from the Chat Settings panel",
