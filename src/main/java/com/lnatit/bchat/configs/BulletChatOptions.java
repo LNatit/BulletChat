@@ -3,6 +3,8 @@ package com.lnatit.bchat.configs;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import net.minecraft.client.OptionInstance;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
@@ -142,9 +144,9 @@ public class BulletChatOptions
         BulletChatOptions.trackHeight = trackHeight;
     }
 
-    public static void setSpeed(float speed)
+    public static void setSpeed(double speed)
     {
-        BulletChatOptions.speed = speed;
+        BulletChatOptions.speed = (float) speed;
     }
 
     public static void setLife(int life)
@@ -177,9 +179,9 @@ public class BulletChatOptions
         BulletChatOptions.adoptChat = adoptChat;
     }
 
-    public static void setTextSize(float textSize)
+    public static void setTextSize(double textSize)
     {
-        BulletChatOptions.textSize = textSize;
+        BulletChatOptions.textSize = (float) textSize;
     }
 
     public static void setOpacity(double opacity)
@@ -187,9 +189,9 @@ public class BulletChatOptions
         BulletChatOptions.opacity = opacity;
     }
 
-    public static void setLineSpacing(float lineSpacing)
+    public static void setLineSpacing(double lineSpacing)
     {
-        BulletChatOptions.lineSpacing = lineSpacing;
+        BulletChatOptions.lineSpacing = (float) lineSpacing;
     }
 
     public static void setTopOffset(int topOffset)
@@ -221,7 +223,8 @@ public class BulletChatOptions
         BulletChatConfig.CLIENT_CONFIG.save();
     }
 
-    //    private static final OptionInstance<Double> BULLET_SPEED;
+    // TODO init on game startup
+//    private static final OptionInstance<Double> BULLET_SPEED;
 //    private static final OptionInstance<Integer> BULLET_LIFE;
 //    private static final OptionInstance<Integer> MAX_BULLET;
 //    private static final OptionInstance<Integer> MIN_FPS;
@@ -240,14 +243,34 @@ public class BulletChatOptions
                                          true,
                                          BulletChatOptions::setAdoptChat
             );
-//    private static final OptionInstance<Double> TEXT_SIZE;
-//    private static final OptionInstance<Double> OPACITY;
-//    private static final OptionInstance<Double> LINE_SPACING;
+    private static final OptionInstance<Double> TEXT_SIZE =
+            new OptionInstance<>("options.bchat.text_size", OptionInstance.noTooltip(),
+                                 (component, value) ->
+                                         value == 0.0D ?
+                                                 CommonComponents.optionStatus(component, false) :
+                                                 percentValueLabel(component, (int) (value * 100.0D)),
+                                 OptionInstance.UnitDouble.INSTANCE, 1.0D, BulletChatOptions::setTextSize
+            );
+    private static final OptionInstance<Double> OPACITY =
+            new OptionInstance<>("options.bchat.opacity", OptionInstance.noTooltip(),
+                                 (component, value) -> percentValueLabel(component, (int) (value * 90.0D + 10.0D)),
+                                 OptionInstance.UnitDouble.INSTANCE, 1.0D, BulletChatOptions::setOpacity
+            );
+    private static final OptionInstance<Double> LINE_SPACING =
+            new OptionInstance<>("options.bchat.line_spacing", OptionInstance.noTooltip(),
+                                 (component, value) -> percentValueLabel(component, (int) (value * 100.0D)),
+                                 OptionInstance.UnitDouble.INSTANCE, 0.0D, BulletChatOptions::setLineSpacing
+            );
 //    private static final OptionInstance<Integer> TOP_OFFSET;
 //    private static final OptionInstance<Integer> TRACK_NUM;
 
     public static OptionInstance<?>[] getOptionInstances()
     {
-        return new OptionInstance[]{SHOW_SENDER, HIDE_CHAT, ADOPT_CHAT};
+        return new OptionInstance[]{SHOW_SENDER, HIDE_CHAT, ADOPT_CHAT, TEXT_SIZE, OPACITY, LINE_SPACING};
+    }
+
+    private static Component percentValueLabel(Component component, int value)
+    {
+        return Component.translatable("options.percent_value", component, value);
     }
 }

@@ -1,3 +1,13 @@
 {
-    "chat.bchat.newmsg": "<新消息！>"
+    "chat.bchat.newmsg": "<新消息！>",
+    "key.bchat.config": "打开弹幕设置",
+    "key.categories.bchat": "弹幕聊天",
+    "options.bchat.title": "（未实现）",
+    "options.bchat.show_sender": "显示发送者",
+    "options.bchat.hide_chat": "隐藏聊天栏",
+    "options.bchat.adopt_chat": "套用聊天设置",
+    "options.bchat.text_size": "弹幕尺寸",
+    "options.bchat.opacity": "弹幕透明度",
+    "options.bchat.line_spacing": "弹幕行距",
+    "options.bchat.open_blacklist": "打开黑名单文件"
 }

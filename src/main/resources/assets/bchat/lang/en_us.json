@@ -2,7 +2,12 @@
     "chat.bchat.newmsg": "<New info!>",
     "key.bchat.config": "Open Bullet Chat Options",
     "key.categories.bchat": "Bullet Chat",
-    "options.bchat.title": "Bullet Chat Options",
+    "options.bchat.title": "Bullet Chat Options (WIP)",
     "options.bchat.show_sender": "Show Bullets Sender",
+    "options.bchat.hide_chat": "Hide Chat Panel",
+    "options.bchat.adopt_chat": "Adopt Chat Options",
+    "options.bchat.text_size": "Bullet Scale",
+    "options.bchat.opacity": "Bullet Opacity",
+    "options.bchat.line_spacing": "Bullet Track Spacing",
     "options.bchat.open_blacklist": "Open Blacklist File"
 }
