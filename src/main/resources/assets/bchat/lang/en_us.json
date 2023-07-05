@@ -1,3 +1,8 @@
 {
-    "chat.bchat.newmsg": "<New info!>"
+    "chat.bchat.newmsg": "<New info!>",
+    "key.bchat.config": "Open Bullet Chat Options",
+    "key.categories.bchat": "Bullet Chat",
+    "options.bchat.title": "Bullet Chat Options",
+    "options.bchat.show_sender": "Show Bullets Sender",
+    "options.bchat.open_blacklist": "Open Blacklist File"
 }

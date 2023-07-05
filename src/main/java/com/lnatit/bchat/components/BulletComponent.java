@@ -1,15 +1,13 @@
 package com.lnatit.bchat.components;
 
 import com.lnatit.bchat.configs.BlackListManager;
-import com.lnatit.bchat.configs.BulletChatConfig;
+import com.lnatit.bchat.configs.BulletChatOptions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.contents.LiteralContents;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -57,7 +55,7 @@ public class BulletComponent
     private void init()
     {
         int maxTracksLast = this.trackMap == null ? 0 : this.trackMap.length;
-        int maxTracks = BulletChatConfig.getTracks();
+        int maxTracks = BulletChatOptions.getTracks();
 
         if (this.trackMap == null || maxTracks != this.trackMap.length)
         {
@@ -97,7 +95,7 @@ public class BulletComponent
                 bullet.tick();
                 bulletNum++;
             }
-            else if (bulletNum < BulletChatConfig.getMaxBullet() && MINECRAFT.getFps() > BulletChatConfig.getMinFps())
+            else if (bulletNum < BulletChatOptions.getMaxBullet() && MINECRAFT.getFps() > BulletChatOptions.getMinFps())
             {
                 int track = this.getTrack(bullet.getId());
                 if (track != -1)
@@ -122,7 +120,7 @@ public class BulletComponent
     public void render(GuiGraphics graphics, float partialTick)
     {
         // DONE consider font size impact
-        float scale = BulletChatConfig.getScale();
+        float scale = BulletChatOptions.getScale();
         graphics.pose().pushPose();
         // modify pose with chat scale
         graphics.pose().scale(scale, scale, 1.0F);
@@ -198,18 +196,6 @@ public class BulletComponent
             case REVERSED -> this.bulletBuff.add(new BulletMessage.Reversed(msg, sender));
             default -> this.bulletBuff.add(new BulletMessage(msg, sender));
         }
-    }
-
-    // DONE add stop words here
-    // DONE add other types of bullets & logic
-    // #FFFFFF -T contents (space is a MUST)
-    public void addMessage(TranslatableContents msgContents)
-    {
-        String message = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[1]).getContents()).text();
-        String sender = ((LiteralContents) ((MutableComponent) msgContents.getArgs()[0]).getSiblings().get(
-                0).getContents()).text();
-
-        addMessage(message, sender);
     }
 
     public void clearMessages(boolean all)

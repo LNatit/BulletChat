@@ -2,7 +2,7 @@ package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
-import com.lnatit.bchat.configs.BulletChatConfig;
+import com.lnatit.bchat.configs.BulletChatOptions;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
@@ -11,8 +11,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
+import static com.lnatit.bchat.BulletChat.MODID;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class BulletRenderHandler
 {
     /*
@@ -28,7 +29,7 @@ public class BulletRenderHandler
 
         if (MINECRAFT.screen instanceof ChatScreen)
             ChatBadge.INSTANCE.setVisible(false);
-        else if (BulletChatConfig.getHideChat())
+        else if (BulletChatOptions.getHideChat())
         {
             event.setCanceled(true);
             ChatBadge.INSTANCE.render(event.getGuiGraphics());

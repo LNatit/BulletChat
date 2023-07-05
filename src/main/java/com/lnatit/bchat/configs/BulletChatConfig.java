@@ -1,9 +1,6 @@
 package com.lnatit.bchat.configs;
 
-import net.minecraft.util.Mth;
 import net.minecraftforge.common.ForgeConfigSpec;
-
-import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 
 public class BulletChatConfig
 {
@@ -103,118 +100,5 @@ public class BulletChatConfig
                 .defineInRange("track_num", 1, 1, 65535);
 
         CLIENT_CONFIG = builder.build();
-    }
-
-    private static int trackOffset;
-    private static int trackHeight;
-    private static float speed;
-    private static int life;
-    private static int maxBullet;
-    private static int minFps;
-    private static boolean hideChat;
-    private static boolean showSender;
-    private static boolean adoptChat;
-    private static float textSize;
-    private static double opacity;
-    private static float lineSpacing;
-    private static int topOffset;
-    private static int trackNum;
-
-    public static void init()
-    {
-        speed = (float) (double) BULLET_SPEED.get();
-        life = BULLET_LIFE.get();
-        maxBullet = MAX_BULLET.get();
-        minFps = MIN_FPS.get();
-        hideChat = HIDE_CHAT.get();
-        showSender = SHOW_SENDER.get();
-        adoptChat = ADOPT_CHAT.get();
-        textSize = (float) (double) TEXT_SIZE.get();
-        opacity = OPACITY.get();
-        lineSpacing = (float) (double) LINE_SPACING.get();
-        topOffset = TOP_OFFSET.get();
-        trackNum = TRACK_NUM.get();
-
-        double ls = BulletChatConfig.getLineSpacing();
-        float scale = BulletChatConfig.getScale();
-        int gh = MINECRAFT.getWindow().getGuiScaledHeight();
-        trackHeight = (int) (9.0D * (ls + 1.0D));
-
-        if (adoptChat)
-        {
-            trackOffset = (int) Math.round(-8.0D * (ls + 1.0D) + 4.0D * ls);
-            trackOffset += Mth.floor((float) (gh - 40) / scale);
-            int m = trackOffset / trackHeight;
-            trackOffset = m * trackHeight;
-            trackNum = m + 1;
-        }
-        else
-            trackOffset = topOffset + (trackNum - 1) * trackHeight;
-    }
-
-    public static float getSpeed()
-    {
-        return speed;
-    }
-
-    public static int getLife()
-    {
-        return life;
-    }
-
-    public static int getMaxBullet()
-    {
-        return maxBullet;
-    }
-
-    public static int getMinFps()
-    {
-        return minFps;
-    }
-
-    public static boolean getHideChat()
-    {
-        return hideChat;
-    }
-
-    public static boolean getShowSender()
-    {
-        return showSender;
-    }
-
-    public static float getScale()
-    {
-        if (adoptChat)
-            return (float) (double) MINECRAFT.options.chatScale().get();
-        else return textSize;
-    }
-
-    public static int getOpacity()
-    {
-        if (adoptChat)
-            return 255;
-        else return (int) ((double) 255 * opacity + 0.5D);
-    }
-
-    public static double getLineSpacing()
-    {
-        if (adoptChat)
-            return MINECRAFT.options.chatLineSpacing().get();
-        else return lineSpacing;
-    }
-
-    public static int getTracks()
-    {
-        return trackOffset / trackHeight + 1;
-    }
-
-    public static int getTrackOffset()
-    {
-        return trackOffset;
-    }
-
-    public static int getTrackHeight()
-    {
-        return trackHeight;
     }
 }

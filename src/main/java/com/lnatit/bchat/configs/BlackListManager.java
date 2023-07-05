@@ -1,7 +1,9 @@
 package com.lnatit.bchat.configs;
 
 import com.google.gson.Gson;
+import com.lnatit.bchat.components.BulletMessageCentered;
 import net.minecraft.Util;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -72,7 +74,7 @@ public class BlackListManager
         return false;
     }
 
-    public static void openBlackListFile()
+    public static void openBlackListFile(Button button)
     {
         Util.getPlatform().openFile(BLACK_LIST);
     }
