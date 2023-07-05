@@ -29,19 +29,19 @@ public class BulletChatConfig
                          "Unit: SPs per tick",
                          "default: 2.0"
                 )
-                .defineInRange("bullet_speed", 2.0D, 0.2D, 20.0D);
+                .defineInRange("bullet_speed", 2.0D, 0.2D, 5.0D);
 
         BULLET_LIFE = builder
                 .comment("Life of centered bullets",
                          "Unit: ticks (1/20 sec)",
                          "default: 160")
-                .defineInRange("bullet_life", 160, 20, 1200);
+                .defineInRange("bullet_life", 160, 20, 400);
 
         MAX_BULLET = builder
                 .comment("Max number of bullets displayed on screen",
                          "default: 200"
                 )
-                .defineInRange("max_bullet", 200, 10, 65535);
+                .defineInRange("max_bullet", 200, 10, 800);
 
         MIN_FPS = builder
                 .comment("When client fps lower than it, new bullets will not launch",
@@ -91,13 +91,13 @@ public class BulletChatConfig
                          "Unit: SP",
                          "default: 0"
                 )
-                .defineInRange("top_offset", 0, 0, 65535);
+                .defineInRange("top_offset", 0, 0, 400);
 
         TRACK_NUM = builder
                 .comment("Number of bullet tracks on screen",
                          "This value will be chopped by other settings"
                 )
-                .defineInRange("track_num", 1, 1, 65535);
+                .defineInRange("track_num", 12, 1, 64);
 
         CLIENT_CONFIG = builder.build();
     }

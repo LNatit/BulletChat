@@ -1,9 +1,6 @@
 package com.lnatit.bchat.handlers;
 
-import com.lnatit.bchat.components.BulletComponent;
-import com.lnatit.bchat.components.ChatBadge;
-import com.lnatit.bchat.configs.BlackListManager;
-import com.lnatit.bchat.configs.BulletChatOptions;
+import com.lnatit.bchat.configs.BulletChatInitializer;
 import net.minecraft.client.gui.screens.ChatOptionsScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
@@ -21,7 +18,7 @@ public class SettingsChangedHandler
         // DONE update config
         if (event.getScreen() instanceof ChatOptionsScreen)
         {
-            BulletChatOptions.init(false);
+            BulletChatInitializer.init(false);
         }
     }
 
@@ -29,6 +26,6 @@ public class SettingsChangedHandler
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event)
     {
-        BulletChatOptions.init(false);
+        BulletChatInitializer.init(false);
     }
 }

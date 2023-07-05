@@ -1,274 +1,123 @@
 package com.lnatit.bchat.configs;
 
-import com.lnatit.bchat.components.BulletComponent;
-import com.lnatit.bchat.components.ChatBadge;
+import com.mojang.serialization.Codec;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 
-import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
+import javax.annotation.Nonnull;
 
 public class BulletChatOptions
 {
-    private static int trackOffset;
-    private static int trackHeight;
-    private static float speed;
-    private static int life;
-    private static int maxBullet;
-    private static int minFps;
-    private static boolean hideChat;
-    private static boolean showSender;
-    private static boolean adoptChat;
-    private static float textSize;
-    private static double opacity;
-    private static float lineSpacing;
-    private static int topOffset;
-    private static int trackNum;
+    public static BulletChatOptions INSTANCE;
 
-    public static void init(boolean blackList)
+    // DONE init on game startup
+    private final OptionInstance<Double> BULLET_SPEED;
+    private final OptionInstance<Integer> BULLET_LIFE;
+    private final OptionInstance<Integer> MAX_BULLET;
+    private final OptionInstance<Integer> MIN_FPS;
+    private final OptionInstance<Boolean> SHOW_SENDER;
+    private final OptionInstance<Boolean> HIDE_CHAT;
+    private final OptionInstance<Boolean> ADOPT_CHAT;
+    private final OptionInstance<Double> TEXT_SIZE;
+    private final OptionInstance<Double> OPACITY;
+    private final OptionInstance<Double> LINE_SPACING;
+    private final OptionInstance<Integer> TOP_OFFSET;
+    private final OptionInstance<Integer> TRACK_NUM;
+
+    private BulletChatOptions()
     {
-        if (blackList)
-            BlackListManager.init();
+        BULLET_SPEED = new OptionInstance<>("options.bchat.bullet_speed", OptionInstance.noTooltip(),
+                                            (component, value) -> percentValueLabel(component, (int) (value * 100.0D)),
+                                            OptionInstance.UnitDouble.INSTANCE.xmap((value -> value * 4.8D + 0.2D),
+                                                                                    (value -> (value - 0.2D) / 4.8D)
+                                            ),
+                                            Codec.doubleRange(0.2D, 5.0D), (double) BulletChatInitializer.getSpeed(),
+                                            BulletChatInitializer::setSpeed
+        );
+        BULLET_LIFE = new OptionInstance<>("options.bchat.bullet_life", OptionInstance.noTooltip(),
+                                           BulletChatOptions::genericValueLabel,
+                                           new OptionInstance.IntRange(20, 400),
+                                           BulletChatInitializer.getLife(), BulletChatInitializer::setLife
+        );
+        MAX_BULLET = new OptionInstance<>("options.bchat.max_bullet", OptionInstance.noTooltip(),
+                                          BulletChatOptions::genericValueLabel,
+                                          new OptionInstance.IntRange(10, 800),
+                                          BulletChatInitializer.getMaxBullet(), BulletChatInitializer::setMaxBullet
+        );
+        MIN_FPS = new OptionInstance<>("options.bchat.min_fps", OptionInstance.noTooltip(),
+                                       BulletChatOptions::genericValueLabel,
+                                       new OptionInstance.IntRange(0, 144),
+                                       BulletChatInitializer.getMinFps(), BulletChatInitializer::setMinFps
+        );
+        SHOW_SENDER = OptionInstance.createBoolean("options.bchat.show_sender",
+                                                   BulletChatInitializer.getShowSender(),
+                                                   BulletChatInitializer::setShowSender
+        );
+        HIDE_CHAT = OptionInstance.createBoolean("options.bchat.hide_chat",
+                                                 BulletChatInitializer.getHideChat(),
+                                                 BulletChatInitializer::setHideChat
+        );
+        ADOPT_CHAT = OptionInstance.createBoolean("options.bchat.adopt_chat",
+                                                  BulletChatInitializer.getAdoptChat(),
+                                                  BulletChatInitializer::setAdoptChat
+        );
 
-        init();
-        BulletComponent.INSTANCE.lazyInit();
-        ChatBadge.INSTANCE.init();
+        // DONE modify xmap()
+        TEXT_SIZE = new OptionInstance<>("options.bchat.text_size", OptionInstance.noTooltip(),
+                                         (component, value) ->
+                                                 value == 0.0D ?
+                                                         CommonComponents.optionStatus(component, false) :
+                                                         percentValueLabel(component, (int) (value * 100.0D)),
+                                         OptionInstance.UnitDouble.INSTANCE.xmap((value -> value * 1.8D + 0.2D),
+                                                                                 (value -> (value - 0.2D) / 1.8D)
+                                         ),
+                                         Codec.doubleRange(0.2D, 2.0D), (double) BulletChatInitializer.getScale(),
+                                         BulletChatInitializer::setTextSize
+        );
+        OPACITY = new OptionInstance<>("options.bchat.opacity", OptionInstance.noTooltip(),
+                                       (component, value) -> percentValueLabel(component, (int) (value * 100.0D)),
+                                       OptionInstance.UnitDouble.INSTANCE.xmap((value -> value * 0.8D + 0.2D),
+                                                                               (value -> (value - 0.2D) / 0.8D)
+                                       ),
+                                       Codec.doubleRange(0.2D, 1.0D), BulletChatInitializer.getOpacity(),
+                                       BulletChatInitializer::setOpacity
+        );
+        LINE_SPACING = new OptionInstance<>("options.bchat.line_spacing", OptionInstance.noTooltip(),
+                                            (component, value) -> percentValueLabel(component, (int) (value * 100.0D)),
+                                            OptionInstance.UnitDouble.INSTANCE, BulletChatInitializer.getLineSpacing(),
+                                            BulletChatInitializer::setLineSpacing
+        );
+        TOP_OFFSET = new OptionInstance<>("options.bchat.top_offset", OptionInstance.noTooltip(),
+                                          BulletChatOptions::genericValueLabel,
+                                          new OptionInstance.IntRange(0, 400),
+                                          BulletChatInitializer.getTopOffset(), BulletChatInitializer::setTopOffset
+        );
+        TRACK_NUM = new OptionInstance<>("options.bchat.track_num", OptionInstance.noTooltip(),
+                                         BulletChatOptions::genericValueLabel,
+                                         new OptionInstance.IntRange(1, 64),
+                                         BulletChatInitializer.getTracks(), BulletChatInitializer::setTrackNum
+        );
     }
 
-    private static void init()
+    public OptionInstance<?>[] getOptionInstances()
     {
-        speed = (float) (double) BulletChatConfig.BULLET_SPEED.get();
-        life = BulletChatConfig.BULLET_LIFE.get();
-        maxBullet = BulletChatConfig.MAX_BULLET.get();
-        minFps = BulletChatConfig.MIN_FPS.get();
-        hideChat = BulletChatConfig.HIDE_CHAT.get();
-        showSender = BulletChatConfig.SHOW_SENDER.get();
-        adoptChat = BulletChatConfig.ADOPT_CHAT.get();
-        textSize = (float) (double) BulletChatConfig.TEXT_SIZE.get();
-        opacity = BulletChatConfig.OPACITY.get();
-        lineSpacing = (float) (double) BulletChatConfig.LINE_SPACING.get();
-        topOffset = BulletChatConfig.TOP_OFFSET.get();
-        trackNum = BulletChatConfig.TRACK_NUM.get();
-
-        double ls = getLineSpacing();
-        float scale = getScale();
-        int gh = MINECRAFT.getWindow().getGuiScaledHeight();
-        trackHeight = (int) (9.0D * (ls + 1.0D));
-
-        if (adoptChat)
-        {
-            trackOffset = (int) Math.round(-8.0D * (ls + 1.0D) + 4.0D * ls);
-            trackOffset += Mth.floor((float) (gh - 40) / scale);
-            int m = trackOffset / trackHeight;
-            trackOffset = m * trackHeight;
-            trackNum = m + 1;
-        }
-        else
-            trackOffset = topOffset + (trackNum - 1) * trackHeight;
+        return new OptionInstance[]{BULLET_SPEED, BULLET_LIFE, MAX_BULLET, MIN_FPS, SHOW_SENDER, HIDE_CHAT, ADOPT_CHAT, TEXT_SIZE, OPACITY, LINE_SPACING, TOP_OFFSET, TRACK_NUM};
     }
 
-    public static float getSpeed()
+    public static void initInstance()
     {
-        return speed;
+        if (INSTANCE == null)
+            INSTANCE = new BulletChatOptions();
     }
 
-    public static int getLife()
+    @Nonnull
+    private static Component genericValueLabel(Component component, int value)
     {
-        return life;
+        return Component.translatable("options.generic_value", component, value);
     }
 
-    public static int getMaxBullet()
-    {
-        return maxBullet;
-    }
-
-    public static int getMinFps()
-    {
-        return minFps;
-    }
-
-    public static boolean getHideChat()
-    {
-        return hideChat;
-    }
-
-    public static boolean getShowSender()
-    {
-        return showSender;
-    }
-
-    public static float getScale()
-    {
-        if (adoptChat)
-            return (float) (double) MINECRAFT.options.chatScale().get();
-        else return textSize;
-    }
-
-    public static int getOpacity()
-    {
-        if (adoptChat)
-            return 255;
-        else return (int) ((double) 255 * opacity + 0.5D);
-    }
-
-    public static double getLineSpacing()
-    {
-        if (adoptChat)
-            return MINECRAFT.options.chatLineSpacing().get();
-        else return lineSpacing;
-    }
-
-    public static int getTracks()
-    {
-        return trackOffset / trackHeight + 1;
-    }
-
-    public static int getTrackOffset()
-    {
-        return trackOffset;
-    }
-
-    public static int getTrackHeight()
-    {
-        return trackHeight;
-    }
-
-    public static void setTrackOffset(int trackOffset)
-    {
-        BulletChatOptions.trackOffset = trackOffset;
-    }
-
-    public static void setTrackHeight(int trackHeight)
-    {
-        BulletChatOptions.trackHeight = trackHeight;
-    }
-
-    public static void setSpeed(double speed)
-    {
-        BulletChatOptions.speed = (float) speed;
-    }
-
-    public static void setLife(int life)
-    {
-        BulletChatOptions.life = life;
-    }
-
-    public static void setMaxBullet(int maxBullet)
-    {
-        BulletChatOptions.maxBullet = maxBullet;
-    }
-
-    public static void setMinFps(int minFps)
-    {
-        BulletChatOptions.minFps = minFps;
-    }
-
-    public static void setHideChat(boolean hideChat)
-    {
-        BulletChatOptions.hideChat = hideChat;
-    }
-
-    public static void setShowSender(boolean showSender)
-    {
-        BulletChatOptions.showSender = showSender;
-    }
-
-    public static void setAdoptChat(boolean adoptChat)
-    {
-        BulletChatOptions.adoptChat = adoptChat;
-    }
-
-    public static void setTextSize(double textSize)
-    {
-        BulletChatOptions.textSize = (float) textSize;
-    }
-
-    public static void setOpacity(double opacity)
-    {
-        BulletChatOptions.opacity = opacity;
-    }
-
-    public static void setLineSpacing(double lineSpacing)
-    {
-        BulletChatOptions.lineSpacing = (float) lineSpacing;
-    }
-
-    public static void setTopOffset(int topOffset)
-    {
-        BulletChatOptions.topOffset = topOffset;
-    }
-
-    public static void setTrackNum(int trackNum)
-    {
-        BulletChatOptions.trackNum = trackNum;
-    }
-
-    // DONE
-    public static void writeToConfig()
-    {
-        BulletChatConfig.BULLET_SPEED.set((double) speed);
-        BulletChatConfig.BULLET_LIFE.set(life);
-        BulletChatConfig.MAX_BULLET.set(maxBullet);
-        BulletChatConfig.MIN_FPS.set(minFps);
-        BulletChatConfig.SHOW_SENDER.set(showSender);
-        BulletChatConfig.HIDE_CHAT.set(hideChat);
-        BulletChatConfig.ADOPT_CHAT.set(adoptChat);
-        BulletChatConfig.TEXT_SIZE.set((double) textSize);
-        BulletChatConfig.OPACITY.set(opacity);
-        BulletChatConfig.LINE_SPACING.set((double) lineSpacing);
-        BulletChatConfig.TOP_OFFSET.set(topOffset);
-        BulletChatConfig.TRACK_NUM.set(trackNum);
-
-        BulletChatConfig.CLIENT_CONFIG.save();
-    }
-
-    // TODO init on game startup
-//    private static final OptionInstance<Double> BULLET_SPEED;
-//    private static final OptionInstance<Integer> BULLET_LIFE;
-//    private static final OptionInstance<Integer> MAX_BULLET;
-//    private static final OptionInstance<Integer> MIN_FPS;
-    private static final OptionInstance<Boolean> SHOW_SENDER =
-            OptionInstance.createBoolean("options.bchat.show_sender",
-                                         BulletChatConfig.SHOW_SENDER.getDefault(),
-                                         BulletChatOptions::setShowSender
-            );
-    private static final OptionInstance<Boolean> HIDE_CHAT =
-            OptionInstance.createBoolean("options.bchat.hide_chat",
-                                         false,
-                                         BulletChatOptions::setHideChat
-            );
-    private static final OptionInstance<Boolean> ADOPT_CHAT =
-            OptionInstance.createBoolean("options.bchat.adopt_chat",
-                                         true,
-                                         BulletChatOptions::setAdoptChat
-            );
-    private static final OptionInstance<Double> TEXT_SIZE =
-            new OptionInstance<>("options.bchat.text_size", OptionInstance.noTooltip(),
-                                 (component, value) ->
-                                         value == 0.0D ?
-                                                 CommonComponents.optionStatus(component, false) :
-                                                 percentValueLabel(component, (int) (value * 100.0D)),
-                                 OptionInstance.UnitDouble.INSTANCE, 1.0D, BulletChatOptions::setTextSize
-            );
-    private static final OptionInstance<Double> OPACITY =
-            new OptionInstance<>("options.bchat.opacity", OptionInstance.noTooltip(),
-                                 (component, value) -> percentValueLabel(component, (int) (value * 90.0D + 10.0D)),
-                                 OptionInstance.UnitDouble.INSTANCE, 1.0D, BulletChatOptions::setOpacity
-            );
-    private static final OptionInstance<Double> LINE_SPACING =
-            new OptionInstance<>("options.bchat.line_spacing", OptionInstance.noTooltip(),
-                                 (component, value) -> percentValueLabel(component, (int) (value * 100.0D)),
-                                 OptionInstance.UnitDouble.INSTANCE, 0.0D, BulletChatOptions::setLineSpacing
-            );
-//    private static final OptionInstance<Integer> TOP_OFFSET;
-//    private static final OptionInstance<Integer> TRACK_NUM;
-
-    public static OptionInstance<?>[] getOptionInstances()
-    {
-        return new OptionInstance[]{SHOW_SENDER, HIDE_CHAT, ADOPT_CHAT, TEXT_SIZE, OPACITY, LINE_SPACING};
-    }
-
+    @Nonnull
     private static Component percentValueLabel(Component component, int value)
     {
         return Component.translatable("options.percent_value", component, value);

@@ -1,6 +1,6 @@
 package com.lnatit.bchat.components;
 
-import com.lnatit.bchat.configs.BulletChatOptions;
+import com.lnatit.bchat.configs.BulletChatInitializer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -29,7 +29,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
             if (this.isHidden())
                 return;
 
-            if (this.age > BulletChatOptions.getLife())
+            if (this.age > BulletChatInitializer.getLife())
             {
                 this.terminate();
                 BulletComponent.INSTANCE.trackMapTop[this.getTrack()] -= 1;
@@ -45,13 +45,13 @@ public abstract class BulletMessageCentered extends AbstractBullet
             if (this.isHidden())
                 return;
 
-            int trackHeight = BulletChatOptions.getTrackHeight();
+            int trackHeight = BulletChatInitializer.getTrackHeight();
             int posY = this.getTrack() * trackHeight;
 
             graphics.pose().pushPose();
             graphics.pose().translate(posX, posY, 50.0F);
             graphics.drawString(MINECRAFT.font, this.getFullMessage(), 0, 0,
-                                16777215 + (BulletChatOptions.getOpacity() << 24), true
+                                16777215 + (BulletChatInitializer.getOpacityInt() << 24), true
             );
             graphics.pose().popPose();
         }
@@ -76,7 +76,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
             if (this.isHidden())
                 return;
 
-            if (this.age > BulletChatOptions.getLife())
+            if (this.age > BulletChatInitializer.getLife())
             {
                 this.terminate();
                 BulletComponent.INSTANCE.trackMapButton[this.getTrack()] -= 1;
@@ -92,13 +92,13 @@ public abstract class BulletMessageCentered extends AbstractBullet
             if (this.isHidden())
                 return;
 
-            int trackHeight = BulletChatOptions.getTrackHeight();
+            int trackHeight = BulletChatInitializer.getTrackHeight();
             int posY = MINECRAFT.getWindow().getGuiScaledHeight() - (this.getTrack() + 1) * trackHeight;
 
             graphics.pose().pushPose();
             graphics.pose().translate(posX, posY, 50.0F);
             graphics.drawString(MINECRAFT.font, this.getFullMessage(), 0, 0,
-                                16777215 + (BulletChatOptions.getOpacity() << 24), true
+                                16777215 + (BulletChatInitializer.getOpacityInt() << 24), true
             );
             graphics.pose().popPose();
         }

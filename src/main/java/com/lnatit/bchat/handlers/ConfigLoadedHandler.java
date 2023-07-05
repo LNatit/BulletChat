@@ -1,9 +1,6 @@
 package com.lnatit.bchat.handlers;
 
-import com.lnatit.bchat.components.BulletComponent;
-import com.lnatit.bchat.components.ChatBadge;
-import com.lnatit.bchat.configs.BlackListManager;
-import com.lnatit.bchat.configs.BulletChatOptions;
+import com.lnatit.bchat.configs.BulletChatInitializer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,7 +16,7 @@ public class ConfigLoadedHandler
     {
         if (event.getConfig().getModId().equals(MODID))
         {
-            BulletChatOptions.init(true);
+            BulletChatInitializer.init(true);
         }
     }
 }

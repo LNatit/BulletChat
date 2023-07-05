@@ -1,6 +1,7 @@
 package com.lnatit.bchat.gui;
 
 import com.lnatit.bchat.configs.BlackListManager;
+import com.lnatit.bchat.configs.BulletChatInitializer;
 import com.lnatit.bchat.configs.BulletChatOptions;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,15 +16,15 @@ public class BulletOptionsScreen extends SimpleOptionsSubScreen
     public BulletOptionsScreen(Screen preScreen)
     {
         super(preScreen, MINECRAFT.options, Component.translatable("options.bchat.title"),
-              BulletChatOptions.getOptionInstances()
+              BulletChatOptions.INSTANCE.getOptionInstances()
         );
     }
 
     @Override
     public void removed()
     {
-        BulletChatOptions.writeToConfig();
-        BulletChatOptions.init(false);
+        BulletChatInitializer.writeToConfig();
+        BulletChatInitializer.init(false);
     }
 
     @Override
