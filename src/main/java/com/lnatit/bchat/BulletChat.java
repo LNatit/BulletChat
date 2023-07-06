@@ -14,6 +14,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.slf4j.Logger;
 
+import static com.lnatit.bchat.BulletChat.BulletChatClient.FACTORY;
 import static com.lnatit.bchat.BulletChat.MODID;
 
 @Mod(MODID)
@@ -21,9 +22,6 @@ public class BulletChat
 {
     public static final String MODID = "bchat";
     public static final Logger MODLOG = LogUtils.getLogger();
-    public static final ConfigScreenHandler.ConfigScreenFactory FACTORY = new ConfigScreenHandler.ConfigScreenFactory(
-            (mc, screen) -> new BulletOptionsScreen(screen)
-    );
 
     public BulletChat()
     {
@@ -50,5 +48,8 @@ public class BulletChat
     public static final class BulletChatClient
     {
         public static final Minecraft MINECRAFT = Minecraft.getInstance();
+        public static final ConfigScreenHandler.ConfigScreenFactory FACTORY = new ConfigScreenHandler.ConfigScreenFactory(
+                (mc, screen) -> new BulletOptionsScreen(screen)
+        );
     }
 }
