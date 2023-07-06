@@ -2,10 +2,12 @@ package com.lnatit.bchat;
 
 import com.lnatit.bchat.configs.BlackListManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
+import com.lnatit.bchat.gui.BulletOptionsScreen;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -19,6 +21,9 @@ public class BulletChat
 {
     public static final String MODID = "bchat";
     public static final Logger MODLOG = LogUtils.getLogger();
+    public static final ConfigScreenHandler.ConfigScreenFactory FACTORY = new ConfigScreenHandler.ConfigScreenFactory(
+            (mc, screen) -> new BulletOptionsScreen(screen)
+    );
 
     public BulletChat()
     {
@@ -32,6 +37,11 @@ public class BulletChat
         ModLoadingContext
                 .get()
                 .registerConfig(ModConfig.Type.CLIENT, BulletChatConfig.CLIENT_CONFIG);
+
+        // Link Options Screen to Config button
+        ModLoadingContext
+                .get()
+                .registerExtensionPoint(FACTORY.getClass(), () -> FACTORY);
 
         BlackListManager.init();
     }

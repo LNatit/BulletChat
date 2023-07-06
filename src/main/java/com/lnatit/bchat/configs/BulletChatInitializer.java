@@ -7,6 +7,7 @@ import net.minecraft.util.Mth;
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
+// TODO optimize logic
 public class BulletChatInitializer
 {
     private static int trackOffset;
