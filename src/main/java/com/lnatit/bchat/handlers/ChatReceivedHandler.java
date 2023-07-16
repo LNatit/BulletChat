@@ -29,9 +29,9 @@ public class ChatReceivedHandler
 
         try
         {
-            Component[] args = (Component[]) ((TranslatableContents) component.getContents()).getArgs();
-            String message = ((LiteralContents) args[1].getContents()).text();
-            String sender = ((LiteralContents) args[0].getSiblings().get(0).getContents()).text();
+            Object[] args = ((TranslatableContents) component.getContents()).getArgs();
+            String message = ((LiteralContents) ((Component) args[1]).getContents()).text();
+            String sender = ((LiteralContents) ((Component) args[0]).getSiblings().get(0).getContents()).text();
 
             BulletComponent.INSTANCE.addMessage(message, sender);
         }
