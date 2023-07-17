@@ -16,5 +16,6 @@
     "options.bchat.line_spacing": "弹幕行距",
     "options.bchat.top_offset": "顶部偏移",
     "options.bchat.track_num": "轨道数量",
-    "options.bchat.open_blacklist": "打开黑名单文件"
+    "options.bchat.open_blacklist": "打开黑名单文件",
+    "options.bchat.tooltip.chopped": "若设置值过大，则会自动根据屏幕尺寸调整"
 }

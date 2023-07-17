@@ -7,6 +7,7 @@ import com.lnatit.bchat.configs.BulletChatInitializer;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,7 +30,7 @@ public class BulletRenderHandler
         if (MINECRAFT.player != null && MINECRAFT.player.getTags().contains(BulletChatConfig.SERVER_TOKEN.get()))
             return;
 
-        if (!event.getOverlay().id().toString().equals("minecraft:chat_panel"))
+        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type())
             return;
 
         if (MINECRAFT.screen instanceof ChatScreen)

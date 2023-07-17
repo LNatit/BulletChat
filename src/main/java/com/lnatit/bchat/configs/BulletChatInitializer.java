@@ -68,7 +68,25 @@ public class BulletChatInitializer
             trackNum = m + 1;
         }
         else
+        {
+            // Chop settings to fit screen
+            float scaledHeight = (float) gh / textSize;
+            int maxTopOffset = (int) (scaledHeight - trackHeight);
+            if (topOffset > maxTopOffset)
+            {
+                topOffset = maxTopOffset;
+                MODLOG.info("Chopped top offset to {}!", topOffset);
+            }
+
+            int maxTrackNum = (int) ((scaledHeight - topOffset) / trackHeight);
+            if (trackNum > maxTrackNum)
+            {
+                trackNum = maxTrackNum;
+                MODLOG.info("Chopped track number to {}!", trackNum);
+            }
+
             trackOffset = topOffset + (trackNum - 1) * trackHeight;
+        }
     }
 
     public static int getTracks()

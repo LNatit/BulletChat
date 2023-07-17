@@ -13,12 +13,16 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 
 public class BulletChatOptions
 {
+    private static final Component CHOPPED_VALUES = Component.translatable("options.bchat.tooltip.chopped");
+
     public static BulletChatOptions INSTANCE;
     private static BulletOptionsScreen screen;
 
     // DONE init on game startup
     public final OptionInstance<?>[] OPTIONS;
     public final OptionInstance<?>[] OPTIONS_ADOPT;
+    private final OptionInstance<Integer> topOffset;
+    private final OptionInstance<Integer> trackNum;
 
 
     private BulletChatOptions()
@@ -111,14 +115,14 @@ public class BulletChatOptions
                                                                   BulletChatInitializer.getLineSpacing(),
                                                                   BulletChatInitializer::setLineSpacing
         );
-        OptionInstance<Integer> topOffset = new OptionInstance<>("options.bchat.top_offset",
-                                                                 OptionInstance.noTooltip(),
+        topOffset = new OptionInstance<>("options.bchat.top_offset",
+                                                                 OptionInstance.cachedConstantTooltip(CHOPPED_VALUES),
                                                                  BulletChatOptions::genericValueLabel,
                                                                  new OptionInstance.IntRange(0, 400),
                                                                  BulletChatInitializer.getTopOffset(),
                                                                  BulletChatInitializer::setTopOffset
         );
-        OptionInstance<Integer> trackNum = new OptionInstance<>("options.bchat.track_num", OptionInstance.noTooltip(),
+        trackNum = new OptionInstance<>("options.bchat.track_num", OptionInstance.cachedConstantTooltip(CHOPPED_VALUES),
                                                                 BulletChatOptions::genericValueLabel,
                                                                 new OptionInstance.IntRange(1, 64),
                                                                 BulletChatInitializer.getTracks(),
@@ -162,5 +166,11 @@ public class BulletChatOptions
             MODLOG.warn("Illegal changes on options!");
         else
             screen.updateButtons(adoptChat);
+    }
+
+    public static void writeToOptions()
+    {
+        INSTANCE.topOffset.set(BulletChatInitializer.getTopOffset());
+        INSTANCE.trackNum.set(BulletChatInitializer.getTracks());
     }
 }

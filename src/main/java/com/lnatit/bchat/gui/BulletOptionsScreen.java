@@ -29,6 +29,7 @@ public class BulletOptionsScreen extends SimpleOptionsSubScreen
     {
         BulletChatInitializer.writeToConfig();
         BulletChatInitializer.init(false);
+        BulletChatOptions.writeToOptions();
         BulletChatOptions.bindScreen(this, false);
     }
 
