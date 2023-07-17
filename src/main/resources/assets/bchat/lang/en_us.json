@@ -9,6 +9,7 @@
     "options.bchat.min_fps": "Min Client FPS",
     "options.bchat.show_sender": "Show Bullets Sender",
     "options.bchat.hide_chat": "Hide Chat Panel",
+    "options.bchat.parse_tell": "Parse /Tell Messages",
     "options.bchat.adopt_chat": "Adopt Chat Options",
     "options.bchat.text_size": "Bullet Scale",
     "options.bchat.opacity": "Bullet Opacity",

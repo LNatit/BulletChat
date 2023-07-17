@@ -64,6 +64,10 @@ public class BulletChatOptions
                                                                         BulletChatInitializer.getHideChat(),
                                                                         BulletChatInitializer::setHideChat
         );
+        OptionInstance<Boolean> parseTell = OptionInstance.createBoolean("options.bchat.parse_tell",
+                                                                         BulletChatInitializer.getParseTell(),
+                                                                         BulletChatInitializer::setParseTell
+        );
         OptionInstance<Boolean> adoptChat = OptionInstance.createBoolean("options.bchat.adopt_chat",
                                                                          BulletChatInitializer.getAdoptChat(),
                                                                          BulletChatOptions::onAdoptChatChanged
@@ -121,7 +125,7 @@ public class BulletChatOptions
                                                                 BulletChatInitializer::setTrackNum
         );
 
-        OPTIONS = new OptionInstance[]{bulletSpeed, bulletLife, maxBullet, minFps, showSender, hideChat, adoptChat, textSize, opacity, lineSpacing, topOffset, trackNum};
+        OPTIONS = new OptionInstance[]{bulletSpeed, bulletLife, maxBullet, minFps, showSender, hideChat, parseTell, adoptChat, textSize, opacity, lineSpacing, topOffset, trackNum};
         OPTIONS_ADOPT = new OptionInstance[]{textSize, opacity, lineSpacing, topOffset, trackNum};
     }
 

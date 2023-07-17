@@ -9,6 +9,7 @@
     "options.bchat.min_fps": "最低帧率",
     "options.bchat.show_sender": "显示发送者",
     "options.bchat.hide_chat": "隐藏聊天栏",
+    "options.bchat.parse_tell": "解析/tell命令",
     "options.bchat.adopt_chat": "套用聊天设置",
     "options.bchat.text_size": "弹幕尺寸",
     "options.bchat.opacity": "弹幕透明度",

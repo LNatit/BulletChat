@@ -2,6 +2,8 @@ package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
+import com.lnatit.bchat.configs.BulletChatConfig;
+import com.lnatit.bchat.configs.BulletChatInitializer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
@@ -29,7 +31,14 @@ public class ChatReceivedHandler
 
         try
         {
-            Object[] args = ((TranslatableContents) component.getContents()).getArgs();
+            TranslatableContents contents = (TranslatableContents) component.getContents();
+            // don't parse /tell messages
+            if (contents.getKey().equals("commands.message.display.outgoing") ||
+                    !BulletChatInitializer.getParseTell() && contents.getKey().equals(
+                            "commands.message.display.incoming"))
+                return;
+
+            Object[] args = contents.getArgs();
             String message = ((LiteralContents) ((Component) args[1]).getContents()).text();
             String sender = ((LiteralContents) ((Component) args[0]).getSiblings().get(0).getContents()).text();
 

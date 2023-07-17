@@ -11,6 +11,7 @@ public class BulletChatConfig
     public static ForgeConfigSpec.IntValue MIN_FPS;
     public static ForgeConfigSpec.BooleanValue SHOW_SENDER;
     public static ForgeConfigSpec.BooleanValue HIDE_CHAT;
+    public static ForgeConfigSpec.BooleanValue PARSE_TELL;
     public static ForgeConfigSpec.BooleanValue ADOPT_CHAT;
     public static ForgeConfigSpec.DoubleValue TEXT_SIZE;
     public static ForgeConfigSpec.DoubleValue OPACITY;
@@ -60,6 +61,12 @@ public class BulletChatConfig
                          "default: true"
                 )
                 .define("hide_chat", false);
+
+        PARSE_TELL = builder
+                .comment("Whether to parse /tell infos",
+                         "default: false"
+                )
+                .define("parse_tell", false);
 
         ADOPT_CHAT = builder
                 .comment("Adopt the settings from the Chat Settings panel",

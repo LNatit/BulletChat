@@ -17,8 +17,9 @@ public class BulletChatInitializer
     private static int life;
     private static int maxBullet;
     private static int minFps;
-    private static boolean hideChat;
     private static boolean showSender;
+    private static boolean hideChat;
+    private static boolean parseTell;
     private static boolean adoptChat;
     private static float textSize;
     private static double opacity;
@@ -43,8 +44,9 @@ public class BulletChatInitializer
         life = BulletChatConfig.BULLET_LIFE.get();
         maxBullet = BulletChatConfig.MAX_BULLET.get();
         minFps = BulletChatConfig.MIN_FPS.get();
-        hideChat = BulletChatConfig.HIDE_CHAT.get();
         showSender = BulletChatConfig.SHOW_SENDER.get();
+        hideChat = BulletChatConfig.HIDE_CHAT.get();
+        parseTell = BulletChatConfig.PARSE_TELL.get();
         adoptChat = BulletChatConfig.ADOPT_CHAT.get();
         textSize = (float) (double) BulletChatConfig.TEXT_SIZE.get();
         opacity = BulletChatConfig.OPACITY.get();
@@ -99,14 +101,19 @@ public class BulletChatInitializer
         return minFps;
     }
 
+    public static boolean getShowSender()
+    {
+        return showSender;
+    }
+
     public static boolean getHideChat()
     {
         return hideChat;
     }
 
-    public static boolean getShowSender()
+    public static boolean getParseTell()
     {
-        return showSender;
+        return parseTell;
     }
 
     public static boolean getAdoptChat()
@@ -170,14 +177,19 @@ public class BulletChatInitializer
         BulletChatInitializer.minFps = minFps;
     }
 
+    public static void setShowSender(boolean showSender)
+    {
+        BulletChatInitializer.showSender = showSender;
+    }
+
     public static void setHideChat(boolean hideChat)
     {
         BulletChatInitializer.hideChat = hideChat;
     }
 
-    public static void setShowSender(boolean showSender)
+    public static void setParseTell(boolean parseTell)
     {
-        BulletChatInitializer.showSender = showSender;
+        BulletChatInitializer.parseTell = parseTell;
     }
 
     public static void setAdoptChat(boolean adoptChat)
@@ -219,6 +231,7 @@ public class BulletChatInitializer
         BulletChatConfig.MIN_FPS.set(minFps);
         BulletChatConfig.SHOW_SENDER.set(showSender);
         BulletChatConfig.HIDE_CHAT.set(hideChat);
+        BulletChatConfig.PARSE_TELL.set(parseTell);
         BulletChatConfig.ADOPT_CHAT.set(adoptChat);
         BulletChatConfig.TEXT_SIZE.set((double) textSize);
         BulletChatConfig.OPACITY.set(opacity);
