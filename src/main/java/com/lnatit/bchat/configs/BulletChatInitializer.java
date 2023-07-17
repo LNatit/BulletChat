@@ -73,7 +73,7 @@ public class BulletChatInitializer
 
     public static int getTracks()
     {
-        return trackOffset / trackHeight + 1;
+        return trackNum;
     }
 
     public static int getTrackOffset()

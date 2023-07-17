@@ -19,6 +19,8 @@ public class BulletChatConfig
     public static ForgeConfigSpec.IntValue TOP_OFFSET;
     public static ForgeConfigSpec.IntValue TRACK_NUM;
 
+    public static ForgeConfigSpec.ConfigValue<String> SERVER_TOKEN;
+
     static
     {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -105,6 +107,13 @@ public class BulletChatConfig
                          "This value will be chopped by other settings"
                 )
                 .defineInRange("track_num", 12, 1, 64);
+
+        SERVER_TOKEN = builder
+                .comment("Check Quoth I for more info",
+                         "You should not modify this entry in any case!!!",
+                         "default: \"bchat\""
+                )
+                .define("server_token", "bchat");
 
         CLIENT_CONFIG = builder.build();
     }

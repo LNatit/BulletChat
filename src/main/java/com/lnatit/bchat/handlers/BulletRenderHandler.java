@@ -2,6 +2,7 @@ package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
+import com.lnatit.bchat.configs.BulletChatConfig;
 import com.lnatit.bchat.configs.BulletChatInitializer;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,6 +25,10 @@ public class BulletRenderHandler
     @SubscribeEvent
     public static void onGuiRendered(RenderGuiOverlayEvent.Pre event)
     {
+        // Check QuothI token
+        if (MINECRAFT.player != null && MINECRAFT.player.getTags().contains(BulletChatConfig.SERVER_TOKEN.get()))
+            return;
+
         if (!event.getOverlay().id().toString().equals("minecraft:chat_panel"))
             return;
 

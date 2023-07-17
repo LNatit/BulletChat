@@ -49,7 +49,7 @@ public class BulletComponent
     // Init on screen init may cause incorrect map values, so adapt to lazy function
     public void lazyInit()
     {
-        this.shouldInit = false;
+        this.shouldInit = true;
     }
 
     private void init()
@@ -75,7 +75,7 @@ public class BulletComponent
         // DONE remap all the bullets
         for (AbstractBullet bulletMessage : this.bulletBuff) bulletMessage.remap(maxTracksLast, maxTracks);
 
-        this.shouldInit = true;
+        this.shouldInit = false;
     }
 
     public void tick()

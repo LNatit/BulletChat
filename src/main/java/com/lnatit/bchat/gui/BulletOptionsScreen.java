@@ -50,7 +50,7 @@ public class BulletOptionsScreen extends SimpleOptionsSubScreen
                 MINECRAFT.setScreen(this.lastScreen)).bounds(this.width / 2 + 5, this.height - 27, 150, 20).build());
     }
 
-    public void updateButtons(boolean active)
+    public void updateButtons(boolean inactive)
     {
         for (OptionInstance<?> instance : BulletChatOptions.INSTANCE.OPTIONS_ADOPT)
         {
@@ -59,8 +59,8 @@ public class BulletOptionsScreen extends SimpleOptionsSubScreen
                 MODLOG.warn("Failed to find OptionInstance: " + instance);
             else
             {
-                button.active = active;
-                button.visible = active;
+                button.active = !inactive;
+                button.visible = !inactive;
             }
         }
     }
