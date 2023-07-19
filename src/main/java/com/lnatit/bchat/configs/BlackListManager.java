@@ -20,7 +20,7 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 
 public class BlackListManager
 {
-    private static final File BLACK_LIST = FMLPaths.CONFIGDIR.get().resolve("bchat_blacklist.json").toFile();
+    private static final File BLACK_LIST = FMLPaths.CONFIGDIR.get().resolve("bchat-blacklist.json").toFile();
     private static final Gson GSON = new Gson();
     private static BlackList blackList;
 

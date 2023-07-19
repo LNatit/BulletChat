@@ -4,11 +4,14 @@ import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import com.lnatit.bchat.configs.BulletChatInitializer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -23,7 +26,8 @@ public class BulletRenderHandler
      change to player_list to render bullet on top of chat_panel won't work
      set Z offset!!!
     */
-    @SubscribeEvent
+    @SuppressWarnings("UnstableApiUsage")
+    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void onGuiRendered(RenderGuiOverlayEvent.Pre event)
     {
         // Check QuothI token
@@ -33,15 +37,26 @@ public class BulletRenderHandler
         if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type())
             return;
 
+        GuiGraphics guiGraphics = event.getGuiGraphics();
+        float partialTick = event.getPartialTick();
+
         if (MINECRAFT.screen instanceof ChatScreen)
             ChatBadge.INSTANCE.setVisible(false);
         else if (BulletChatInitializer.getHideChat())
         {
             event.setCanceled(true);
-            ChatBadge.INSTANCE.render(event.getGuiGraphics());
+            ChatBadge.INSTANCE.render(guiGraphics);
+
+            // Post post event for compatibility
+            MinecraftForge.EVENT_BUS.post(
+                    new RenderGuiOverlayEvent.Post(MINECRAFT.getWindow(),
+                                                   guiGraphics,
+                                                   partialTick,
+                                                   event.getOverlay()
+                    ));
         }
 
-        BulletComponent.INSTANCE.render(event.getGuiGraphics(), event.getPartialTick());
+        BulletComponent.INSTANCE.render(guiGraphics, partialTick);
     }
 
     @SubscribeEvent

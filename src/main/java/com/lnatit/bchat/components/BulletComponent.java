@@ -95,7 +95,7 @@ public class BulletComponent
                 bullet.tick();
                 bulletNum++;
             }
-            else if (bulletNum < BulletChatInitializer.getMaxBullet() && MINECRAFT.getFps() > BulletChatInitializer.getMinFps())
+            else if (bulletNum <= BulletChatInitializer.getMaxBullet() && MINECRAFT.getFps() >= BulletChatInitializer.getMinFps())
             {
                 int track = this.getTrack(bullet.getId());
                 if (track != -1)
