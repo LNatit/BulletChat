@@ -1,6 +1,7 @@
 package com.lnatit.bctrl.networks;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.commands.DataPackCommand;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -10,6 +11,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import java.util.Optional;
 
 import static com.lnatit.bctrl.BulletChatController.MODID;
+import static net.minecraftforge.network.NetworkRegistry.ABSENT;
 
 public class NetworkManager
 {
@@ -17,15 +19,13 @@ public class NetworkManager
 
     private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, "channel"),
                                                                                  () -> PROTOCOL_VER,
-                                                                                 PROTOCOL_VER::equals,
-                                                                                 PROTOCOL_VER::equals
+                                                                                  PROTOCOL_VER::equals,
+                                                                                  ABSENT.version()::equals
     );
-
-    private static int id = 0;
 
     public static void register()
     {
-        CHANNEL.registerMessage(id++, SyncTagPacket.class,
+        CHANNEL.registerMessage(0, SyncTagPacket.class,
                                 SyncTagPacket::encode,
                                 SyncTagPacket::new,
                                 SyncTagPacket::handle,

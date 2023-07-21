@@ -7,6 +7,8 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
+import static com.lnatit.bctrl.BulletChatController.MODLOG;
+
 public class SyncTagPacket
 {
     private final boolean add;
@@ -35,13 +37,7 @@ public class SyncTagPacket
         NetworkEvent.Context context = contextSupplier.get();
 
         context.enqueueWork(() -> {
-            LocalPlayer player = Minecraft.getInstance().player;
-            if (player != null)
-            {
-                if (packet.add)
-                    player.addTag(packet.tag);
-                else player.removeTag(packet.tag);
-            }
+            MODLOG.info("Received SyncTagPacket from server, pass to BulletChat handler.");
 
             context.setPacketHandled(true);
         });
