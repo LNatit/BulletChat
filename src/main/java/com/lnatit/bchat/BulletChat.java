@@ -30,7 +30,6 @@ public class BulletChat
         {
             MODLOG.warn("Bullet Chat is not designed for dedicated server!");
             MODLOG.warn("Please remove it from mods directory if possible!");
-            NetworkManager.register();
             return;
         }
 
@@ -43,6 +42,7 @@ public class BulletChat
                 .get()
                 .registerExtensionPoint(FACTORY.getClass(), () -> FACTORY);
 
+        NetworkManager.register();
         BlackListManager.init();
     }
 

@@ -7,6 +7,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
+// TODO modify logic
 public class ControllerPacket
 {
     private final boolean enable;
