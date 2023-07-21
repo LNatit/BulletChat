@@ -14,6 +14,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
     {
         super(content, sender);
         this.prePosX = (getScaledWidth() - MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage())) / 2.0f;
+        this.prePosX = alignPosXInNDS(prePosX);
     }
 
     public static class Top extends BulletMessageCentered

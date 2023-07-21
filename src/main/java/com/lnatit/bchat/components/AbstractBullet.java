@@ -9,6 +9,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
+import static java.lang.Math.round;
 
 public abstract class AbstractBullet
 {
@@ -94,5 +95,10 @@ public abstract class AbstractBullet
     protected static int getScaledWidth()
     {
         return Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / ConfigManager.getScale());
+    }
+
+    protected static float alignPosXInNDS(float posX)
+    {
+        return round(posX * ConfigManager.getScale()) / ConfigManager.getScale();
     }
 }

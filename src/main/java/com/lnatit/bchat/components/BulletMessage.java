@@ -22,6 +22,7 @@ public class BulletMessage extends AbstractBullet
         super.launch(track);
         this.departed = false;
         this.prePosX = getScaledWidth();
+        this.prePosX = alignPosXInNDS(prePosX);
         this.posX = prePosX - ConfigManager.getSpeed();
     }
 
@@ -93,6 +94,7 @@ public class BulletMessage extends AbstractBullet
         {
             super.launch(track);
             this.prePosX = -MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
+            this.prePosX = alignPosXInNDS(prePosX);
             this.posX = prePosX + ConfigManager.getSpeed();
         }
 
