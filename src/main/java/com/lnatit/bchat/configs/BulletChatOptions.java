@@ -32,10 +32,10 @@ public class BulletChatOptions
                                                                                                           (int) (value * 100.0D)
                                                                   ),
                                                                   OptionInstance.UnitDouble.INSTANCE.xmap(
-                                                                          (value -> value * 4.8D + 0.2D),
-                                                                          (value -> (value - 0.2D) / 4.8D)
+                                                                          (value -> value * 9.0D + 3.0D),
+                                                                          (value -> (value - 3.0D) / 9.0D)
                                                                   ),
-                                                                  Codec.doubleRange(0.2D, 5.0D),
+                                                                  Codec.doubleRange(3.0D, 12.0D),
                                                                   (double) ConfigManager.getSpeed(),
                                                                   ConfigManager::setSpeed
         );

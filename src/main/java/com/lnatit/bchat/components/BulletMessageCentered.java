@@ -13,7 +13,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
     public BulletMessageCentered(MutableComponent content, String sender)
     {
         super(content, sender);
-        this.posX = (((float) MINECRAFT.getWindow().getGuiScaledWidth()) - MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage())) / 2.0f;
+        this.prePosX = (getScaledWidth() - MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage())) / 2.0f;
     }
 
     public static class Top extends BulletMessageCentered
@@ -49,7 +49,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
             int posY = this.getTrack() * trackHeight;
 
             graphics.pose().pushPose();
-            graphics.pose().translate(posX, posY, 50.0F);
+            graphics.pose().translate(prePosX, posY, 50.0F);
             graphics.drawString(MINECRAFT.font, this.getFullMessage(), 0, 0,
                                 16777215 + (ConfigManager.getOpacityInt() << 24), true
             );
@@ -96,7 +96,7 @@ public abstract class BulletMessageCentered extends AbstractBullet
             int posY = MINECRAFT.getWindow().getGuiScaledHeight() - (this.getTrack() + 1) * trackHeight;
 
             graphics.pose().pushPose();
-            graphics.pose().translate(posX, posY, 50.0F);
+            graphics.pose().translate(prePosX, posY, 50.0F);
             graphics.drawString(MINECRAFT.font, this.getFullMessage(), 0, 0,
                                 16777215 + (ConfigManager.getOpacityInt() << 24), true
             );

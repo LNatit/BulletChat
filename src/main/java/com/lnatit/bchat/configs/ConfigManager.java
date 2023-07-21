@@ -32,7 +32,7 @@ public class ConfigManager
         ConfigManager.enable = enable;
     }
 
-    private static boolean enable;
+    private static boolean enable = true;
 
     private static int trackOffset;
     private static int trackHeight;

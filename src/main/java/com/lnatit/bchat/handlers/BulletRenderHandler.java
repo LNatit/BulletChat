@@ -3,12 +3,10 @@ package com.lnatit.bchat.handlers;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import com.lnatit.bchat.configs.ConfigManager;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,41 +23,28 @@ public class BulletRenderHandler
      change to player_list to render bullet on top of chat_panel won't work
      set Z offset!!!
     */
-    @SuppressWarnings("UnstableApiUsage")
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onGuiRendered(RenderGuiOverlayEvent.Pre event)
     {
-        if (ConfigManager.disabled())
+        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type() || ConfigManager.disabled())
             return;
 
-        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type())
-            return;
-
-        GuiGraphics guiGraphics = event.getGuiGraphics();
-        float partialTick = event.getPartialTick();
+        // Move to ModBusHandler
+//        BulletComponent.INSTANCE.render(guiGraphics, partialTick);
 
         if (MINECRAFT.screen instanceof ChatScreen)
             ChatBadge.INSTANCE.setVisible(false);
         else if (ConfigManager.getHideChat())
         {
             event.setCanceled(true);
-            ChatBadge.INSTANCE.render(guiGraphics);
-
-            // Post post event for compatibility
-            MinecraftForge.EVENT_BUS.post(
-                    new RenderGuiOverlayEvent.Post(MINECRAFT.getWindow(),
-                                                   guiGraphics,
-                                                   partialTick,
-                                                   event.getOverlay()
-                    ));
+            ChatBadge.INSTANCE.render(event.getGuiGraphics());
         }
-
-        BulletComponent.INSTANCE.render(guiGraphics, partialTick);
     }
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event)
     {
-        BulletComponent.INSTANCE.tick();
+        if (event.phase == TickEvent.Phase.START)
+            BulletComponent.INSTANCE.tick();
     }
 }

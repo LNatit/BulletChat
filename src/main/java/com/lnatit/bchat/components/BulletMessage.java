@@ -21,7 +21,8 @@ public class BulletMessage extends AbstractBullet
     {
         super.launch(track);
         this.departed = false;
-        this.posX = Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / ConfigManager.getScale());
+        this.prePosX = getScaledWidth();
+        this.posX = prePosX - ConfigManager.getSpeed();
     }
 
     @Override
@@ -30,7 +31,7 @@ public class BulletMessage extends AbstractBullet
         if (!this.isHidden())
         {
             // DONE add terminate judgement
-            float endPos = this.posX + MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
+            float endPos = this.prePosX + MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
             if (endPos < -5.0F)
             {
                 this.terminate();
@@ -38,12 +39,13 @@ public class BulletMessage extends AbstractBullet
             }
 
             // DONE check departure & write to map
-            if (endPos < MINECRAFT.getWindow().getGuiScaledWidth() != departed)
+            if (endPos < getScaledWidth() != departed)
             {
                 BulletComponent.INSTANCE.trackMap[this.getTrack()] = false;
                 departed = true;
             }
 
+            this.prePosX = posX;
             this.posX -= ConfigManager.getSpeed();
         }
     }
@@ -76,7 +78,7 @@ public class BulletMessage extends AbstractBullet
 
     public float getExactPosX(float partialTick)
     {
-        return this.posX - ConfigManager.getSpeed() * partialTick;
+        return Mth.lerp(partialTick, prePosX, posX);
     }
 
     public static class Reversed extends BulletMessage
@@ -90,7 +92,8 @@ public class BulletMessage extends AbstractBullet
         public void launch(int track)
         {
             super.launch(track);
-            this.posX = -MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
+            this.prePosX = -MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
+            this.posX = prePosX + ConfigManager.getSpeed();
         }
 
         @Override
@@ -99,19 +102,20 @@ public class BulletMessage extends AbstractBullet
             if (!this.isHidden())
             {
                 // DONE add terminate judgement
-                if (this.posX - MINECRAFT.getWindow().getGuiScaledWidth() > 5.0F)
+                if (this.prePosX - getScaledWidth() > 5.0F)
                 {
                     this.terminate();
                     return;
                 }
 
                 // DONE check departure & write to map
-                if (this.posX > 0 != this.departed)
+                if (this.prePosX > 0 != this.departed)
                 {
                     BulletComponent.INSTANCE.trackMapReversed[this.getTrack()] = false;
                     departed = true;
                 }
 
+                this.prePosX = posX;
                 this.posX += ConfigManager.getSpeed();
             }
         }
@@ -120,12 +124,6 @@ public class BulletMessage extends AbstractBullet
         public char getId()
         {
             return REVERSED;
-        }
-
-        @Override
-        public float getExactPosX(float partialTick)
-        {
-            return this.posX + ConfigManager.getSpeed() * partialTick;
         }
     }
 }

@@ -19,8 +19,6 @@ public class BulletChatConfig
     public static ForgeConfigSpec.IntValue TOP_OFFSET;
     public static ForgeConfigSpec.IntValue TRACK_NUM;
 
-    public static ForgeConfigSpec.ConfigValue<String> SERVER_TOKEN;
-
     static
     {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -32,7 +30,7 @@ public class BulletChatConfig
                          "Unit: SPs per tick",
                          "default: 2.0"
                 )
-                .defineInRange("bullet_speed", 2.0D, 0.2D, 5.0D);
+                .defineInRange("bullet_speed", 6.0D, 3.0D, 12.0D);
 
         BULLET_LIFE = builder
                 .comment("Life of centered bullets",
@@ -107,13 +105,6 @@ public class BulletChatConfig
                          "This value will be chopped by other settings"
                 )
                 .defineInRange("track_num", 12, 1, 64);
-
-        SERVER_TOKEN = builder
-                .comment("Check Quoth I for more info",
-                         "You should not modify this entry in any case!!!",
-                         "default: \"bchat\""
-                )
-                .define("server_token", "bchat");
 
         CLIENT_CONFIG = builder.build();
     }

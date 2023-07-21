@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.util.Mth;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 
@@ -16,6 +17,7 @@ public abstract class AbstractBullet
     public static final char TOP = 't';
     public static final char BUTTON = 'b';
 
+    protected float prePosX;
     protected float posX;
     protected final MutableComponent message;
     protected final String sender;
@@ -88,4 +90,9 @@ public abstract class AbstractBullet
     }
 
     public abstract char getId();
+
+    protected static int getScaledWidth()
+    {
+        return Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / ConfigManager.getScale());
+    }
 }
