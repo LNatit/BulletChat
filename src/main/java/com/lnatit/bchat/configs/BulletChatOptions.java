@@ -7,7 +7,6 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
@@ -37,43 +36,43 @@ public class BulletChatOptions
                                                                           (value -> (value - 0.2D) / 4.8D)
                                                                   ),
                                                                   Codec.doubleRange(0.2D, 5.0D),
-                                                                  (double) BulletChatInitializer.getSpeed(),
-                                                                  BulletChatInitializer::setSpeed
+                                                                  (double) ConfigManager.getSpeed(),
+                                                                  ConfigManager::setSpeed
         );
         OptionInstance<Integer> bulletLife = new OptionInstance<>("options.bchat.bullet_life",
                                                                   OptionInstance.noTooltip(),
                                                                   BulletChatOptions::genericValueLabel,
                                                                   new OptionInstance.IntRange(20, 400),
-                                                                  BulletChatInitializer.getLife(),
-                                                                  BulletChatInitializer::setLife
+                                                                  ConfigManager.getLife(),
+                                                                  ConfigManager::setLife
         );
         OptionInstance<Integer> maxBullet = new OptionInstance<>("options.bchat.max_bullet",
                                                                  OptionInstance.noTooltip(),
                                                                  BulletChatOptions::genericValueLabel,
                                                                  new OptionInstance.IntRange(10, 800),
-                                                                 BulletChatInitializer.getMaxBullet(),
-                                                                 BulletChatInitializer::setMaxBullet
+                                                                 ConfigManager.getMaxBullet(),
+                                                                 ConfigManager::setMaxBullet
         );
         OptionInstance<Integer> minFps = new OptionInstance<>("options.bchat.min_fps", OptionInstance.noTooltip(),
                                                               BulletChatOptions::genericValueLabel,
                                                               new OptionInstance.IntRange(0, 144),
-                                                              BulletChatInitializer.getMinFps(),
-                                                              BulletChatInitializer::setMinFps
+                                                              ConfigManager.getMinFps(),
+                                                              ConfigManager::setMinFps
         );
         OptionInstance<Boolean> showSender = OptionInstance.createBoolean("options.bchat.show_sender",
-                                                                          BulletChatInitializer.getShowSender(),
-                                                                          BulletChatInitializer::setShowSender
+                                                                          ConfigManager.getShowSender(),
+                                                                          ConfigManager::setShowSender
         );
         OptionInstance<Boolean> hideChat = OptionInstance.createBoolean("options.bchat.hide_chat",
-                                                                        BulletChatInitializer.getHideChat(),
-                                                                        BulletChatInitializer::setHideChat
+                                                                        ConfigManager.getHideChat(),
+                                                                        ConfigManager::setHideChat
         );
         OptionInstance<Boolean> parseTell = OptionInstance.createBoolean("options.bchat.parse_tell",
-                                                                         BulletChatInitializer.getParseTell(),
-                                                                         BulletChatInitializer::setParseTell
+                                                                         ConfigManager.getParseTell(),
+                                                                         ConfigManager::setParseTell
         );
         OptionInstance<Boolean> adoptChat = OptionInstance.createBoolean("options.bchat.adopt_chat",
-                                                                         BulletChatInitializer.getAdoptChat(),
+                                                                         ConfigManager.getAdoptChat(),
                                                                          BulletChatOptions::onAdoptChatChanged
         );
         // DONE modify xmap()
@@ -91,8 +90,8 @@ public class BulletChatOptions
                                                                        (value -> (value - 0.2D) / 1.8D)
                                                                ),
                                                                Codec.doubleRange(0.2D, 2.0D),
-                                                               (double) BulletChatInitializer.getScale(),
-                                                               BulletChatInitializer::setTextSize
+                                                               (double) ConfigManager.getScale(),
+                                                               ConfigManager::setTextSize
         );
         OptionInstance<Double> opacity = new OptionInstance<>("options.bchat.opacity", OptionInstance.noTooltip(),
                                                               (component, value) -> percentValueLabel(component,
@@ -103,8 +102,8 @@ public class BulletChatOptions
                                                                       (value -> (value - 0.2D) / 0.8D)
                                                               ),
                                                               Codec.doubleRange(0.2D, 1.0D),
-                                                              BulletChatInitializer.getOpacity(),
-                                                              BulletChatInitializer::setOpacity
+                                                              ConfigManager.getOpacity(),
+                                                              ConfigManager::setOpacity
         );
         OptionInstance<Double> lineSpacing = new OptionInstance<>("options.bchat.line_spacing",
                                                                   OptionInstance.noTooltip(),
@@ -112,21 +111,21 @@ public class BulletChatOptions
                                                                                                           (int) (value * 100.0D)
                                                                   ),
                                                                   OptionInstance.UnitDouble.INSTANCE,
-                                                                  BulletChatInitializer.getLineSpacing(),
-                                                                  BulletChatInitializer::setLineSpacing
+                                                                  ConfigManager.getLineSpacing(),
+                                                                  ConfigManager::setLineSpacing
         );
         topOffset = new OptionInstance<>("options.bchat.top_offset",
-                                                                 OptionInstance.cachedConstantTooltip(CHOPPED_VALUES),
-                                                                 BulletChatOptions::genericValueLabel,
-                                                                 new OptionInstance.IntRange(0, 400),
-                                                                 BulletChatInitializer.getTopOffset(),
-                                                                 BulletChatInitializer::setTopOffset
+                                         OptionInstance.cachedConstantTooltip(CHOPPED_VALUES),
+                                         BulletChatOptions::genericValueLabel,
+                                         new OptionInstance.IntRange(0, 400),
+                                         ConfigManager.getTopOffset(),
+                                         ConfigManager::setTopOffset
         );
         trackNum = new OptionInstance<>("options.bchat.track_num", OptionInstance.cachedConstantTooltip(CHOPPED_VALUES),
-                                                                BulletChatOptions::genericValueLabel,
-                                                                new OptionInstance.IntRange(1, 64),
-                                                                BulletChatInitializer.getTracks(),
-                                                                BulletChatInitializer::setTrackNum
+                                        BulletChatOptions::genericValueLabel,
+                                        new OptionInstance.IntRange(1, 64),
+                                        ConfigManager.getTracks(),
+                                        ConfigManager::setTrackNum
         );
 
         OPTIONS = new OptionInstance[]{bulletSpeed, bulletLife, maxBullet, minFps, showSender, hideChat, parseTell, adoptChat, textSize, opacity, lineSpacing, topOffset, trackNum};
@@ -161,7 +160,7 @@ public class BulletChatOptions
     // DONE disable options when adoptChat changed
     private static void onAdoptChatChanged(boolean adoptChat)
     {
-        BulletChatInitializer.setAdoptChat(adoptChat);
+        ConfigManager.setAdoptChat(adoptChat);
         if (screen == null)
             MODLOG.warn("Illegal changes on options!");
         else
@@ -170,7 +169,7 @@ public class BulletChatOptions
 
     public static void writeToOptions()
     {
-        INSTANCE.topOffset.set(BulletChatInitializer.getTopOffset());
-        INSTANCE.trackNum.set(BulletChatInitializer.getTracks());
+        INSTANCE.topOffset.set(ConfigManager.getTopOffset());
+        INSTANCE.trackNum.set(ConfigManager.getTracks());
     }
 }

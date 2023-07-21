@@ -1,6 +1,6 @@
 package com.lnatit.bchat.components;
 
-import com.lnatit.bchat.configs.BulletChatInitializer;
+import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -54,7 +54,7 @@ public abstract class AbstractBullet
     public void createMessage()
     {
         MutableComponent msg = this.message;
-        if (BulletChatInitializer.getShowSender())
+        if (ConfigManager.getShowSender())
             msg = Component.literal("<" + this.sender + "> ").append(msg);
         if (this.sender.equals(MINECRAFT.getUser().getName()))
             msg.withStyle(ChatFormatting.UNDERLINE);

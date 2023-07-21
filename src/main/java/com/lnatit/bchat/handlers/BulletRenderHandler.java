@@ -2,8 +2,7 @@ package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
-import com.lnatit.bchat.configs.BulletChatConfig;
-import com.lnatit.bchat.configs.BulletChatInitializer;
+import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,8 +29,7 @@ public class BulletRenderHandler
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void onGuiRendered(RenderGuiOverlayEvent.Pre event)
     {
-        // Check QuothI token
-        if (MINECRAFT.player != null && MINECRAFT.player.getTags().contains(BulletChatConfig.SERVER_TOKEN.get()))
+        if (ConfigManager.disabled())
             return;
 
         if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type())
@@ -42,7 +40,7 @@ public class BulletRenderHandler
 
         if (MINECRAFT.screen instanceof ChatScreen)
             ChatBadge.INSTANCE.setVisible(false);
-        else if (BulletChatInitializer.getHideChat())
+        else if (ConfigManager.getHideChat())
         {
             event.setCanceled(true);
             ChatBadge.INSTANCE.render(guiGraphics);

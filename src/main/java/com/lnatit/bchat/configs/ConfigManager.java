@@ -2,14 +2,38 @@ package com.lnatit.bchat.configs;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
 // TODO optimize logic
-public class BulletChatInitializer
+public class ConfigManager
 {
+    public static boolean disabled()
+    {
+        return !enable;
+    }
+
+    public static void enable(byte type, Component[] prompts)
+    {
+        // TODO
+        setEnable(true);
+    }
+
+    public static void disable(byte type, Component[] prompts)
+    {
+        setEnable(false);
+    }
+
+    public static void setEnable(boolean enable)
+    {
+        ConfigManager.enable = enable;
+    }
+
+    private static boolean enable;
+
     private static int trackOffset;
     private static int trackHeight;
 
@@ -177,67 +201,67 @@ public class BulletChatInitializer
 
     public static void setSpeed(double speed)
     {
-        BulletChatInitializer.speed = (float) speed;
+        ConfigManager.speed = (float) speed;
     }
 
     public static void setLife(int life)
     {
-        BulletChatInitializer.life = life;
+        ConfigManager.life = life;
     }
 
     public static void setMaxBullet(int maxBullet)
     {
-        BulletChatInitializer.maxBullet = maxBullet;
+        ConfigManager.maxBullet = maxBullet;
     }
 
     public static void setMinFps(int minFps)
     {
-        BulletChatInitializer.minFps = minFps;
+        ConfigManager.minFps = minFps;
     }
 
     public static void setShowSender(boolean showSender)
     {
-        BulletChatInitializer.showSender = showSender;
+        ConfigManager.showSender = showSender;
     }
 
     public static void setHideChat(boolean hideChat)
     {
-        BulletChatInitializer.hideChat = hideChat;
+        ConfigManager.hideChat = hideChat;
     }
 
     public static void setParseTell(boolean parseTell)
     {
-        BulletChatInitializer.parseTell = parseTell;
+        ConfigManager.parseTell = parseTell;
     }
 
     public static void setAdoptChat(boolean adoptChat)
     {
-        BulletChatInitializer.adoptChat = adoptChat;
+        ConfigManager.adoptChat = adoptChat;
     }
 
     public static void setTextSize(double textSize)
     {
-        BulletChatInitializer.textSize = (float) textSize;
+        ConfigManager.textSize = (float) textSize;
     }
 
     public static void setOpacity(double opacity)
     {
-        BulletChatInitializer.opacity = opacity;
+        ConfigManager.opacity = opacity;
     }
 
     public static void setLineSpacing(double lineSpacing)
     {
-        BulletChatInitializer.lineSpacing = (float) lineSpacing;
+        ConfigManager.lineSpacing = (float) lineSpacing;
     }
 
     public static void setTopOffset(int topOffset)
     {
-        BulletChatInitializer.topOffset = topOffset;
+        ConfigManager.topOffset = topOffset;
     }
 
     public static void setTrackNum(int trackNum)
     {
-        BulletChatInitializer.trackNum = trackNum;
+        ConfigManager.trackNum = trackNum;
     }
 
     // DONE

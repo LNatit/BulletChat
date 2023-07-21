@@ -1,6 +1,6 @@
 package com.lnatit.bchat.components;
 
-import com.lnatit.bchat.configs.BulletChatInitializer;
+import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
@@ -21,7 +21,7 @@ public class BulletMessage extends AbstractBullet
     {
         super.launch(track);
         this.departed = false;
-        this.posX = Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / BulletChatInitializer.getScale());
+        this.posX = Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / ConfigManager.getScale());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BulletMessage extends AbstractBullet
                 departed = true;
             }
 
-            this.posX -= BulletChatInitializer.getSpeed();
+            this.posX -= ConfigManager.getSpeed();
         }
     }
 
@@ -56,14 +56,14 @@ public class BulletMessage extends AbstractBullet
             return;
 
         // DONE subtract & reuse logic
-        int trackHeight = BulletChatInitializer.getTrackHeight();
-        int posY = BulletChatInitializer.getTrackOffset() - this.getTrack() * trackHeight;
+        int trackHeight = ConfigManager.getTrackHeight();
+        int posY = ConfigManager.getTrackOffset() - this.getTrack() * trackHeight;
 
         graphics.pose().pushPose();
         // DONE 使用 pose stack 缩放字体 in BulletComponent::render
         graphics.pose().translate(getExactPosX(partialTick), posY, 50.0F);
         graphics.drawString(MINECRAFT.font, this.getFullMessage(), 0, 0,
-                            16777215 + (BulletChatInitializer.getOpacityInt() << 24), true
+                            16777215 + (ConfigManager.getOpacityInt() << 24), true
         );
         graphics.pose().popPose();
     }
@@ -76,7 +76,7 @@ public class BulletMessage extends AbstractBullet
 
     public float getExactPosX(float partialTick)
     {
-        return this.posX - BulletChatInitializer.getSpeed() * partialTick;
+        return this.posX - ConfigManager.getSpeed() * partialTick;
     }
 
     public static class Reversed extends BulletMessage
@@ -112,7 +112,7 @@ public class BulletMessage extends AbstractBullet
                     departed = true;
                 }
 
-                this.posX += BulletChatInitializer.getSpeed();
+                this.posX += ConfigManager.getSpeed();
             }
         }
 
@@ -125,7 +125,7 @@ public class BulletMessage extends AbstractBullet
         @Override
         public float getExactPosX(float partialTick)
         {
-            return this.posX + BulletChatInitializer.getSpeed() * partialTick;
+            return this.posX + ConfigManager.getSpeed() * partialTick;
         }
     }
 }

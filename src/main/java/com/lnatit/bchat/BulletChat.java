@@ -3,6 +3,7 @@ package com.lnatit.bchat;
 import com.lnatit.bchat.configs.BlackListManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import com.lnatit.bchat.gui.BulletOptionsScreen;
+import com.lnatit.bctrl.networks.NetworkManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,6 +30,7 @@ public class BulletChat
         {
             MODLOG.warn("Bullet Chat is not designed for dedicated server!");
             MODLOG.warn("Please remove it from mods directory if possible!");
+            NetworkManager.register();
             return;
         }
 

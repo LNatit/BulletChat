@@ -1,7 +1,7 @@
 package com.lnatit.bchat.components;
 
 import com.lnatit.bchat.configs.BlackListManager;
-import com.lnatit.bchat.configs.BulletChatInitializer;
+import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -55,7 +55,7 @@ public class BulletComponent
     private void init()
     {
         int maxTracksLast = this.trackMap == null ? 0 : this.trackMap.length;
-        int maxTracks = BulletChatInitializer.getTracks();
+        int maxTracks = ConfigManager.getTracks();
 
         if (this.trackMap == null || maxTracks != this.trackMap.length)
         {
@@ -95,7 +95,7 @@ public class BulletComponent
                 bullet.tick();
                 bulletNum++;
             }
-            else if (bulletNum <= BulletChatInitializer.getMaxBullet() && MINECRAFT.getFps() >= BulletChatInitializer.getMinFps())
+            else if (bulletNum <= ConfigManager.getMaxBullet() && MINECRAFT.getFps() >= ConfigManager.getMinFps())
             {
                 int track = this.getTrack(bullet.getId());
                 if (track != -1)
@@ -120,7 +120,7 @@ public class BulletComponent
     public void render(GuiGraphics graphics, float partialTick)
     {
         // DONE consider font size impact
-        float scale = BulletChatInitializer.getScale();
+        float scale = ConfigManager.getScale();
         graphics.pose().pushPose();
         // modify pose with chat scale
         graphics.pose().scale(scale, scale, 1.0F);

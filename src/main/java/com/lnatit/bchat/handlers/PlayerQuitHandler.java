@@ -2,9 +2,9 @@ package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
+import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -23,5 +23,6 @@ public class PlayerQuitHandler
         BulletComponent.INSTANCE.clearMessages(true);
         ChatBadge.INSTANCE.setVisible(false);
         MODLOG.info("Bullets' all Clear~");
+        ConfigManager.setEnable(true);
     }
 }

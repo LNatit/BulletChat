@@ -1,7 +1,7 @@
 package com.lnatit.bchat.gui;
 
 import com.lnatit.bchat.configs.BlackListManager;
-import com.lnatit.bchat.configs.BulletChatInitializer;
+import com.lnatit.bchat.configs.ConfigManager;
 import com.lnatit.bchat.configs.BulletChatOptions;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -27,8 +27,8 @@ public class BulletOptionsScreen extends SimpleOptionsSubScreen
     @Override
     public void removed()
     {
-        BulletChatInitializer.writeToConfig();
-        BulletChatInitializer.init(false);
+        ConfigManager.writeToConfig();
+        ConfigManager.init(false);
         BulletChatOptions.writeToOptions();
         BulletChatOptions.bindScreen(this, false);
     }
@@ -37,7 +37,7 @@ public class BulletOptionsScreen extends SimpleOptionsSubScreen
     protected void init()
     {
         super.init();
-        this.updateButtons(BulletChatInitializer.getAdoptChat());
+        this.updateButtons(ConfigManager.getAdoptChat());
     }
 
     @Override
