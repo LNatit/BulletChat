@@ -25,20 +25,16 @@ public class NetworkManager
 
     public static void register()
     {
-        CHANNEL.registerMessage(0, SyncTagPacket.class,
-                                SyncTagPacket::encode,
-                                SyncTagPacket::new,
-                                SyncTagPacket::handle,
+        CHANNEL.registerMessage(0, ControllerPacket.class,
+                                ControllerPacket::encode,
+                                ControllerPacket::new,
+                                ControllerPacket::handle,
                                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
     }
 
-    public static void sendTagUpdate(ServerPlayer player, boolean add, String tag)
+    public static void sendUpdatePack(ServerPlayer player, ControllerPacket packet)
     {
-        if (add)
-            player.addTag(tag);
-        else player.removeTag(tag);
-
-        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncTagPacket(add, tag));
+        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
     }
 }

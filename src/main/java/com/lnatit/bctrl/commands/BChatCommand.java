@@ -1,5 +1,6 @@
 package com.lnatit.bctrl.commands;
 
+import com.lnatit.bctrl.networks.ControllerPacket;
 import com.lnatit.bctrl.networks.NetworkManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -13,8 +14,6 @@ import net.minecraftforge.fml.ModList;
 
 public class BChatCommand
 {
-    public static final String TOKEN = "94q7r4sp";
-
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
     {
         if (ModList.get().isLoaded("bchat"))
@@ -24,12 +23,12 @@ public class BChatCommand
             builder.requires(executor -> executor.hasPermission(2))
                    .then(Commands.literal("enable")
                                  .then(Commands.argument("targets", EntityArgument.players())
-                                               .executes((c) -> setBchat(c, false))
+                                               .executes((c) -> setBchat(c, true))
                                  )
                    )
                    .then(Commands.literal("disable")
                                  .then(Commands.argument("targets", EntityArgument.players())
-                                               .executes((c) -> setBchat(c, true))
+                                               .executes((c) -> setBchat(c, false))
                                  )
                    );
 
@@ -37,10 +36,10 @@ public class BChatCommand
         }
     }
 
-    private static int setBchat(CommandContext<CommandSourceStack> context, boolean add) throws CommandSyntaxException
+    private static int setBchat(CommandContext<CommandSourceStack> context, boolean enable) throws CommandSyntaxException
     {
         for (ServerPlayer player : EntityArgument.getPlayers(context, "targets"))
-            NetworkManager.sendTagUpdate(player, add, TOKEN);
+            NetworkManager.sendUpdatePack(player, new ControllerPacket(enable, (byte) 0));
 
         return 0;
     }
