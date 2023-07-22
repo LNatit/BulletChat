@@ -1,7 +1,7 @@
 package com.lnatit.bctrl;
 
 import com.lnatit.bctrl.networks.NetworkManager;
-import com.lnatit.bctrl.presets.BulletControllerHat;
+import com.lnatit.bctrl.presets.BulletVisionItem;
 import com.lnatit.bctrl.presets.BulletControllerItem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.Item;
@@ -25,7 +25,7 @@ public class BulletChatController
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
     public static final RegistryObject<BulletControllerItem> CONTROLLER = ITEMS.register(BulletControllerItem.ITEM_NAME, BulletControllerItem::new);
-    public static final RegistryObject<BulletControllerHat> HAT = ITEMS.register(BulletControllerHat.ITEM_NAME, BulletControllerHat::new);
+    public static final RegistryObject<BulletVisionItem> HAT = ITEMS.register(BulletVisionItem.ITEM_NAME, BulletVisionItem::new);
 
     public BulletChatController()
     {
