@@ -23,7 +23,7 @@ public class ModBusHandler
         event.registerAbove(CHAT_PANEL.id(), "bullet_layer",
                             ((gui, guiGraphics, partialTick, screenWidth, screenHeight) ->
                             {
-                                if (ConfigManager.shouldRender())
+                                if (ConfigManager.shouldSkipRender())
                                     return;
 
                                 RenderSystem.enableBlend();
