@@ -10,30 +10,45 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import java.util.Optional;
 
 import static com.lnatit.bctrl.BulletChatController.MODID;
+import static com.lnatit.bctrl.BulletChatController.MODLOG;
 import static net.minecraftforge.network.NetworkRegistry.ABSENT;
 
 public class NetworkManager
 {
-    private static final String PROTOCOL_VER = "be33";
+    private static final String SERVER_VER = "h9c5";
+    private static final String CLIENT_VER = "be33";
 
-    private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, "channel"),
-                                                                                 () -> PROTOCOL_VER,
-                                                                                  PROTOCOL_VER::equals,
-                                                                                  ABSENT.version()::equals
+    private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+            new ResourceLocation(MODID, "channel"),
+            () -> SERVER_VER,
+            SERVER_VER::equals,
+            NetworkManager::serverHandShake
     );
+
+    public static boolean serverHandShake(String clientVersion)
+    {
+        if (clientVersion.equals(ABSENT.version()))
+        {
+            MODLOG.info("Client don't have bullet chat.");
+            return true;
+        }
+        else return clientVersion.equals(CLIENT_VER);
+    }
 
     public static void register()
     {
-        CHANNEL.registerMessage(0, ControllerPacket.class,
-                                ControllerPacket::encode,
-                                ControllerPacket::new,
-                                ControllerPacket::handle,
-                                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
-        );
+        // no longer useful
+//        CHANNEL.registerMessage(0, ControllerPacket.class,
+//                                ControllerPacket::encode,
+//                                ControllerPacket::new,
+//                                ControllerPacket::handle,
+//                                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
+//        );
     }
 
+    @Deprecated
     public static void sendUpdatePack(ServerPlayer player, ControllerPacket packet)
     {
-        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
+//        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
     }
 }

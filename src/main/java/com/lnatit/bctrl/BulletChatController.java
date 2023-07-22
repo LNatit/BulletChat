@@ -4,8 +4,6 @@ import com.lnatit.bctrl.networks.NetworkManager;
 import com.lnatit.bctrl.presets.BulletControllerHat;
 import com.lnatit.bctrl.presets.BulletControllerItem;
 import com.mojang.logging.LogUtils;
-import net.minecraft.server.commands.TriggerCommand;
-import net.minecraft.world.entity.ai.behavior.declarative.Trigger;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
