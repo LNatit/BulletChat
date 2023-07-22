@@ -7,6 +7,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static com.lnatit.bctrl.BulletChatController.MODID;
@@ -28,11 +29,10 @@ public class NetworkManager
     public static boolean serverHandShake(String clientVersion)
     {
         if (clientVersion.equals(ABSENT.version()))
-        {
-            MODLOG.info("Client don't have bullet chat.");
             return true;
-        }
-        else return clientVersion.equals(CLIENT_VER);
+        else if (clientVersion.equals(CLIENT_VER))
+            MODLOG.info("Client have Bullet Chat.");
+        return clientVersion.equals(CLIENT_VER);
     }
 
     public static void register()
