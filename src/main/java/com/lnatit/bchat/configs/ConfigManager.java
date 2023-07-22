@@ -2,18 +2,25 @@ package com.lnatit.bchat.configs;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
-import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Item;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
-// TODO optimize logic
 public class ConfigManager
 {
-    public static boolean shouldRender()
+    public static final TagKey<Item> CTRL_TAG = ItemTags.create(new ResourceLocation("bullet_vision"));
+
+    public static boolean shouldSkipRender()
     {
-        return serverCtrl;
+        if (serverCtrl && MINECRAFT.player != null)
+            return !MINECRAFT.player.getInventory().armor.get(EquipmentSlot.HEAD.getIndex()).is(CTRL_TAG);
+        else return false;
     }
 
     public static void setServerCtrl(boolean serverCtrl)

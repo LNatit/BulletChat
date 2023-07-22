@@ -3,7 +3,7 @@ package com.lnatit.bchat;
 import com.lnatit.bchat.configs.BlackListManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import com.lnatit.bchat.gui.BulletOptionsScreen;
-import com.lnatit.bctrl.networks.NetworkManager;
+import com.lnatit.bchat.bctrl.NetworkManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;

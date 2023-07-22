@@ -1,4 +1,4 @@
-package com.lnatit.bctrl.networks;
+package com.lnatit.bchat.bctrl;
 
 import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.network.FriendlyByteBuf;
