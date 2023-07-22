@@ -1,5 +1,6 @@
 package com.lnatit.bchat.configs;
 
+import com.lnatit.bchat.bctrl.NetworkManager;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +15,7 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 
 public class ConfigManager
 {
-    public static final TagKey<Item> CTRL_TAG = ItemTags.create(new ResourceLocation("bullet_vision"));
+    public static final TagKey<Item> CTRL_TAG = ItemTags.create(new ResourceLocation(NetworkManager.CHANNEL_ID, "bullet_vision"));
 
     public static boolean shouldSkipRender()
     {
