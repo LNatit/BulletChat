@@ -1,5 +1,6 @@
 package com.lnatit.bchat.bctrl;
 
+import com.lnatit.bchat.configs.ConfigManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
@@ -33,6 +34,7 @@ public class NetworkManager
         else if (serverVersion.equals(SERVER_VER))
         {
             CHANNEL_LOG.info("Joining server with bullet controller.");
+            ConfigManager.setServerCtrl(true);
             return true;
         }
         else return serverVersion.equals(CLIENT_VER);
