@@ -26,7 +26,7 @@ public class BulletRenderHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onGuiRendered(RenderGuiOverlayEvent.Pre event)
     {
-        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type() || ConfigManager.disabled())
+        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type() || ConfigManager.shouldRender())
             return;
 
         // Move to ModBusHandler

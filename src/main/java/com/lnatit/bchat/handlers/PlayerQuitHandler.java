@@ -23,6 +23,6 @@ public class PlayerQuitHandler
         BulletComponent.INSTANCE.clearMessages(true);
         ChatBadge.INSTANCE.setVisible(false);
         MODLOG.info("Bullets' all Clear~");
-        ConfigManager.setEnable(true);
+        ConfigManager.setServerCtrl(false);
     }
 }

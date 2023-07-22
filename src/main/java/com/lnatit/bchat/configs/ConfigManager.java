@@ -11,28 +11,17 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 // TODO optimize logic
 public class ConfigManager
 {
-    public static boolean disabled()
+    public static boolean shouldRender()
     {
-        return !enable;
+        return serverCtrl;
     }
 
-    public static void enable(byte type, Component[] prompts)
+    public static void setServerCtrl(boolean serverCtrl)
     {
-        // TODO
-        setEnable(true);
+        ConfigManager.serverCtrl = serverCtrl;
     }
 
-    public static void disable(byte type, Component[] prompts)
-    {
-        setEnable(false);
-    }
-
-    public static void setEnable(boolean enable)
-    {
-        ConfigManager.enable = enable;
-    }
-
-    private static boolean enable = true;
+    private static boolean serverCtrl = false;
 
     private static int trackOffset;
     private static int trackHeight;

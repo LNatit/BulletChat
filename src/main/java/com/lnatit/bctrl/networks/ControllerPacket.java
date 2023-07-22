@@ -41,10 +41,7 @@ public class ControllerPacket
         NetworkEvent.Context context = contextSupplier.get();
 
         context.enqueueWork(() -> {
-            if (packet.enable)
-                ConfigManager.enable(packet.typeFlags, packet.prompts);
-            else ConfigManager.disable(packet.typeFlags, packet.prompts);
-
+            ConfigManager.setServerCtrl(true);
             context.setPacketHandled(true);
         });
     }
