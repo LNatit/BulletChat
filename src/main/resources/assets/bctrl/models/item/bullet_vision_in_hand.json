@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "bctrl:item/vision_block",
-		"particle": "bctrl:item/vision_block"
+		"0": "block/texture",
+		"particle": "block/texture"
 	},
 	"elements": [
 		{
