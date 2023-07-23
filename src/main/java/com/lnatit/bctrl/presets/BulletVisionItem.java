@@ -1,10 +1,7 @@
 package com.lnatit.bctrl.presets;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,8 +14,6 @@ import org.jetbrains.annotations.NotNull;
 public class BulletVisionItem extends ArmorItem implements Equipable
 {
     public static final String ITEM_NAME = "bullet_vision";
-    // TODO define item tags in json
-    public static final TagKey<Item> CTRL_TAG = ItemTags.create(new ResourceLocation("bullet_vision"));
 
     public BulletVisionItem()
     {
