@@ -1,4 +1,5 @@
 {
+    "itemgroup.bctrl": "弹幕聊天控制",
     "item.bctrl.bullet_vision": "弹幕视野",
     "item.bctrl.bullet_controller": "弹幕控制器（WIP）"
 }

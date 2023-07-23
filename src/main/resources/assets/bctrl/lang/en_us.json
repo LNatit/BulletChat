@@ -1,4 +1,5 @@
 {
+    "itemgroup.bctrl": "Bullet Chat Controller",
     "item.bctrl.bullet_vision": "Bullet Vision",
     "item.bctrl.bullet_controller": "Bullet Controller"
 }
