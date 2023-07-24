@@ -1,5 +1,9 @@
 {
     "itemgroup.bctrl": "Bullet Chat Controller",
+    "item.bctrl.bullet_vision_flat": "Bullet Vision",
     "item.bctrl.bullet_vision": "Bullet Vision",
-    "item.bctrl.bullet_controller": "Bullet Controller"
+    "item.bctrl.bullet_controller": "Bullet Controller",
+    "tooltip.bctrl.vision_desc": "Your vision to bullet messages",
+    "tooltip.bctrl.vision_upgraded": "§6Tentative Model I",
+    "tooltip.bctrl.vision_meme": "§8§oTactical visor activated!"
 }

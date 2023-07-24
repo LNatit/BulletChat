@@ -1,5 +1,9 @@
 {
     "itemgroup.bctrl": "弹幕聊天控制",
-    "item.bctrl.bullet_vision": "弹幕视野",
-    "item.bctrl.bullet_controller": "弹幕控制器（WIP）"
+    "item.bctrl.bullet_vision_flat": "弹幕视野",
+    "item.bctrl.bullet_vision": "弹幕视野（试验型）",
+    "item.bctrl.bullet_controller": "弹幕控制器（WIP）",
+    "tooltip.bctrl.vision_desc": "装备以启用弹幕聊天",
+    "tooltip.bctrl.vision_upgraded": "§6试验I型",
+    "tooltip.bctrl.vision_meme": "§8§o§kGenshin§r§8§o，启动！"
 }
