@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import static com.lnatit.bctrl.BulletChatController.MODLOG;
 
+@Deprecated
 public class ControllerPacket
 {
     private final boolean enable;
