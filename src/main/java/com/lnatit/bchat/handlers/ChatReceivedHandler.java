@@ -27,6 +27,9 @@ public class ChatReceivedHandler
     @SubscribeEvent
     public static void onChatReceived(ClientChatReceivedEvent event)
     {
+        if (ConfigManager.shouldSkipRender())
+            return;
+
         MutableComponent component = (MutableComponent) event.getMessage();
 
         try

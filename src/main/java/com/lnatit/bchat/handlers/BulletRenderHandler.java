@@ -44,6 +44,9 @@ public class BulletRenderHandler
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event)
     {
+        if (ConfigManager.shouldSkipRender())
+            return;
+
         if (event.phase == TickEvent.Phase.START)
             BulletComponent.INSTANCE.tick();
     }
