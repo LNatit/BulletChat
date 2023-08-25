@@ -38,17 +38,5 @@ public class NetworkManager
     public static void register()
     {
         // no longer useful
-//        CHANNEL.registerMessage(0, ControllerPacket.class,
-//                                ControllerPacket::encode,
-//                                ControllerPacket::new,
-//                                ControllerPacket::handle,
-//                                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
-//        );
-    }
-
-    @Deprecated
-    public static void sendUpdatePack(ServerPlayer player, ControllerPacket packet)
-    {
-//        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
     }
 }

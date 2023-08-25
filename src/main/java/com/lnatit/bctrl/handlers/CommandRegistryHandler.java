@@ -1,7 +1,7 @@
 package com.lnatit.bctrl.handlers;
 
-import com.lnatit.bctrl.commands.BChatCommand;
 import com.lnatit.bctrl.commands.ChatCommand;
+import com.lnatit.bctrl.commands.EchoCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -18,7 +18,7 @@ public class CommandRegistryHandler
     {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
+        EchoCommand.register(dispatcher);
         ChatCommand.register(dispatcher);
-        BChatCommand.register(dispatcher);
     }
 }
