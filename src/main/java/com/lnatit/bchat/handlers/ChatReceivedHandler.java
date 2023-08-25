@@ -55,7 +55,7 @@ public class ChatReceivedHandler
             try
             {
                 String[] msg = getModifiedMessage(component);
-                if (msg != null)
+                if (msg != null && msg.length >= 2)
                 {
                     BulletComponent.INSTANCE.addMessage(msg[1], msg[0]);
                 }
