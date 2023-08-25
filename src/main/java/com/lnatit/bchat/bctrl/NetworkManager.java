@@ -43,11 +43,5 @@ public class NetworkManager
     public static void register()
     {
         // packets are now useless
-//        CHANNEL.registerMessage(0, ControllerPacket.class,
-//                                ControllerPacket::encode,
-//                                ControllerPacket::new,
-//                                ControllerPacket::handle,
-//                                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
-//        );
     }
 }
