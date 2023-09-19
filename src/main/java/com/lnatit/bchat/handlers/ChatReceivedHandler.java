@@ -22,9 +22,8 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ChatReceivedHandler
 {
-    public static final Pattern PATTERN = Pattern.compile("^<[0-9a-z_]+> ", Pattern.CASE_INSENSITIVE);
-    public static final Pattern CUSTOMIZED_CHAT = Pattern.compile("^(?<sender>\\w{4,16}): (?<msg>.*$)");
-    public static final Pattern CUSTOMIZED_TELL = Pattern.compile("^(?<sender>\\w{4,16}) 对你说道: (?<msg>.*$)");
+    public static Pattern CUSTOMIZED_CHAT = Pattern.compile("^(?<sender>\\w{4,16}): (?<msg>.*$)");
+    public static Pattern CUSTOMIZED_TELL = Pattern.compile("^(?<sender>\\w{4,16}) 对你说道: (?<msg>.*$)");
 
     // "^(?<sender>\\w{4,16}): (?<msg>.*$)"
     // ^<(?<sender>\w{3,16})> (?<msg>.*$)

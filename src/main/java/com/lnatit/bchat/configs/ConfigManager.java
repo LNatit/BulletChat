@@ -3,6 +3,7 @@ package com.lnatit.bchat.configs;
 import com.lnatit.bchat.bctrl.NetworkManager;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
+import com.lnatit.bchat.handlers.ChatReceivedHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -48,10 +49,10 @@ public class ConfigManager
     private static int topOffset;
     private static int trackNum;
 
-    public static void init(boolean blackList)
+    public static void init(boolean advanced)
     {
-        if (blackList)
-            BlackListManager.init();
+        if (advanced)
+            AdvancedSettingsManager.init();
 
         init();
         BulletChatOptions.initInstance();

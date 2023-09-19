@@ -1,6 +1,6 @@
 package com.lnatit.bchat;
 
-import com.lnatit.bchat.configs.BlackListManager;
+import com.lnatit.bchat.configs.AdvancedSettingsManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import com.lnatit.bchat.gui.BulletOptionsScreen;
 import com.lnatit.bchat.bctrl.NetworkManager;
@@ -43,7 +43,7 @@ public class BulletChat
                 .registerExtensionPoint(FACTORY.getClass(), () -> FACTORY);
 
         NetworkManager.register();
-        BlackListManager.init();
+        AdvancedSettingsManager.init();
     }
 
     @OnlyIn(Dist.CLIENT)

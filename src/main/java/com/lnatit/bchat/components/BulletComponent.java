@@ -1,6 +1,6 @@
 package com.lnatit.bchat.components;
 
-import com.lnatit.bchat.configs.BlackListManager;
+import com.lnatit.bchat.configs.AdvancedSettingsManager;
 import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -139,7 +139,7 @@ public class BulletComponent
     {
         char id = NORMAL;
 
-        if (BlackListManager.match(message, sender))
+        if (AdvancedSettingsManager.match(message, sender))
             return;
 
         StringBuffer buffer = new StringBuffer(message);

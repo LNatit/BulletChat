@@ -16,6 +16,7 @@
     "options.bchat.line_spacing": "Bullet Track Spacing",
     "options.bchat.top_offset": "Top Offset",
     "options.bchat.track_num": "Track Number",
-    "options.bchat.open_blacklist": "Open Blacklist File",
-    "options.bchat.tooltip.chopped": "This value would be chopped by your screen settings"
+    "options.bchat.open_advanced": "Open Advanced Settings",
+    "options.bchat.tooltip.chopped": "This value would be chopped by your screen settings",
+    "options.bchat.tooltip.open_advanced": "Blacklist and customize parse"
 }
