@@ -23,6 +23,11 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 public class ChatReceivedHandler
 {
     public static final Pattern PATTERN = Pattern.compile("^<[0-9a-z_]+> ", Pattern.CASE_INSENSITIVE);
+    public static final Pattern CUSTOMIZED_CHAT = Pattern.compile("^(?<sender>\\w{4,16}): (?<msg>.*$)");
+    public static final Pattern CUSTOMIZED_TELL = Pattern.compile("^(?<sender>\\w{4,16}) 对你说道: (?<msg>.*$)");
+
+    // "^(?<sender>\\w{4,16}): (?<msg>.*$)"
+    // ^<(?<sender>\w{3,16})> (?<msg>.*$)
 
     @SubscribeEvent
     public static void onChatReceived(ClientChatReceivedEvent event)
@@ -50,46 +55,22 @@ public class ChatReceivedHandler
         catch (Exception exception)
         {
             MODLOG.debug("Vanilla Format failed to parse!");
-            MODLOG.debug(exception.getMessage());
 
-            try
-            {
-                String[] msg = getModifiedMessage(component);
-                if (msg != null && msg.length >= 2)
-                {
-                    BulletComponent.INSTANCE.addMessage(msg[1], msg[0]);
-                }
-                else
-                {
-                    MODLOG.debug("Modified Message failed to parse!");
-                    ChatBadge.INSTANCE.setVisible(true);
-                }
-            }
-            catch (Exception e)
-            {
-                MODLOG.debug(e.getMessage());
-                MODLOG.debug(component.toString());
-                ChatBadge.INSTANCE.setVisible(true);
-            }
+            customizedCompat(component.getString());
         }
+        MODLOG.debug(component.getString());
     }
 
-    private static String[] getModifiedMessage(MutableComponent component)
+    private static void customizedCompat(String raw)
     {
-        if (component.getSiblings().get(0).getContents() instanceof LiteralContents contents)
-        {
-            String text = contents.text();
-            Matcher matcher = PATTERN.matcher(text);
+        Matcher chat = CUSTOMIZED_CHAT.matcher(raw);
+        Matcher tell = CUSTOMIZED_TELL.matcher(raw);
 
-            if (matcher.find())
-            {
-                String[] msg = new String[2];
-                msg[0] = text.substring(matcher.start() + 1, matcher.end() - 2);
-                msg[1] = text.substring(matcher.end());
-                return msg;
-            }
-        }
-
-        return null;
+        if (chat.matches())
+            BulletComponent.INSTANCE.addMessage(chat.group("msg"), chat.group("sender"));
+        else if (ConfigManager.getParseTell() && tell.matches())
+            BulletComponent.INSTANCE.addMessage(tell.group("msg"), tell.group("sender"));
+        else
+            MODLOG.debug("Customized format failed to parse!");
     }
 }
