@@ -31,7 +31,7 @@ public class ChatReceivedHandler
     @SubscribeEvent
     public static void onChatReceived(ClientChatReceivedEvent event)
     {
-        if (ConfigManager.shouldSkipRender())
+        if (ConfigManager.shouldSkipRender() || (event instanceof ClientChatReceivedEvent.System system && system.isOverlay()))
             return;
 
         MutableComponent component = (MutableComponent) event.getMessage();
