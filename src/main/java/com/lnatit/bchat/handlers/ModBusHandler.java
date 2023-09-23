@@ -23,9 +23,6 @@ public class ModBusHandler
         event.registerAbove(CHAT_PANEL.id(), "bullet_layer",
                             ((gui, guiGraphics, partialTick, screenWidth, screenHeight) ->
                             {
-                                if (ConfigManager.shouldSkipRender())
-                                    return;
-
                                 RenderSystem.enableBlend();
                                 RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 

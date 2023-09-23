@@ -26,7 +26,7 @@ public class BulletRenderHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onGuiRendered(RenderGuiOverlayEvent.Pre event)
     {
-        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type() || ConfigManager.shouldSkipRender())
+        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type())
             return;
 
         // Move to ModBusHandler
@@ -44,9 +44,6 @@ public class BulletRenderHandler
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event)
     {
-        if (ConfigManager.shouldSkipRender())
-            return;
-
         if (event.phase == TickEvent.Phase.START)
             BulletComponent.INSTANCE.tick();
     }

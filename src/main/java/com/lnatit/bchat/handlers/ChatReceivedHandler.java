@@ -1,7 +1,6 @@
 package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
-import com.lnatit.bchat.components.ChatBadge;
 import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODID;
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
@@ -31,7 +29,7 @@ public class ChatReceivedHandler
     @SubscribeEvent
     public static void onChatReceived(ClientChatReceivedEvent event)
     {
-        if (ConfigManager.shouldSkipRender() || (event instanceof ClientChatReceivedEvent.System system && system.isOverlay()))
+        if (event instanceof ClientChatReceivedEvent.System system && system.isOverlay())
             return;
 
         MutableComponent component = (MutableComponent) event.getMessage();
