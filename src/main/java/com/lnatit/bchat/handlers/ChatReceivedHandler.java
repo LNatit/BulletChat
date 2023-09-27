@@ -43,7 +43,10 @@ public class ChatReceivedHandler
             if (contents.getKey().equals("commands.message.display.outgoing") ||
                     !ConfigManager.getParseTell() && contents.getKey().equals(
                             "commands.message.display.incoming"))
+            {
+                ChatBadge.INSTANCE.setVisible(true);
                 return;
+            }
 
             Object[] args = contents.getArgs();
             String message = ((LiteralContents) ((Component) args[1]).getContents()).text();
@@ -54,7 +57,6 @@ public class ChatReceivedHandler
         catch (Exception exception)
         {
             MODLOG.debug("Vanilla Format failed to parse!");
-
             customizedCompat(component.getString());
         }
         MODLOG.debug(component.getString());
@@ -70,6 +72,9 @@ public class ChatReceivedHandler
         else if (ConfigManager.getParseTell() && tell.matches())
             BulletComponent.INSTANCE.addMessage(tell.group("msg"), tell.group("sender"));
         else
+        {
+            ChatBadge.INSTANCE.setVisible(true);
             MODLOG.debug("Customized format failed to parse!");
+        }
     }
 }
