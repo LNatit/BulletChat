@@ -1,6 +1,7 @@
 package com.lnatit.bchat.configs;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lnatit.bchat.handlers.ChatReceivedHandler;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
@@ -20,7 +21,7 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 public class AdvancedSettingsManager
 {
     private static final File ADVANCED_SETTINGS = FMLPaths.CONFIGDIR.get().resolve("bchat-advanced.json").toFile();
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static AdvancedSettings advancedSettings;
 
     public static void init()
