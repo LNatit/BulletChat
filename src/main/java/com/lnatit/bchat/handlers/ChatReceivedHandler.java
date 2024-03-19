@@ -9,6 +9,7 @@ import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -27,7 +28,7 @@ public class ChatReceivedHandler
     // "^(?<sender>\\w{4,16}): (?<msg>.*$)"
     // ^<(?<sender>\w{3,16})> (?<msg>.*$)
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onChatReceived(ClientChatReceivedEvent event)
     {
         if (event instanceof ClientChatReceivedEvent.System system && system.isOverlay())
