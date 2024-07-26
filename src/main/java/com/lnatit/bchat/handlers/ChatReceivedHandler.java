@@ -5,13 +5,13 @@ import com.lnatit.bchat.components.ChatBadge;
 import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientChatReceivedEvent;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 import static com.lnatit.bchat.BulletChat.MODID;
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class ChatReceivedHandler
 {
     public static Pattern CUSTOMIZED_CHAT = Pattern.compile("^(?<sender>\\w{4,16}): (?<msg>.*$)");
@@ -49,8 +49,8 @@ public class ChatReceivedHandler
             }
 
             Object[] args = contents.getArgs();
-            String message = ((LiteralContents) ((Component) args[1]).getContents()).text();
-            String sender = ((LiteralContents) ((Component) args[0]).getSiblings().get(0).getContents()).text();
+            String message = ((PlainTextContents.LiteralContents) ((Component) args[1]).getContents()).text();
+            String sender = ((PlainTextContents.LiteralContents) ((Component) args[0]).getSiblings().get(0).getContents()).text();
 
             BulletComponent.INSTANCE.addMessage(message, sender);
         }

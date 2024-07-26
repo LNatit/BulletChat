@@ -8,14 +8,14 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.SimpleOptionsSubScreen;
+import net.minecraft.client.gui.screens.options.OptionsSubScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODLOG;
 
-public class BulletOptionsScreen extends SimpleOptionsSubScreen
+public class BulletOptionsScreen extends OptionsSubScreen
 {
     private static final Tooltip advancedTooltip = Tooltip.create(
             Component.translatable("options.bchat.tooltip.open_advanced"));

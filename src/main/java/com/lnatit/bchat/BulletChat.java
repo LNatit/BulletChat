@@ -2,19 +2,19 @@ package com.lnatit.bchat;
 
 import com.lnatit.bchat.configs.AdvancedSettingsManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
-import com.lnatit.bchat.gui.BulletOptionsScreen;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.slf4j.Logger;
 
-import static com.lnatit.bchat.BulletChat.BulletChatClient.FACTORY;
 import static com.lnatit.bchat.BulletChat.MODID;
 
 @Mod(MODID)
@@ -23,7 +23,7 @@ public class BulletChat
     public static final String MODID = "bchat";
     public static final Logger MODLOG = LogUtils.getLogger();
 
-    public BulletChat()
+    public BulletChat(IEventBus modEventBus, ModContainer modContainer)
     {
         if (FMLLoader.getDist() == Dist.DEDICATED_SERVER)
         {
@@ -32,14 +32,10 @@ public class BulletChat
             return;
         }
 
-        ModLoadingContext
-                .get()
-                .registerConfig(ModConfig.Type.CLIENT, BulletChatConfig.CLIENT_CONFIG);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, BulletChatConfig.CLIENT_CONFIG);
 
         // Link Options Screen to Config button
-        ModLoadingContext
-                .get()
-                .registerExtensionPoint(FACTORY.getClass(), () -> FACTORY);
+        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
         AdvancedSettingsManager.init();
     }
@@ -48,8 +44,7 @@ public class BulletChat
     public static final class BulletChatClient
     {
         public static final Minecraft MINECRAFT = Minecraft.getInstance();
-        public static final ConfigScreenHandler.ConfigScreenFactory FACTORY = new ConfigScreenHandler.ConfigScreenFactory(
-                (mc, screen) -> new BulletOptionsScreen(screen)
-        );
+//        public static final IConfigScreenFactory FACTORY = new ConfigurationScreen()
+//        );
     }
 }

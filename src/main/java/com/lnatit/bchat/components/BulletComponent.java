@@ -153,7 +153,7 @@ public class BulletComponent
         if (matcher.find())
         {
             // There is a space at the end of the string
-            TextColor color = TextColor.parseColor(buffer.substring(matcher.start(), matcher.end() - 1));
+            TextColor color = TextColor.parseColor(buffer.substring(matcher.start(), matcher.end() - 1)).getOrThrow();
             if (color != null)
                 style = style.withColor(color);
             else

@@ -4,18 +4,18 @@ import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import com.lnatit.bchat.configs.ConfigManager;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 import static com.lnatit.bchat.BulletChat.BulletChatClient.MINECRAFT;
 import static com.lnatit.bchat.BulletChat.MODID;
 
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class BulletRenderHandler
 {
     /*
@@ -24,9 +24,9 @@ public class BulletRenderHandler
      set Z offset!!!
     */
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onGuiRendered(RenderGuiOverlayEvent.Pre event)
+    public static void onGuiRendered(RenderGuiLayerEvent.Pre event)
     {
-        if (event.getOverlay() != VanillaGuiOverlay.CHAT_PANEL.type())
+        if (event.getName() != VanillaGuiLayers.CHAT)
             return;
 
         // Move to ModBusHandler
@@ -42,9 +42,8 @@ public class BulletRenderHandler
     }
 
     @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event)
+    public static void onClientTick(ClientTickEvent.Pre event)
     {
-        if (event.phase == TickEvent.Phase.START)
-            BulletComponent.INSTANCE.tick();
+        BulletComponent.INSTANCE.tick();
     }
 }

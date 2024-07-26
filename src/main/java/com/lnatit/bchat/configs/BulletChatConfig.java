@@ -1,27 +1,27 @@
 package com.lnatit.bchat.configs;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class BulletChatConfig
 {
-    public static ForgeConfigSpec CLIENT_CONFIG;
-    public static ForgeConfigSpec.DoubleValue BULLET_SPEED;
-    public static ForgeConfigSpec.IntValue BULLET_LIFE;
-    public static ForgeConfigSpec.IntValue MAX_BULLET;
-    public static ForgeConfigSpec.IntValue MIN_FPS;
-    public static ForgeConfigSpec.BooleanValue SHOW_SENDER;
-    public static ForgeConfigSpec.BooleanValue HIDE_CHAT;
-    public static ForgeConfigSpec.BooleanValue PARSE_TELL;
-    public static ForgeConfigSpec.BooleanValue ADOPT_CHAT;
-    public static ForgeConfigSpec.DoubleValue TEXT_SIZE;
-    public static ForgeConfigSpec.DoubleValue OPACITY;
-    public static ForgeConfigSpec.DoubleValue LINE_SPACING;
-    public static ForgeConfigSpec.IntValue TOP_OFFSET;
-    public static ForgeConfigSpec.IntValue TRACK_NUM;
+    public static ModConfigSpec CLIENT_CONFIG;
+    public static ModConfigSpec.DoubleValue BULLET_SPEED;
+    public static ModConfigSpec.IntValue BULLET_LIFE;
+    public static ModConfigSpec.IntValue MAX_BULLET;
+    public static ModConfigSpec.IntValue MIN_FPS;
+    public static ModConfigSpec.BooleanValue SHOW_SENDER;
+    public static ModConfigSpec.BooleanValue HIDE_CHAT;
+    public static ModConfigSpec.BooleanValue PARSE_TELL;
+    public static ModConfigSpec.BooleanValue ADOPT_CHAT;
+    public static ModConfigSpec.DoubleValue TEXT_SIZE;
+    public static ModConfigSpec.DoubleValue OPACITY;
+    public static ModConfigSpec.DoubleValue LINE_SPACING;
+    public static ModConfigSpec.IntValue TOP_OFFSET;
+    public static ModConfigSpec.IntValue TRACK_NUM;
 
     static
     {
-        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
         builder.comment("Client settings for Bullet Chat").push("client");
 
