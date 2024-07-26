@@ -30,7 +30,7 @@ public class ModBusHandler
                                 RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 
                                 MINECRAFT.getProfiler().push("bullet");
-                                BulletComponent.INSTANCE.render(guiGraphics, deltaTracker.getGameTimeDeltaTicks());
+                                BulletComponent.INSTANCE.render(guiGraphics, deltaTracker.getGameTimeDeltaPartialTick(true));
                                 MINECRAFT.getProfiler().pop();
                             })
         );
