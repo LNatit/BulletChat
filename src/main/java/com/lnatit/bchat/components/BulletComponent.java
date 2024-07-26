@@ -56,6 +56,8 @@ public class BulletComponent
     {
         int maxTracksLast = this.trackMap == null ? 0 : this.trackMap.length;
         int maxTracks = ConfigManager.getTracks();
+        if (maxTracks < 1)
+            maxTracks = 1;
 
         if (this.trackMap == null || maxTracks != this.trackMap.length)
         {

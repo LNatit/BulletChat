@@ -22,9 +22,7 @@ public class BulletOptionsScreen extends OptionsSubScreen
 
     public BulletOptionsScreen(Screen preScreen)
     {
-        super(preScreen, MINECRAFT.options, Component.translatable("options.bchat.title"),
-              BulletChatOptions.INSTANCE.OPTIONS
-        );
+        super(preScreen, MINECRAFT.options, Component.translatable("options.bchat.title"));
         BulletChatOptions.bindScreen(this, true);
     }
 
@@ -45,7 +43,13 @@ public class BulletOptionsScreen extends OptionsSubScreen
     }
 
     @Override
-    protected void createFooter()
+    protected void addOptions()
+    {
+        this.list.addSmall(BulletChatOptions.INSTANCE.OPTIONS);
+    }
+
+    @Override
+    protected void addFooter()
     {
         this.addRenderableWidget(Button.builder(Component.translatable("options.bchat.open_advanced"),
                                                 AdvancedSettingsManager::openAdvancedFile
