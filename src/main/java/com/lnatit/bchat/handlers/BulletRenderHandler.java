@@ -2,7 +2,7 @@ package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
-import com.lnatit.bchat.configs.ConfigManager;
+import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -34,7 +34,7 @@ public class BulletRenderHandler
 
         if (MINECRAFT.screen instanceof ChatScreen)
             ChatBadge.INSTANCE.setVisible(false);
-        else if (ConfigManager.getHideChat())
+        else if (BulletChatConfig.INSTANCE.shouldHideChat())
         {
             event.setCanceled(true);
             ChatBadge.INSTANCE.render(event.getGuiGraphics());

@@ -1,7 +1,7 @@
 package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
-import com.lnatit.bchat.configs.ConfigManager;
+import com.lnatit.bchat.configs.BulletChatConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -29,7 +29,7 @@ public class ModBusHandler
                                 RenderSystem.enableBlend();
                                 RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 
-                                MINECRAFT.getProfiler().push("bullet");
+                                MINECRAFT.getProfiler().push("bchat.bullet");
                                 BulletComponent.INSTANCE.render(guiGraphics, deltaTracker.getGameTimeDeltaPartialTick(true));
                                 MINECRAFT.getProfiler().pop();
                             })
@@ -41,7 +41,7 @@ public class ModBusHandler
     {
         if (event.getConfig().getModId().equals(MODID))
         {
-            ConfigManager.init(true);
+            BulletChatConfig.init(true);
         }
     }
 }

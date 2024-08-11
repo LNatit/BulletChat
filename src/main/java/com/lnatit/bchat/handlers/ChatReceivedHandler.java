@@ -2,7 +2,7 @@ package com.lnatit.bchat.handlers;
 
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
-import com.lnatit.bchat.configs.ConfigManager;
+import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.PlainTextContents;
@@ -41,7 +41,7 @@ public class ChatReceivedHandler
             TranslatableContents contents = (TranslatableContents) component.getContents();
             // don't parse /tell messages
             if (contents.getKey().equals("commands.message.display.outgoing") ||
-                    !ConfigManager.getParseTell() && contents.getKey().equals(
+                    !(boolean) BulletChatConfig.INSTANCE.parseTell.get() && contents.getKey().equals(
                             "commands.message.display.incoming"))
             {
                 ChatBadge.INSTANCE.setVisible(true);
@@ -69,7 +69,7 @@ public class ChatReceivedHandler
 
         if (chat.matches())
             BulletComponent.INSTANCE.addMessage(chat.group("msg"), chat.group("sender"));
-        else if (ConfigManager.getParseTell() && tell.matches())
+        else if (BulletChatConfig.INSTANCE.parseTell.get() && tell.matches())
             BulletComponent.INSTANCE.addMessage(tell.group("msg"), tell.group("sender"));
         else
         {

@@ -1,6 +1,6 @@
 package com.lnatit.bchat.components;
 
-import com.lnatit.bchat.configs.ConfigManager;
+import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -57,7 +57,7 @@ public abstract class AbstractBullet
     public void createMessage()
     {
         MutableComponent msg = this.message;
-        if (ConfigManager.getShowSender())
+        if (BulletChatConfig.INSTANCE.showSender.get())
             msg = Component.literal("<" + this.sender + "> ").append(msg);
         if (this.sender.equals(MINECRAFT.getUser().getName()))
             msg.withStyle(ChatFormatting.UNDERLINE);
@@ -94,11 +94,11 @@ public abstract class AbstractBullet
 
     protected static int getScaledWidth()
     {
-        return Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / ConfigManager.getScale());
+        return Mth.ceil((float) MINECRAFT.getWindow().getGuiScaledWidth() / BulletChatConfig.INSTANCE.getScale());
     }
 
     protected static float alignPosXInNDS(float posX)
     {
-        return round(posX * ConfigManager.getScale()) / ConfigManager.getScale();
+        return round(posX * BulletChatConfig.INSTANCE.getScale()) / BulletChatConfig.INSTANCE.getScale();
     }
 }

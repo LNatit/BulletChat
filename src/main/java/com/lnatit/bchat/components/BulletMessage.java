@@ -1,6 +1,6 @@
 package com.lnatit.bchat.components;
 
-import com.lnatit.bchat.configs.ConfigManager;
+import com.lnatit.bchat.configs.BulletChatConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
@@ -23,7 +23,7 @@ public class BulletMessage extends AbstractBullet
         this.departed = false;
         this.prePosX = getScaledWidth();
         this.prePosX = alignPosXInNDS(prePosX);
-        this.posX = prePosX - ConfigManager.getSpeed();
+        this.posX = prePosX - (float) (double) BulletChatConfig.INSTANCE.bulletSpeed.get();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BulletMessage extends AbstractBullet
             }
 
             this.prePosX = posX;
-            this.posX -= ConfigManager.getSpeed();
+            this.posX -= (float) (double) BulletChatConfig.INSTANCE.bulletSpeed.get();
         }
     }
 
@@ -59,14 +59,14 @@ public class BulletMessage extends AbstractBullet
             return;
 
         // DONE subtract & reuse logic
-        int trackHeight = ConfigManager.getTrackHeight();
-        int posY = ConfigManager.getTrackOffset() - this.getTrack() * trackHeight;
+        int trackHeight = BulletChatConfig.INSTANCE.getTrackHeight();
+        int posY = BulletChatConfig.INSTANCE.getTrackOffset() - this.getTrack() * trackHeight;
 
         graphics.pose().pushPose();
         // DONE 使用 pose stack 缩放字体 in BulletComponent::render
         graphics.pose().translate(getExactPosX(partialTick), posY, 50.0F);
         graphics.drawString(MINECRAFT.font, this.getFullMessage(), 0, 0,
-                            16777215 + (ConfigManager.getOpacityInt() << 24), true
+                            16777215 + (BulletChatConfig.INSTANCE.getOpacityInt() << 24), true
         );
         graphics.pose().popPose();
     }
@@ -95,7 +95,7 @@ public class BulletMessage extends AbstractBullet
             super.launch(track);
             this.prePosX = -MINECRAFT.font.getSplitter().stringWidth(this.getFullMessage());
             this.prePosX = alignPosXInNDS(prePosX);
-            this.posX = prePosX + ConfigManager.getSpeed();
+            this.posX = prePosX + (float) (double) BulletChatConfig.INSTANCE.bulletSpeed.get();
         }
 
         @Override
@@ -118,7 +118,7 @@ public class BulletMessage extends AbstractBullet
                 }
 
                 this.prePosX = posX;
-                this.posX += ConfigManager.getSpeed();
+                this.posX += (float) (double) BulletChatConfig.INSTANCE.bulletSpeed.get();
             }
         }
 
