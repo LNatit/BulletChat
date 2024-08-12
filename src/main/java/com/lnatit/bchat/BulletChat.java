@@ -5,7 +5,6 @@ import com.lnatit.bchat.configs.BulletChatConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -40,11 +39,10 @@ public class BulletChat
         AdvancedSettingsManager.init();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    // Maybe useless
+//    @OnlyIn(Dist.CLIENT)
     public static final class BulletChatClient
     {
         public static final Minecraft MINECRAFT = Minecraft.getInstance();
-//        public static final IConfigScreenFactory FACTORY = new ConfigurationScreen()
-//        );
     }
 }

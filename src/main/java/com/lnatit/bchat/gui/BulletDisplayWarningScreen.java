@@ -67,12 +67,7 @@ public class BulletDisplayWarningScreen extends Screen
 
     @Override
     protected void setInitialFocus() {
-        if (this.proceed != null) {
-            this.proceed.setFocused(true);
-        }
-        else {
-            super.setInitialFocus();
-        }
+        this.proceed.setFocused(true);
     }
 
     @Override

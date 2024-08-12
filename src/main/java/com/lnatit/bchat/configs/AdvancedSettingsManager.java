@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lnatit.bchat.handlers.ChatReceivedHandler;
 import net.minecraft.Util;
-import net.minecraft.client.gui.components.Button;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.commons.io.FileUtils;
 
@@ -86,8 +85,8 @@ public class AdvancedSettingsManager
         Util.getPlatform().openFile(ADVANCED_SETTINGS);
     }
 
-    public static record AdvancedSettings(String[] stopWords, String[] blockUsers, String[] regExp,
-                                          String chatRegCustomized, String tellRegCustomized)
+    public record AdvancedSettings(String[] stopWords, String[] blockUsers, String[] regExp,
+                                   String chatRegCustomized, String tellRegCustomized)
     {
     }
 }
