@@ -10,7 +10,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import static com.lnatit.bchat.BulletChat.MODID;
 import static com.lnatit.bchat.BulletChat.MODLOG;

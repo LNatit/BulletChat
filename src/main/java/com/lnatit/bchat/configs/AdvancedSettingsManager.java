@@ -38,7 +38,7 @@ public class AdvancedSettingsManager
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                MODLOG.error("Failed to load advanced settings", e);
             }
         else
             try
@@ -47,7 +47,7 @@ public class AdvancedSettingsManager
             }
             catch (FileNotFoundException e)
             {
-                e.printStackTrace();
+                MODLOG.error("Failed to load advanced settings", e);
             }
 
         // init patterns
@@ -60,28 +60,28 @@ public class AdvancedSettingsManager
         for (int i = 0; i < advancedSettings.blockUsers.length; i++)
             if (sender.equalsIgnoreCase(advancedSettings.blockUsers[i]))
             {
-                MODLOG.info("Bullet blocked from user: " + sender);
+                MODLOG.info("Bullet blocked from user: {}", sender);
                 return true;
             }
 
         for (int i = 0; i < advancedSettings.stopWords.length; i++)
             if (message.contains(advancedSettings.stopWords[i]))
             {
-                MODLOG.info("Bullet blocked by stopWords: " + advancedSettings.stopWords[i]);
+                MODLOG.info("Bullet blocked by stopWords: {}", advancedSettings.stopWords[i]);
                 return true;
             }
 
         for (int i = 0; i < advancedSettings.regExp.length; i++)
             if (message.matches(advancedSettings.regExp[i]))
             {
-                MODLOG.info("Bullet blocked by regExp: " + advancedSettings.regExp[i]);
+                MODLOG.info("Bullet blocked by regExp: {}", advancedSettings.regExp[i]);
                 return true;
             }
 
         return false;
     }
 
-    public static void openAdvancedFile(Button button)
+    public static void openAdvancedFile()
     {
         Util.getPlatform().openFile(ADVANCED_SETTINGS);
     }

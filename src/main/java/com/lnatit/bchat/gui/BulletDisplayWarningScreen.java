@@ -15,24 +15,24 @@ import java.util.List;
 public class BulletDisplayWarningScreen extends Screen
 {
     public static final Component TITLE = Component.translatable("bchat.streamer_warning.title");
+    public static final Component MODE = Component.translatable("bchat.streamer_warning.mode");
     private FocusableTextWidget textWidget;
-    private CycleButton<BulletChatConfig.Mode> mode = CycleButton.builder(BulletChatConfig.Mode::getComponent)
-                                                                 .withValues(CycleButton.ValueListSupplier.create(
+    private final CycleButton<BulletChatConfig.Mode> mode = CycleButton.builder(BulletChatConfig.Mode::getComponent)
+                                                                       .withValues(CycleButton.ValueListSupplier.create(
                                                                          List.of(BulletChatConfig.Mode.NORMAL,
                                                                                  BulletChatConfig.Mode.HIDE_CHAT,
                                                                                  BulletChatConfig.Mode.STREAMER
                                                                          )))
-                                                                 .withTooltip(BulletChatConfig.Mode::getTooltip)
-                                                                 .displayOnlyValue()
-                                                                 .withInitialValue(BulletChatConfig.Mode.NORMAL)
-                                                                 .create(Component.literal("btn"),
+                                                                       .withTooltip(BulletChatConfig.Mode::getTooltip)
+                                                                       .withInitialValue(BulletChatConfig.Mode.HIDE_CHAT)
+                                                                       .create(MODE,
                                                                          (cycleButton, value) ->
                                                                                  BulletChatConfig.INSTANCE.setTempMode(
                                                                                          value)
                                                                  );
-    private Button proceed = Button.builder(CommonComponents.GUI_CONTINUE, button -> this.onClose()).build();
-    // TODO modify layout
-    private HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this, 60, 32);
+    private final Button proceed = Button.builder(CommonComponents.GUI_CONTINUE, button -> this.onClose()).build();
+    // modify layout
+    private final HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this, 48, 64);
 
     public BulletDisplayWarningScreen() {
         super(TITLE);

@@ -18,7 +18,6 @@ public class BulletChatConfig
     public final ModConfigSpec.IntValue maxBullet;
     public final ModConfigSpec.IntValue minFPS;
     public final ModConfigSpec.BooleanValue showSender;
-    public final ModConfigSpec.BooleanValue hideChat;
     public final ModConfigSpec.BooleanValue parseTell;
     public final ModConfigSpec.EnumValue<Mode> displayMode;
     public final ModConfigSpec.BooleanValue adoptChat;
@@ -65,7 +64,7 @@ public class BulletChatConfig
                 .defineInRange("max_bullet", 200, 10, 800);
 
         minFPS = builder
-                .comment("When client fps lower than it, new bullets will not launch",
+                .comment("When client fps lower than configured, new bullets will not launch",
                          "default: 30"
                 )
                 .defineInRange("min_fps", 30, 0, 144);
@@ -76,14 +75,15 @@ public class BulletChatConfig
                 )
                 .define("show_sender", false);
 
-        hideChat = builder
-                .comment("Whether to hide vanilla chat panel when not focused",
-                         "default: true"
+        displayMode = builder
+                .comment("Display mode of bullet chat, allowed values are listed below:",
+                         "NORMAL: show bullets, show chats",
+                         "HIDE_CHAT: show bullets, hide chats",
+                         "STREAMER: hide bullets, hide chats",
+                         "ALWAYS_ASK: choose once enter a world",
+                         "default: ALWAYS_ASK"
                 )
-                .define("hide_chat", false);
-
-        // TODO
-        displayMode = builder.defineEnum("mode", Mode.ALWAYS_ASK);
+                .defineEnum("mode", Mode.ALWAYS_ASK);
 
         parseTell = builder
                 .comment("Whether to parse /tell infos",
@@ -206,31 +206,6 @@ public class BulletChatConfig
 
             trackOffset = topOffset.get() + (trackNum.get() - 1) * trackHeight;
         }
-
-//        CLIENT_CONFIG.save();
-//        MODLOG.info("Settings all validated!");
-    }
-
-    // DONE
-    @Deprecated(since = "for removal")
-    public static void writeToConfig() {
-//        BulletChatConfig.BULLET_SPEED.set((double) ConfigManager.speed);
-//        BulletChatConfig.BULLET_LIFE.set(ConfigManager.life);
-//        BulletChatConfig.MAX_BULLET.set(ConfigManager.maxBullet);
-//        BulletChatConfig.MIN_FPS.set(ConfigManager.minFps);
-//        BulletChatConfig.SHOW_SENDER.set(ConfigManager.showSender);
-//        BulletChatConfig.HIDE_CHAT.set(ConfigManager.hideChat);
-//        BulletChatConfig.PARSE_TELL.set(ConfigManager.parseTell);
-//        BulletChatConfig.ADOPT_CHAT.set(ConfigManager.adoptChat);
-//        BulletChatConfig.TEXT_SIZE.set((double) ConfigManager.textSize);
-//        BulletChatConfig.OPACITY.set(ConfigManager.opacity);
-//        BulletChatConfig.LINE_SPACING.set((double) ConfigManager.lineSpacing);
-//        BulletChatConfig.TOP_OFFSET.set(ConfigManager.topOffset);
-//        BulletChatConfig.TRACK_NUM.set(ConfigManager.trackNum);
-//
-//        CLIENT_CONFIG.save();
-//
-//        MODLOG.info("Settings all validated!");
     }
 
     public static void init(boolean advanced) {
@@ -251,18 +226,19 @@ public class BulletChatConfig
         ALWAYS_ASK("bchat.streamer_warning.mode.always_ask");
 
         private final String translationKey;
+        private final String tooltipKey;
 
         Mode(String translationKey) {
             this.translationKey = translationKey;
+            this.tooltipKey = this.translationKey + ".tooltip";
         }
 
         public Component getComponent() {
-            return Component.translatable("bchat.streamer_warning.mode").append(Component.translatable(this.translationKey));
+            return Component.translatable(this.translationKey);
         }
 
-        // TODO
         public Tooltip getTooltip() {
-            return Tooltip.create(Component.literal("TODO here"));
+            return Tooltip.create(Component.translatable(this.tooltipKey));
         }
     }
 }

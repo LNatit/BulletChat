@@ -50,7 +50,7 @@ public class ChatReceivedHandler
 
             Object[] args = contents.getArgs();
             String message = ((PlainTextContents.LiteralContents) ((Component) args[1]).getContents()).text();
-            String sender = ((PlainTextContents.LiteralContents) ((Component) args[0]).getSiblings().get(0).getContents()).text();
+            String sender = ((PlainTextContents.LiteralContents) ((Component) args[0]).getSiblings().getFirst().getContents()).text();
 
             BulletComponent.INSTANCE.addMessage(message, sender);
         }

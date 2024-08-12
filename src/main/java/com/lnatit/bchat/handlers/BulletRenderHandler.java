@@ -29,9 +29,6 @@ public class BulletRenderHandler
         if (event.getName() != VanillaGuiLayers.CHAT)
             return;
 
-        // Move to ModBusHandler
-//        BulletComponent.INSTANCE.render(guiGraphics, partialTick);
-
         if (MINECRAFT.screen instanceof ChatScreen)
             ChatBadge.INSTANCE.setVisible(false);
         else if (BulletChatConfig.INSTANCE.shouldHideChat())

@@ -1,5 +1,6 @@
 package com.lnatit.bchat.handlers;
 
+import com.lnatit.bchat.configs.AdvancedSettingsManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.neoforged.api.distmarker.Dist;
@@ -12,10 +13,10 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import static com.lnatit.bchat.BulletChat.MODID;
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
-public class ConfigKeyHandler
+public class KeyHandler
 {
-    public static final KeyMapping CONFIG_KEY =
-            new KeyMapping("key.bchat.config",
+    public static final KeyMapping ADVANCED_SETTINGS =
+            new KeyMapping("key.bchat.advanced_settings",
                            KeyConflictContext.IN_GAME,
                            InputConstants.Type.KEYSYM.getOrCreate(InputConstants.KEY_HOME),
                            "key.categories.bchat"
@@ -26,14 +27,14 @@ public class ConfigKeyHandler
     {
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-            event.register(CONFIG_KEY);
+            event.register(ADVANCED_SETTINGS);
         }
     }
 
     @SubscribeEvent
     public static void onKeyPressed(InputEvent.Key event) {
-        if (CONFIG_KEY.isDown()) {
-//            MINECRAFT.setScreen(new BulletOptionsScreen(MINECRAFT.screen));
+        if (ADVANCED_SETTINGS.isDown()) {
+            AdvancedSettingsManager.openAdvancedFile();
         }
     }
 }
