@@ -169,11 +169,11 @@ public class BulletChatConfig
     }
 
     public boolean shouldHideChat() {
-        return displayMode.get() == Mode.ALWAYS_ASK ? tempMode == Mode.HIDE_CHAT : displayMode.get() == Mode.HIDE_CHAT;
+        return displayMode.get() == Mode.ALWAYS_ASK ? tempMode.hideChat: displayMode.get().hideChat;
     }
 
     public boolean shouldHideBullet() {
-        return displayMode.get() == Mode.ALWAYS_ASK ? tempMode == Mode.STREAMER : displayMode.get() == Mode.STREAMER;
+        return displayMode.get() == Mode.ALWAYS_ASK ? tempMode.hideBullet : displayMode.get().hideBullet;
     }
 
     private void init() {
@@ -220,15 +220,20 @@ public class BulletChatConfig
 
     public enum Mode
     {
-        NORMAL("bchat.streamer_warning.mode.normal"),
-        HIDE_CHAT("bchat.streamer_warning.mode.hide_chat"),
-        STREAMER("bchat.streamer_warning.mode.streamer"),
-        ALWAYS_ASK("bchat.streamer_warning.mode.always_ask");
+        NORMAL(false, false, "bchat.streamer_warning.mode.normal"),
+        HIDE_CHAT(true, false, "bchat.streamer_warning.mode.hide_chat"),
+        HIDE_BULLET(false, true, "bchat.streamer_warning.mode.hide_bullet"),
+        STREAMER(true, true, "bchat.streamer_warning.mode.streamer"),
+        ALWAYS_ASK(false, false, "bchat.streamer_warning.mode.always_ask");
 
+        private final boolean hideChat;
+        private final boolean hideBullet;
         private final String translationKey;
         private final String tooltipKey;
 
-        Mode(String translationKey) {
+        Mode(boolean hideChat, boolean hideBullet, String translationKey) {
+            this.hideChat = hideChat;
+            this.hideBullet = hideBullet;
             this.translationKey = translationKey;
             this.tooltipKey = this.translationKey + ".tooltip";
         }

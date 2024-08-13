@@ -21,6 +21,7 @@ public class BulletDisplayWarningScreen extends Screen
                                                                        .withValues(CycleButton.ValueListSupplier.create(
                                                                          List.of(BulletChatConfig.Mode.NORMAL,
                                                                                  BulletChatConfig.Mode.HIDE_CHAT,
+                                                                                 BulletChatConfig.Mode.HIDE_BULLET,
                                                                                  BulletChatConfig.Mode.STREAMER
                                                                          )))
                                                                        .withTooltip(BulletChatConfig.Mode::getTooltip)
@@ -54,6 +55,7 @@ public class BulletDisplayWarningScreen extends Screen
         this.layout.addToFooter(proceed);
         this.layout.visitWidgets(this::addRenderableWidget);
         this.repositionElements();
+        BulletChatConfig.INSTANCE.setTempMode(BulletChatConfig.Mode.HIDE_CHAT);
     }
 
     @Override
