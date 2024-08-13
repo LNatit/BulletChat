@@ -34,7 +34,7 @@
     "bchat.configuration.max_bullet.tooltip": "屏幕上最多可同时出现的弹幕数量\n默认值: 200",
     "bchat.configuration.min_fps.tooltip": "当客户端帧率低于此数值时，将不再发射新弹幕\n默认值: 30",
     "bchat.configuration.show_sender.tooltip": "是否在弹幕前显示发送者\n默认值: false",
-    "bchat.configuration.mode.tooltip": "弹幕聊天的显示模式，允许值如下：\nNORMAL: 同时显示弹幕和聊天栏\nHIDE_CHAT: 仅显示弹幕，隐藏聊天栏\nSTREAMER: 弹幕和聊天栏都不显示\nALWAYS_ASK: 每次进入世界时选择\n默认值: ALWAYS_ASK",
+    "bchat.configuration.mode.tooltip": "弹幕聊天的显示模式，允许值如下：\nNORMAL: 同时显示弹幕和聊天栏\nHIDE_CHAT: 仅显示弹幕，隐藏聊天栏\nHIDE_BULLET: 仅显示聊天栏，隐藏弹幕\nSTREAMER: 弹幕和聊天栏都不显示\nALWAYS_ASK: 每次进入世界时选择\n默认值: ALWAYS_ASK",
     "bchat.configuration.parse_tell.tooltip": "是否将 /tell 命令发送的信息解析为弹幕\n默认值: false",
     "bchat.configuration.adopt_chat.tooltip": "套用聊天设置中的设定\n注意！若此项设为 true ，则以下所有配置项将无效\n默认值: true",
     "bchat.configuration.text_size.tooltip": "弹幕字体的尺寸\n默认值: 1.0",
