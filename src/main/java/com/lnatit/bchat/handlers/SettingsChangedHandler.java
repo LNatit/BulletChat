@@ -15,6 +15,6 @@ public class SettingsChangedHandler
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event)
     {
-        BulletChatConfig.init(false);
+        BulletChatConfig.init(true);
     }
 }

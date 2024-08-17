@@ -15,12 +15,12 @@ import static com.lnatit.bchat.BulletChat.MODID;
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class KeyHandler
 {
-    public static final KeyMapping ADVANCED_SETTINGS =
-            new KeyMapping("key.bchat.advanced_settings",
-                           KeyConflictContext.IN_GAME,
-                           InputConstants.Type.KEYSYM.getOrCreate(InputConstants.KEY_HOME),
-                           "key.categories.bchat"
-            );
+    public static final KeyMapping ADVANCED_SETTINGS = new KeyMapping("key.bchat.advanced_settings",
+                                                                      KeyConflictContext.IN_GAME,
+                                                                      InputConstants.Type.KEYSYM.getOrCreate(
+                                                                              InputConstants.KEY_HOME),
+                                                                      "key.categories.bchat"
+    );
 
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class RegistryHandler

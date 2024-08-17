@@ -23,70 +23,66 @@ public class AdvancedSettingsManager
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static AdvancedSettings advancedSettings;
 
-    public static void init()
-    {
-        if (!ADVANCED_SETTINGS.isFile())
-            try
-            {
+    public static void init() {
+        if (!ADVANCED_SETTINGS.isFile()) {
+            try {
                 Files.createFile(ADVANCED_SETTINGS.toPath());
                 advancedSettings = new AdvancedSettings(new String[0], new String[0], new String[0],
                                                         "^(?<sender>\\w{3,16}): (?<msg>.*$)",
-                                                        "^(?<sender>\\w{3,16}) 对你说道: (?<msg>.*$)"
+                                                        "^(?<sender>\\w{3,16}) 对你说道: (?<msg>.*$)", ""
                 );
                 FileUtils.write(ADVANCED_SETTINGS, GSON.toJson(advancedSettings), StandardCharsets.UTF_8);
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 MODLOG.error("Failed to load advanced settings", e);
             }
-        else
-            try
-            {
+        }
+        else {
+            try {
                 advancedSettings = GSON.fromJson(new FileReader(ADVANCED_SETTINGS), AdvancedSettings.class);
             }
-            catch (FileNotFoundException e)
-            {
+            catch (FileNotFoundException e) {
                 MODLOG.error("Failed to load advanced settings", e);
             }
+        }
 
         // init patterns
         ChatReceivedHandler.CUSTOMIZED_CHAT = Pattern.compile(advancedSettings.chatRegCustomized);
         ChatReceivedHandler.CUSTOMIZED_TELL = Pattern.compile(advancedSettings.tellRegCustomized);
+        ChatReceivedHandler.IGNORED_MESSAGE = Pattern.compile(advancedSettings.ignoredMsgReg);
     }
 
-    public static boolean match(String message, String sender)
-    {
-        for (int i = 0; i < advancedSettings.blockUsers.length; i++)
-            if (sender.equalsIgnoreCase(advancedSettings.blockUsers[i]))
-            {
+    public static boolean match(String message, String sender) {
+        for (int i = 0; i < advancedSettings.blockUsers.length; i++) {
+            if (sender.equalsIgnoreCase(advancedSettings.blockUsers[i])) {
                 MODLOG.info("Bullet blocked from user: {}", sender);
                 return true;
             }
+        }
 
-        for (int i = 0; i < advancedSettings.stopWords.length; i++)
-            if (message.contains(advancedSettings.stopWords[i]))
-            {
+        for (int i = 0; i < advancedSettings.stopWords.length; i++) {
+            if (message.contains(advancedSettings.stopWords[i])) {
                 MODLOG.info("Bullet blocked by stopWords: {}", advancedSettings.stopWords[i]);
                 return true;
             }
+        }
 
-        for (int i = 0; i < advancedSettings.regExp.length; i++)
-            if (message.matches(advancedSettings.regExp[i]))
-            {
+        for (int i = 0; i < advancedSettings.regExp.length; i++) {
+            if (message.matches(advancedSettings.regExp[i])) {
                 MODLOG.info("Bullet blocked by regExp: {}", advancedSettings.regExp[i]);
                 return true;
             }
+        }
 
         return false;
     }
 
-    public static void openAdvancedFile()
-    {
+    public static void openAdvancedFile() {
         Util.getPlatform().openFile(ADVANCED_SETTINGS);
     }
 
-    public record AdvancedSettings(String[] stopWords, String[] blockUsers, String[] regExp,
-                                   String chatRegCustomized, String tellRegCustomized)
+    public record AdvancedSettings(String[] stopWords, String[] blockUsers, String[] regExp, String chatRegCustomized,
+                                   String tellRegCustomized, String ignoredMsgReg)
     {
     }
 }
