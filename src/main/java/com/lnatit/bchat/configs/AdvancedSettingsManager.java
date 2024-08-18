@@ -27,22 +27,19 @@ public class AdvancedSettingsManager
         if (!ADVANCED_SETTINGS.isFile()) {
             try {
                 Files.createFile(ADVANCED_SETTINGS.toPath());
-                advancedSettings = new AdvancedSettings(new String[0], new String[0], new String[0],
-                                                        "^(?<sender>\\w{3,16}): (?<msg>.*$)",
-                                                        "^(?<sender>\\w{3,16}) 对你说道: (?<msg>.*$)", ""
-                );
+                advancedSettings = AdvancedSettings.DEFAULT;
                 FileUtils.write(ADVANCED_SETTINGS, GSON.toJson(advancedSettings), StandardCharsets.UTF_8);
             }
             catch (IOException e) {
-                MODLOG.error("Failed to load advanced settings", e);
+                MODLOG.error("Failed to load advanced settings: ", e);
             }
         }
         else {
             try {
-                advancedSettings = GSON.fromJson(new FileReader(ADVANCED_SETTINGS), AdvancedSettings.class);
+                advancedSettings = GSON.fromJson(new FileReader(ADVANCED_SETTINGS), AdvancedSettings.class).copyNonnull();
             }
             catch (FileNotFoundException e) {
-                MODLOG.error("Failed to load advanced settings", e);
+                MODLOG.error("Failed to load advanced settings: ", e);
             }
         }
 
@@ -81,8 +78,33 @@ public class AdvancedSettingsManager
         Util.getPlatform().openFile(ADVANCED_SETTINGS);
     }
 
-    public record AdvancedSettings(String[] stopWords, String[] blockUsers, String[] regExp, String chatRegCustomized,
-                                   String tellRegCustomized, String ignoredMsgReg)
+    public record AdvancedSettings(
+            String[] stopWords,
+            String[] blockUsers,
+            String[] regExp,
+            String chatRegCustomized,
+            String tellRegCustomized,
+            String ignoredMsgReg)
     {
+        public static AdvancedSettings DEFAULT =
+                new AdvancedSettings(
+                        new String[0],
+                        new String[0],
+                        new String[0],
+                        "^(?<sender>\\w{3,16}): (?<msg>.*$)",
+                        "^(?<sender>\\w{3,16}) 对你说道: (?<msg>.*$)",
+                        ""
+                );
+
+        AdvancedSettings copyNonnull() {
+            return new AdvancedSettings(
+                    this.stopWords != null ? this.stopWords : DEFAULT.stopWords,
+                    this.blockUsers != null ? this.blockUsers : DEFAULT.blockUsers,
+                    this.regExp != null ? this.regExp : DEFAULT.regExp,
+                    this.chatRegCustomized != null ? this.chatRegCustomized : DEFAULT.chatRegCustomized,
+                    this.tellRegCustomized != null ? this.tellRegCustomized : DEFAULT.tellRegCustomized,
+                    this.ignoredMsgReg != null ? this.ignoredMsgReg : DEFAULT.ignoredMsgReg
+            );
+        }
     }
 }
