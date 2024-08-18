@@ -3,7 +3,7 @@ package com.lnatit.bchat.handlers;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import com.lnatit.bchat.configs.BulletChatConfig;
-import com.lnatit.bchat.gui.BulletDisplayWarningScreen;
+import com.lnatit.bchat.gui.LiveSafetyScreen;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,7 +22,7 @@ public class PlayerEventHandler
     {
         if (BulletChatConfig.INSTANCE.displayMode.get() == BulletChatConfig.Mode.ALWAYS_ASK)
         {
-            Minecraft.getInstance().execute(() -> ClientHooks.pushGuiLayer(Minecraft.getInstance(), new BulletDisplayWarningScreen()));
+            Minecraft.getInstance().execute(() -> ClientHooks.pushGuiLayer(Minecraft.getInstance(), new LiveSafetyScreen()));
         }
     }
 
