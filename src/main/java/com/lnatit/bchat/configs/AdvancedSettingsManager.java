@@ -23,6 +23,7 @@ public class AdvancedSettingsManager
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static AdvancedSettings advancedSettings;
 
+    // TODO do some multiThreads here.
     public static void init() {
         if (!ADVANCED_SETTINGS.isFile()) {
             try {
