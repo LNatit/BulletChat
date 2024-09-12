@@ -3,7 +3,7 @@
     "key.bchat.advanced_settings": "打开高级设置",
     "key.categories.bchat": "弹幕聊天",
     "bchat.streamer_warning.head": "警告：潜在的违规直播内容",
-    "bchat.streamer_warning.message": "警告：如果您正在Bilibili进行直播，建议选择§l直播模式§r。",
+    "bchat.streamer_warning.message": "警告：如果您正在Bilibili进行直播，建议选择§l直播模式§r。\n进入游戏后，该设置可以在弹幕聊天的配置界面重新调整。",
     "bchat.streamer_warning.mode": "显示模式",
     "bchat.streamer_warning.mode.normal": "同时显示",
     "bchat.streamer_warning.mode.hide_chat": "隐藏聊天栏",
