@@ -87,13 +87,14 @@ public class AdvancedSettingsManager
             String tellRegCustomized,
             String ignoredMsgReg)
     {
+        // TeaCon Server RegEx
         public static AdvancedSettings DEFAULT =
                 new AdvancedSettings(
                         new String[0],
                         new String[0],
                         new String[0],
-                        "^<(?<sender>\\w{3,16})> (?<msg>.*$)",
-                        "^(?<sender>\\w{3,16})悄悄地对你说：(?<msg>.*$)",
+                        "^(?<sender>\\w{3,16}): (?<msg>.*$)",
+                        "^(?<sender>\\w{3,16}) 对你说道: (?<msg>.*$)",
                         ""
                 );
 

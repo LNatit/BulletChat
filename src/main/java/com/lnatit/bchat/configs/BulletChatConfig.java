@@ -27,7 +27,11 @@ public class BulletChatConfig
     public final ModConfigSpec.IntValue topOffset;
     public final ModConfigSpec.IntValue trackNum;
 
-    private Mode tempMode = Mode.HIDE_CHAT;
+    private Mode tempMode = Mode.NORMAL;
+
+    public Mode getTempMode() {
+        return tempMode;
+    }
 
     public void setTempMode(Mode tempMode) {
         this.tempMode = tempMode;

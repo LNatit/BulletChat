@@ -30,7 +30,7 @@ public class LiveSafetyScreen extends WarningScreen
                                                                                )))
                                                                        .withTooltip(BulletChatConfig.Mode::getTooltip)
                                                                        .withInitialValue(
-                                                                               BulletChatConfig.Mode.HIDE_CHAT)
+                                                                               BulletChatConfig.INSTANCE.getTempMode())
                                                                        .create(MODE,
                                                                                (cycleButton, value) ->
                                                                                        BulletChatConfig.INSTANCE.setTempMode(
