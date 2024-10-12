@@ -93,8 +93,8 @@ public class AdvancedSettingsManager
                         new String[0],
                         new String[0],
                         new String[0],
-                        "^(?<sender>\\w{3,16}): (?<msg>.*$)",
-                        "^(?<sender>\\w{3,16}) 对你说道: (?<msg>.*$)",
+                        "^(?<sender>\\w{3,16})：(?<msg>.*$)",
+                        "^(?<sender>\\w{3,16})悄悄地对你说：(?<msg>.*$)",
                         ""
                 );
 
