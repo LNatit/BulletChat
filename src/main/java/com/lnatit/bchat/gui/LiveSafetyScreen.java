@@ -30,20 +30,14 @@ public class LiveSafetyScreen extends WarningScreen
                                                                                )))
                                                                        .withTooltip(BulletChatConfig.Mode::getTooltip)
                                                                        .withInitialValue(
-                                                                               BulletChatConfig.INSTANCE.getTempMode())
+                                                                               BulletChatConfig.INSTANCE.initTempMode())
                                                                        .create(MODE,
                                                                                (cycleButton, value) ->
                                                                                        BulletChatConfig.INSTANCE.setTempMode(
                                                                                                value)
                                                                        );
 
-    private final Button proceed = Button.builder(CommonComponents.GUI_PROCEED, btn ->
-    {
-        if (this.stopShowing != null && this.stopShowing.selected()) {
-            BulletChatConfig.INSTANCE.validateMode();
-        }
-        this.onClose();
-    }).build();
+    private final Button proceed = Button.builder(CommonComponents.GUI_PROCEED, btn -> this.onClose()).build();
 
     public LiveSafetyScreen() {
         super(TITLE, CONTENT, CHECK, NARRATION);
@@ -60,6 +54,9 @@ public class LiveSafetyScreen extends WarningScreen
 
     @Override
     public void onClose() {
+        if (this.stopShowing != null && this.stopShowing.selected()) {
+            BulletChatConfig.INSTANCE.validateMode();
+        }
         BulletChatConfig.init(false);
         super.onClose();
     }
