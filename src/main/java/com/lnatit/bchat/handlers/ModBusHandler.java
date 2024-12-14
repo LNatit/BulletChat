@@ -3,6 +3,7 @@ package com.lnatit.bchat.handlers;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.configs.BulletChatConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,7 +27,7 @@ public class ModBusHandler
         event.registerAbove(VanillaGuiLayers.CHAT, BULLET,
                             ((guiGraphics, deltaTracker) ->
                             {
-                                if (BulletChatConfig.INSTANCE.shouldHideBullet())
+                                if (Minecraft.getInstance().options.hideGui || BulletChatConfig.INSTANCE.shouldHideBullet())
                                     return;
 
                                 RenderSystem.enableBlend();

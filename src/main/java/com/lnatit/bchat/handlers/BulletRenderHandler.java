@@ -3,6 +3,7 @@ package com.lnatit.bchat.handlers;
 import com.lnatit.bchat.components.BulletComponent;
 import com.lnatit.bchat.components.ChatBadge;
 import com.lnatit.bchat.configs.BulletChatConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -26,7 +27,7 @@ public class BulletRenderHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onGuiRendered(RenderGuiLayerEvent.Pre event)
     {
-        if (event.getName() != VanillaGuiLayers.CHAT)
+        if (event.getName() != VanillaGuiLayers.CHAT || Minecraft.getInstance().options.hideGui)
             return;
 
         if (MINECRAFT.screen instanceof ChatScreen)

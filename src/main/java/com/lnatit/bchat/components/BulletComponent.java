@@ -127,7 +127,8 @@ public class BulletComponent
         // modify pose with chat scale
         graphics.pose().scale(scale, scale, 1.0F);
         // add Z offset to render bullets on top of chats
-        graphics.pose().translate(0.0F, 0.0F, 1000.0F);
+        // 1000F will cause z-fighting with sign_up
+        graphics.pose().translate(0.0F, 0.0F, 2000.0F);
 
         for (AbstractBullet bulletMessage : this.bulletBuff)
         {
