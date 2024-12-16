@@ -18,11 +18,14 @@ import static com.lnatit.bchat.BulletChat.MODLOG;
 public class PlayerEventHandler
 {
     @SubscribeEvent
-    public static void onPlayerLoggedIn(ClientPlayerNetworkEvent.LoggingIn event)
-    {
-        if (BulletChatConfig.INSTANCE.displayMode.get() == BulletChatConfig.Mode.ALWAYS_ASK)
-        {
-            Minecraft.getInstance().execute(() -> ClientHooks.pushGuiLayer(Minecraft.getInstance(), new LiveSafetyScreen()));
+    public static void onPlayerLoggedIn(ClientPlayerNetworkEvent.LoggingIn event) {
+        BulletChatConfig.Mode mode = BulletChatConfig.INSTANCE.displayMode.get();
+        if (mode == BulletChatConfig.Mode.ALWAYS_ASK) {
+            Minecraft.getInstance().execute(
+                    () -> ClientHooks.pushGuiLayer(Minecraft.getInstance(), new LiveSafetyScreen()));
+        }
+        else {
+            BulletChatConfig.INSTANCE.setTempMode(mode);
         }
     }
 

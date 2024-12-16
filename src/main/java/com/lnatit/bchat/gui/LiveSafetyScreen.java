@@ -46,7 +46,8 @@ public class LiveSafetyScreen extends WarningScreen
     @Override
     protected Layout addFooterButtons() {
         LinearLayout linearlayout = LinearLayout.horizontal().spacing(8);
-        BulletChatConfig.INSTANCE.setTempMode(BulletChatConfig.Mode.HIDE_CHAT);
+        // wtf why there's a shit
+//        BulletChatConfig.INSTANCE.setTempMode(BulletChatConfig.Mode.HIDE_CHAT);
         linearlayout.addChild(mode);
         linearlayout.addChild(proceed);
         return linearlayout;
