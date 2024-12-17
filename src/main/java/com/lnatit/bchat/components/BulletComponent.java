@@ -2,7 +2,7 @@ package com.lnatit.bchat.components;
 
 import com.lnatit.bchat.configs.AdvancedSettingsManager;
 import com.lnatit.bchat.configs.BulletChatConfig;
-import net.minecraft.ChatFormatting;
+import com.mojang.serialization.DataResult;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -156,16 +156,15 @@ public class BulletComponent
         if (matcher.find())
         {
             // There is a space at the end of the string
-            TextColor color = TextColor.parseColor(buffer.substring(matcher.start(), matcher.end() - 1)).getOrThrow();
-            if (color != null)
-                style = style.withColor(color);
+            DataResult<TextColor> color = TextColor.parseColor(buffer.substring(matcher.start(), matcher.end() - 1));
+            if (color.isSuccess())
+                style = style.withColor(color.getOrThrow());
             else
             {
-                // remove # when parsing
-                ChatFormatting format = ChatFormatting.getByName(
-                        buffer.substring(matcher.start() + 1, matcher.end() - 1));
-                if (format != null)
-                    style = style.applyFormat(format);
+                // remove # when parsing name
+                color = TextColor.parseColor(buffer.substring(matcher.start() + 1, matcher.end() - 1));
+                if (color.isSuccess())
+                    style = style.withColor(color.getOrThrow());
             }
 
             buffer.delete(matcher.start(), matcher.end());
