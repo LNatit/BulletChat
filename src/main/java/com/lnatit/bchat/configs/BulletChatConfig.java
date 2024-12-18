@@ -40,6 +40,7 @@ public class BulletChatConfig
 
     public void validateMode() {
         this.displayMode.set(this.tempMode);
+        CLIENT_CONFIG.save();
     }
 
     public static final Pair<BulletChatConfig, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(

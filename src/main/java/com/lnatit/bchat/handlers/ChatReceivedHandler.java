@@ -51,6 +51,7 @@ public class ChatReceivedHandler
         }
 
         try {
+            MODLOG.debug(component.toString());
             TranslatableContents contents = (TranslatableContents) component.getContents();
             Object[] args = contents.getArgs();
             String message = ((PlainTextContents.LiteralContents) ((Component) args[1]).getContents()).text();
@@ -66,12 +67,9 @@ public class ChatReceivedHandler
     }
 
     private static boolean shouldIgnoreMsg(Component msg, ChatType.Bound type) {
-        if (type != null && type.chatType().is(
-                IGNORED_TYPES::contains) || msg instanceof TranslatableContents translatable && translatable.getKey().equals(
-                "commands.message.display.outgoing") || IGNORED_MESSAGE.matcher(msg.getString()).matches()) {
-            return true;
-        }
-        return false;
+        return type != null && type.chatType().is(IGNORED_TYPES::contains)
+                || msg instanceof TranslatableContents translatable && translatable.getKey().equals("commands.message.display.outgoing")
+                || IGNORED_MESSAGE.matcher(msg.getString()).matches();
     }
 
     private static boolean handleTellMsg(Component msg, ChatType.Bound type) {
