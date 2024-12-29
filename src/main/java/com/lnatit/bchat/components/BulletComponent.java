@@ -138,7 +138,7 @@ public class BulletComponent
         graphics.pose().popPose();
     }
 
-    public void addMessage(String message, String sender)
+    public void addMessage(String message, String sender, boolean italic)
     {
         char id = NORMAL;
 
@@ -150,26 +150,22 @@ public class BulletComponent
         MODLOG.debug("Message preprocessed successful!");
 
         // find color code first
-        Style style = Style.EMPTY;
+        final Style[] style = {Style.EMPTY};
         Matcher matcher = COLOR_PATTERN.matcher(buffer);
 
         if (matcher.find())
         {
             // There is a space at the end of the string
             DataResult<TextColor> color = TextColor.parseColor(buffer.substring(matcher.start(), matcher.end() - 1));
-            if (color.isSuccess())
-                style = style.withColor(color.getOrThrow());
-            else
+            if (color.isError())
             {
                 // remove # when parsing name
                 color = TextColor.parseColor(buffer.substring(matcher.start() + 1, matcher.end() - 1));
-                if (color.isSuccess())
-                    style = style.withColor(color.getOrThrow());
             }
+            color.ifSuccess(c -> style[0] = style[0].withColor(c));
 
             buffer.delete(matcher.start(), matcher.end());
         }
-
         MODLOG.debug("Message color parsed successful!");
 
         // DONE then find type code
@@ -186,9 +182,7 @@ public class BulletComponent
             MODLOG.info("There's no contents left!");
             return;
         }
-
-        MutableComponent msg = Component.literal(buffer.toString()).setStyle(style);
-
+        MutableComponent msg = Component.literal(buffer.toString()).setStyle(style[0].withItalic(italic));
         MODLOG.debug("Message type parsed successful!");
 
         switch (id)
