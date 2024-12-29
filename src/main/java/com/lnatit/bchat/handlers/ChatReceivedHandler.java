@@ -56,7 +56,7 @@ public class ChatReceivedHandler
             String message = ((PlainTextContents.LiteralContents) ((Component) args[1]).getContents()).text();
             String sender = ((PlainTextContents.LiteralContents) ((Component) args[0]).getSiblings().getFirst().getContents()).text();
 
-            BulletComponent.INSTANCE.addMessage(message, sender);
+            BulletComponent.INSTANCE.addMessage(message, sender, false);
         }
         catch (Exception ignored) {
             MODLOG.debug("Vanilla Format failed to parse!");
@@ -91,10 +91,10 @@ public class ChatReceivedHandler
         Matcher tell = CUSTOMIZED_TELL.matcher(raw);
 
         if (chat.matches()) {
-            BulletComponent.INSTANCE.addMessage(chat.group("msg"), chat.group("sender"));
+            BulletComponent.INSTANCE.addMessage(chat.group("msg"), chat.group("sender"), false);
         }
         else if (BulletChatConfig.INSTANCE.parseTell.get() && tell.matches()) {
-            BulletComponent.INSTANCE.addMessage(tell.group("msg"), tell.group("sender"));
+            BulletComponent.INSTANCE.addMessage(tell.group("msg"), tell.group("sender"), false);
         }
         else {
             ChatBadge.INSTANCE.setVisible(true);

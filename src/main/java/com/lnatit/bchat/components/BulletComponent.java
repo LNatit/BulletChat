@@ -138,7 +138,7 @@ public class BulletComponent
         graphics.pose().popPose();
     }
 
-    public void addMessage(String message, String sender)
+    public void addMessage(String message, String sender, boolean italic)
     {
         char id = NORMAL;
 
@@ -182,8 +182,7 @@ public class BulletComponent
             MODLOG.info("There's no contents left!");
             return;
         }
-
-        MutableComponent msg = Component.literal(buffer.toString()).setStyle(style[0]);
+        MutableComponent msg = Component.literal(buffer.toString()).setStyle(style[0].withItalic(italic));
         MODLOG.debug("Message type parsed successful!");
 
         switch (id)
