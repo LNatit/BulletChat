@@ -22,6 +22,7 @@
     "bchat.configuration.show_sender": "Show Bullets' Sender",
     "bchat.configuration.mode": "Bullet & Chat Display Mode",
     "bchat.configuration.parse_tell": "Parse /tell Messages",
+    "bchat.configuration.show_subnoteca": "Shoot WorldComment as bullets",
     "bchat.configuration.adopt_chat": "Adopt Chat Options",
     "bchat.configuration.text_size": "Bullet Scale",
     "bchat.configuration.opacity": "Bullet Opacity",

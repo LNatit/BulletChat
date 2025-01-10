@@ -20,6 +20,7 @@ public class BulletChatConfig
     public final ModConfigSpec.BooleanValue showSender;
     public final ModConfigSpec.BooleanValue parseTell;
     public final ModConfigSpec.EnumValue<Mode> displayMode;
+    public final ModConfigSpec.BooleanValue showSubnoteca;
     public final ModConfigSpec.BooleanValue adoptChat;
     public final ModConfigSpec.DoubleValue textSize;
     public final ModConfigSpec.DoubleValue opacity;
@@ -96,6 +97,11 @@ public class BulletChatConfig
                          "default: false"
                 )
                 .define("parse_tell", false);
+
+        showSubnoteca = builder
+                .comment("Show World Comment as bullets",
+                         "default: true")
+                .define("show_subnoteca", true);
 
         adoptChat = builder
                 .comment("Adopt the settings from the Chat Settings panel",
